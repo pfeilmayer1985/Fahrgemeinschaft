@@ -8,18 +8,12 @@ namespace Fahrgemeinschaft
 {
     public abstract class Users
     {
+        public string ID { get; set; }
         public string Name { get; set; }
-        public string StartingCity { get; set; }
-        public float TimeStart { get; set; }
-        public string Destination { get; set; }
+        
         public List<Users> AllUserList { get; set; }
 
-        public Users(string name, string startCity, float timeStart)
-        {
-            Name = name;
-            StartingCity = startCity;
-            TimeStart = timeStart;
-        }
+
 
 
         public Users()
@@ -27,7 +21,6 @@ namespace Fahrgemeinschaft
             AllUserList = new List<Users>();
 
         }
-
 
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,16 +9,20 @@ namespace Fahrgemeinschaft
 {
     public class UPassengers : Users
     {
+        public string StartingCity { get; set; }
+        public float TimeStart { get; set; }
+        public string Destination { get; set; }
         public int HowManyPassengers { get; set; }
         public List<UPassengers> PassengersList { get; set; }
 
-        public UPassengers(string name, string startCity, float timeStart, string destination, int howManyPassengers)
+        public UPassengers(string iD, string name, string startCity, float timeStart, string destination)
         {
+            ID = iD;
             Name = name;
             StartingCity = startCity;
             TimeStart = timeStart;
             Destination = destination;
-            HowManyPassengers = howManyPassengers;
+            HowManyPassengers = 1;
         }
 
         public UPassengers()
@@ -31,34 +36,10 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.WriteLine("You are now adding a Carpool request to the market.");
+            Console.Write("Choose your unique ID: ");
+            string id = "PR" + Console.ReadLine();
             Console.Write("What's your name?: ");
             string name = Console.ReadLine();
-            Console.Write("Will you be travelling alone (y,n)?: ");
-            string userChoice = Console.ReadLine();
-            int howManyPassengers = 0;
-            bool rightAnswer = true;
-
-            while (rightAnswer)
-            {
-                if (userChoice == "y")
-                {
-                    howManyPassengers = 1;
-                    rightAnswer = false;
-                }
-                else if (userChoice == "n")
-                {
-                    Console.Write("How many companions will you have?: ");
-                    howManyPassengers = Convert.ToInt32(Console.ReadLine());
-                    rightAnswer = false;
-
-                }
-                else
-                {
-                    continue;
-                }
-
-            }
-
             Console.Write("Where do you want to be picked up (City): ");
             string startCity = Console.ReadLine();
             Console.Write("What is your destination (City): ");
@@ -66,9 +47,9 @@ namespace Fahrgemeinschaft
             Console.Write("When do you want to be picked up (use point to separate HH.MM, please): ");
             float timeStart = float.Parse(Console.ReadLine());
 
-            UPassengers myPassenger = new UPassengers(name, startCity, timeStart, destination, howManyPassengers);
-            PassengersList.Add(myPassenger);
+            string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
 
+            File.AppendAllText(pathFileDrivers, (id + "," + name + "," + startCity + "," + destination + "," + timeStart));
         }
 
         public void ListAllRequests()
@@ -77,16 +58,10 @@ namespace Fahrgemeinschaft
             Console.WriteLine("The available carpool requests are :");
             for (int i = 0; i < PassengersList.Count; i++)
             {
-                if (PassengersList[i].HowManyPassengers == 1)
-                {
-                    Console.WriteLine($"{i}. The main passenger is {PassengersList[i].Name}, he is travelling to {PassengersList[i].Destination} alone." +
-                        $"\n{PassengersList[i].Name} wants to be picked up in {PassengersList[i].StartingCity} at {PassengersList[i].TimeStart} o'clock.");
-                }
-                else
-                {
-                    Console.WriteLine($"{i}. The main passenger is {PassengersList[i].Name}, he is travelling to {PassengersList[i].Destination} with {PassengersList[i].HowManyPassengers - 1} companions." +
-                        $"\n{PassengersList[i].Name} wants to be picked up in {PassengersList[i].StartingCity} at {PassengersList[i].TimeStart} o'clock.");
-                }
+
+                Console.WriteLine($"{i}. Request ID : {PassengersList[i].ID}" +
+                    $"\nThe passenger is {PassengersList[i].Name}, he is travelling from {PassengersList[i].StartingCity}to {PassengersList[i].Destination}.");
+
             }
         }
 
