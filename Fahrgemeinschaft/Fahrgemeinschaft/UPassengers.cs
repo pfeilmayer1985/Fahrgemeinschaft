@@ -14,6 +14,7 @@ namespace Fahrgemeinschaft
         public string Destination { get; set; }
         public int HowManyPassengers { get; set; }
         public List<UPassengers> PassengersList { get; set; }
+        string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
 
         public UPassengers(string iD, string name, string startCity, float timeStart, string destination)
         {
@@ -47,21 +48,21 @@ namespace Fahrgemeinschaft
             Console.Write("When do you want to be picked up (use point to separate HH.MM, please): ");
             float timeStart = float.Parse(Console.ReadLine());
 
-            string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
 
-            File.AppendAllText(pathFileDrivers, (id + "," + name + "," + startCity + "," + destination + "," + timeStart));
+
+            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + name + "," + startCity + "," + destination + "," + timeStart));
         }
 
         public void ListAllRequests()
         {
             Console.Clear();
             Console.WriteLine("The available carpool requests are :");
-            for (int i = 0; i < PassengersList.Count; i++)
+
+            string[] showDriversList = File.ReadAllLines(pathFilePassengers);
+
+            foreach (string s in showDriversList)
             {
-
-                Console.WriteLine($"{i}. Request ID : {PassengersList[i].ID}" +
-                    $"\nThe passenger is {PassengersList[i].Name}, he is travelling from {PassengersList[i].StartingCity}to {PassengersList[i].Destination}.");
-
+                Console.WriteLine(s);
             }
         }
 

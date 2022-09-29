@@ -1,3 +1,5 @@
 DO555,4,TheDriver,MakeModel,Baia Mare,Schrozberg,54.25
 DO666,3,NewDriver,Car,Start,End,12.35
 DO756,3,TheCar,Yes,City,Town,56.32
+DO864631,4,TheHorrorDriver69,TheBatMobil,Gotham,Nirvana,12.25
+DO99452,1,Nobody,Bicycle,Nowhere,Everywhere,12.25

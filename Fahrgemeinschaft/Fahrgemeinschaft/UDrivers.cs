@@ -16,7 +16,7 @@ namespace Fahrgemeinschaft
         public string Destination { get; set; }
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
-
+        string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
         public UDrivers(string iD, string name, string startCity, float timeStart, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
@@ -55,27 +55,20 @@ namespace Fahrgemeinschaft
             Console.Write("When will you begin driving (use point to separate HH.MM, please): ");
             float timeStart = float.Parse(Console.ReadLine());
 
-
-            string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
-
-            File.AppendAllText(pathFileDrivers, ("\n"+id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination + "," + timeStart));
-
-
+            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination + "," + timeStart));
         }
 
         public void ListAllOffers()
         {
             Console.Clear();
             Console.WriteLine("The available carpool offers are :");
-            for (int i = 0; i < DriversList.Count; i++)
+            string[] showDriversList = File.ReadAllLines(pathFileDrivers);
+            
+            foreach (string s in showDriversList)
             {
-                Console.WriteLine($"{i}. Carpool ID : {DriversList[i].ID}" +
-                    $"\nThe driver is {DriversList[i].Name}, he is driving a {DriversList[i].CarTypeMake}, has {DriversList[i].FreePlaces} free places," +
-                    $"\ncoming from {DriversList[i].StartingCity} with the destination {DriversList[i].Destination}. " +
-                    $"\nHe will begin driving at {DriversList[i].TimeStart} o'clock.");
-
-
+                Console.WriteLine(s);
             }
+
         }
 
 
