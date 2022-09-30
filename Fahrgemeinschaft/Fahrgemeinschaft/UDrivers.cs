@@ -17,12 +17,11 @@ namespace Fahrgemeinschaft
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
         string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
-        public UDrivers(string iD, string name, string startCity, float timeStart, string destination, string carTypeMake, int freePlaces)
+        public UDrivers(string iD, string name, string startCity, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
             Name = name;
             StartingCity = startCity;
-            TimeStart = timeStart;
             Destination = destination;
             CarTypeMake = carTypeMake;
             FreePlaces = freePlaces;
@@ -52,10 +51,9 @@ namespace Fahrgemeinschaft
             string startCity = Console.ReadLine();
             Console.Write("Destination City: ");
             string destination = Console.ReadLine();
-            Console.Write("When will you begin driving (use point to separate HH.MM, please): ");
-            float timeStart = float.Parse(Console.ReadLine());
+            
 
-            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination + "," + timeStart));
+            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
         }
 
         public void ListAllOffers()

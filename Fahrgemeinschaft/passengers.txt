@@ -1,1 +1,3 @@
-PID1234,Gogu,Schrozberg,Niederstetten,12.45
+PID1234,Gogu,Schrozberg,Niederstetten
+PID2345,Mihaita,Bonn,Berlin
+PID3456,Andreea,Cicarlau,Bucuresti

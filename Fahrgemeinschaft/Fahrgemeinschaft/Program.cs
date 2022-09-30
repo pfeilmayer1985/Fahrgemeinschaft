@@ -20,7 +20,7 @@ namespace Fahrgemeinschaft
             TheMainScreen();
 
 
-            
+
 
 
         }
@@ -85,22 +85,22 @@ namespace Fahrgemeinschaft
                 {
                     case 1:
                         offers.AddOffer();
-                        userDriverBool = false;
-                        break;
+                        userDriverBool = true;
+                        continue;
 
                     case 2:
 
-                        userDriverBool = false;
-                        break;
+                        userDriverBool = true;
+                        continue;
                     case 3:
 
-                        userDriverBool = false;
-                        break;
+                        userDriverBool = true;
+                        continue;
                     case 4:
                         requests.ListAllRequests();
                         Console.ReadLine();
-                        userDriverBool = false;
-                        break;
+                        userDriverBool = true;
+                        continue;
                     case 5:
 
                         userDriverBool = false;
@@ -129,6 +129,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("5. Back to the main menu");
                 UPassengers requests = new UPassengers();
                 UDrivers offers = new UDrivers();
+                CarpoolC carpools = new CarpoolC();
 
 
                 int passengerClass = Convert.ToInt32(Console.ReadLine());
@@ -136,24 +137,24 @@ namespace Fahrgemeinschaft
                 {
                     case 1:
                         requests.AddRequest();
-                        userPassengerBool = false;
-                        break;
+                        userPassengerBool = true;
+                        continue;
 
                     case 2:
-
-                        userPassengerBool = false;
-                        break;
+                        carpools.AddPassengerToCarpool();
+                        Console.ReadLine();
+                        userPassengerBool = true;
+                        continue;
                     case 3:
 
-                        userPassengerBool = false;
-                        break;
+                        userPassengerBool = true;
+                        continue;
                     case 4:
                         offers.ListAllOffers();
                         Console.ReadLine();
-                        userPassengerBool = false;
-                        break;
+                        userPassengerBool = true;
+                        continue;
                     case 5:
-                        Console.WriteLine("You choose to leave. Have a great one!");
                         userPassengerBool = false;
                         break;
                     default:

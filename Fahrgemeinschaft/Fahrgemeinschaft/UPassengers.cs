@@ -10,18 +10,16 @@ namespace Fahrgemeinschaft
     public class UPassengers : Users
     {
         public string StartingCity { get; set; }
-        public float TimeStart { get; set; }
         public string Destination { get; set; }
         public int HowManyPassengers { get; set; }
         public List<UPassengers> PassengersList { get; set; }
         string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
 
-        public UPassengers(string iD, string name, string startCity, float timeStart, string destination)
+        public UPassengers(string iD, string name, string startCity, string destination)
         {
             ID = iD;
             Name = name;
             StartingCity = startCity;
-            TimeStart = timeStart;
             Destination = destination;
             HowManyPassengers = 1;
         }
@@ -45,12 +43,9 @@ namespace Fahrgemeinschaft
             string startCity = Console.ReadLine();
             Console.Write("Destination City: ");
             string destination = Console.ReadLine();
-            Console.Write("When do you want to be picked up (use point to separate HH.MM, please): ");
-            float timeStart = float.Parse(Console.ReadLine());
+            
 
-
-
-            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + name + "," + startCity + "," + destination + "," + timeStart));
+            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + name + "," + startCity + "," + destination));
         }
 
         public void ListAllRequests()

@@ -1,5 +1,5 @@
-DID555,4,TheDriver,MakeModel,Baia Mare,Schrozberg,54.25
-DID666,3,NewDriver,Car,Start,End,12.35
-DID756,3,TheCar,Yes,City,Town,56.32
-DID864631,4,TheHorrorDriver69,TheBatMobil,Gotham,Nirvana,12.25
-DID99452,1,Nobody,Bicycle,Nowhere,Everywhere,12.25
+DID555,3,TheDriver,MakeModel,Baia Mare,Schrozberg
+DID666,2,NewDriver,Car,Start,End
+DID777,3,TheCar,Yes,City,Town
+DID888,4,TheHorrorDriver69,TheBatMobil,Gotham,Nirvana
+DID999,1,Nobody,Bicycle,Nowhere,Everywhere
