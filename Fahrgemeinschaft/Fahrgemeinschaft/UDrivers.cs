@@ -40,17 +40,17 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.WriteLine("You are now adding a Carpool offer to the market.");
-            Console.Write("Choose your unique ID: ");
-            string id = "DO" + Console.ReadLine();
+            Console.Write("Choose your unique Driver ID (DID): ");
+            string id = "DID" + Console.ReadLine();
             Console.Write("Who is driving the car (driver's name): ");
             string name = Console.ReadLine();
             Console.Write("What is the make and model of the car: ");
             string carTypeMake = Console.ReadLine();
             Console.Write("How many places are free in the car: ");
             int freePlaces = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Where are you driving from (City): ");
+            Console.Write("Departure from City: ");
             string startCity = Console.ReadLine();
-            Console.Write("What is your destination (City): ");
+            Console.Write("Destination City: ");
             string destination = Console.ReadLine();
             Console.Write("When will you begin driving (use point to separate HH.MM, please): ");
             float timeStart = float.Parse(Console.ReadLine());

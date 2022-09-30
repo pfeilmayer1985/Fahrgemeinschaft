@@ -37,13 +37,13 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.WriteLine("You are now adding a Carpool request to the market.");
-            Console.Write("Choose your unique ID: ");
-            string id = "PR" + Console.ReadLine();
+            Console.Write("Choose your unique passenger ID (PID): ");
+            string id = "PID" + Console.ReadLine();
             Console.Write("What's your name?: ");
             string name = Console.ReadLine();
-            Console.Write("Where do you want to be picked up (City): ");
+            Console.Write("Where do you want to be picked up (Departure City): ");
             string startCity = Console.ReadLine();
-            Console.Write("What is your destination (City): ");
+            Console.Write("Destination City: ");
             string destination = Console.ReadLine();
             Console.Write("When do you want to be picked up (use point to separate HH.MM, please): ");
             float timeStart = float.Parse(Console.ReadLine());
