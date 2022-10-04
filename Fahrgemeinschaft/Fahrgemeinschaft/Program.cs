@@ -34,7 +34,7 @@ namespace Fahrgemeinschaft
                 Console.Clear();
                 Console.WriteLine("Welcome to the Free Carpool");
                 Console.WriteLine("Choose your user class: ");
-                Console.WriteLine("1. Driver ");
+                Console.WriteLine("\n1. Driver ");
                 Console.WriteLine("2. Passenger ");
                 Console.WriteLine("3. Exit ");
                 int userClass = Convert.ToInt32(Console.ReadLine());
@@ -78,6 +78,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("5. Back to the main menu");
                 UDrivers offers = new UDrivers();
                 UPassengers requests = new UPassengers();
+                CarpoolC carpools = new CarpoolC();
 
 
                 int driverClass = Convert.ToInt32(Console.ReadLine());
@@ -89,11 +90,11 @@ namespace Fahrgemeinschaft
                         continue;
 
                     case 2:
-
+                        carpools.OfferCarpoolToPassenger();
                         userDriverBool = true;
                         continue;
                     case 3:
-
+                        carpools.SearchPassengerStartDestination();
                         userDriverBool = true;
                         continue;
                     case 4:
@@ -108,7 +109,7 @@ namespace Fahrgemeinschaft
                     default:
 
                         userDriverBool = true;
-                        break;
+                        continue;
                 }
             } while (userDriverBool);
 
@@ -146,7 +147,7 @@ namespace Fahrgemeinschaft
                         userPassengerBool = true;
                         continue;
                     case 3:
-
+                        carpools.SearchCarpoolStartDestination();
                         userPassengerBool = true;
                         continue;
                     case 4:
@@ -160,7 +161,7 @@ namespace Fahrgemeinschaft
                     default:
 
                         userPassengerBool = true;
-                        break;
+                        continue;
                 }
             } while (userPassengerBool);
 

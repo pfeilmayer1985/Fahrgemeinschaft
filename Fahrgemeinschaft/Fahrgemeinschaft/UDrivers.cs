@@ -51,7 +51,7 @@ namespace Fahrgemeinschaft
             string startCity = Console.ReadLine();
             Console.Write("Destination City: ");
             string destination = Console.ReadLine();
-            
+
 
             File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
         }
@@ -59,13 +59,39 @@ namespace Fahrgemeinschaft
         public void ListAllOffers()
         {
             Console.Clear();
-            Console.WriteLine("The available carpool offers are :");
+            Console.WriteLine("The following carpools are now available: ");
             string[] showDriversList = File.ReadAllLines(pathFileDrivers);
-            
-            foreach (string s in showDriversList)
+            int counterAvailable = 1;
+            int counterUnavailable = 1;
+            foreach (string driver in showDriversList)
             {
-                Console.WriteLine(s);
+                string[] splittetDriverArray = driver.Split(',');
+                if (Convert.ToInt32(splittetDriverArray[1]) != 0)
+                {
+                    Console.WriteLine($"\n{counterAvailable}. {splittetDriverArray[2]} has {splittetDriverArray[1]} free places available and is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. His driver ID is: {splittetDriverArray[0]}");
+                    counterAvailable++;
+
+                }
+
             }
+
+            Console.WriteLine("\n\nThe following carpools are for the moment full and can't takeany passengers: ");
+
+
+            foreach (string driver in showDriversList)
+            {
+                string[] splittetDriverArray = driver.Split(',');
+                if (Convert.ToInt32(splittetDriverArray[1]) == 0)
+                {
+                    Console.WriteLine($"\n{counterUnavailable}. {splittetDriverArray[2]} is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. Unfortunately he does not have any free seats available.");
+                    counterUnavailable++;
+                }
+
+
+
+            }
+
+
 
         }
 

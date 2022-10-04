@@ -53,11 +53,16 @@ namespace Fahrgemeinschaft
             Console.Clear();
             Console.WriteLine("The available carpool requests are :");
 
-            string[] showDriversList = File.ReadAllLines(pathFilePassengers);
+            string[] showPassengerList = File.ReadAllLines(pathFilePassengers);
 
-            foreach (string s in showDriversList)
+            int counter = 1;
+            foreach (string passenger in showPassengerList)
             {
-                Console.WriteLine(s);
+                string[] splittetPassengerArray = passenger.Split(',');
+
+                Console.WriteLine($"\n{counter}. {splittetPassengerArray[1]} wants to go from {splittetPassengerArray[2]} to {splittetPassengerArray[3]}. Passenger ID: {splittetPassengerArray[0]}");
+                counter++;
+
             }
         }
 
