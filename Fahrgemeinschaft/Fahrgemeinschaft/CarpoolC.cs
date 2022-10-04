@@ -49,69 +49,97 @@ namespace Fahrgemeinschaft
                 //asking for the driver ID and checking if the ID exists in the drivers list
                 Console.Write("Choose your carpool by driver DID (Driver ID) to be assigned to: ");
                 string inputDriverID = Console.ReadLine();
+
+
+                bool checkBothDriverAndPassenger = false;
+                string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
+                foreach (string driverDuo in linesInCarpool)
+                {
+                    string[] splittetArrayDuo = driverDuo.Split(',');
+                    for (int i = 0; i < splittetArrayDuo.Length - 1; i++)
+                    {
+                        if (splittetArrayDuo[0].Equals("DID" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID" + inputPassengerID))
+                        {
+                            checkBothDriverAndPassenger = true;
+                        }
+                    }
+                }
+
                 bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID" + inputDriverID));
                 if (ckeckInputDriverID)
                 {
-                    //if the driver ID chose is allready in the carpool list, take the 2 field (free places) and check if there are any free seats remaining
-                    // var linesInDrivers = File.ReadAllLines(pathFileDrivers);
-                    // var matchLineInDrivers = linesInDrivers[Convert.ToInt32(File.ReadAllLines(pathFileDrivers).ToList().FindIndex(line => line.Contains("DID" + inputDriverID)))];
-                    // var fieldWhereFreeSeats = matchLineInDrivers.Split(',');
 
                     string[] linesInDrivers = File.ReadAllLines(pathFileDrivers);
-                    bool boolLinesInDrivers = false;
+
+                    bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
 
                     foreach (string line in linesInDrivers)
                     {
                         string[] splittedLinesInDriversArray = line.Split(',');
                         if (splittedLinesInDriversArray[0].Equals("DID" + inputDriverID))
                         {
+                            int numberOfFreeSeats = Convert.ToInt32(splittedLinesInDriversArray[1]);
 
+
+                            if (checkBothDriverAndPassenger)
+                            {
+                                Console.WriteLine($"User {"PID" + inputPassengerID} is allready a member of the carpool {"DID" + inputDriverID}. Choose another carpool!");
+
+                            }
+                            else
+                            {
+
+                                //if there are NO free seats remaining inform the pasenger that the carpool is full and no seat can be taken
+                                if (numberOfFreeSeats == 0)
+                                {
+                                    Console.WriteLine($"Unfortunately you can't be added to the carpool because there are NO free seats available.");
+
+                                }
+                                //if there is at least one free seat, take it and change the available seats to seats - 1
+                                else
+                                {
+
+                                    if (checkIfDriverHasACarpool)
+                                    {
+                                        //adding the new passenger to the carpool
+                                        List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
+                                        var findDriverInCarpool = theCarpoolList.Where(e => e.Contains("DID" + inputDriverID)).Select(e => e + ",PID" + inputPassengerID).ToList();
+                                        var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                                        findDriverInCarpool.AddRange(addAllOtherEntriesBack);
+                                        File.WriteAllLines(pathFileCarpools, findDriverInCarpool);
+
+                                        //changing the free seats fo freeseats-1
+                                        List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
+                                        string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+                                        var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+                                        addAllOtherEntriesBackToDrivers.Add(j);
+                                        File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+
+                                        Console.WriteLine($"You were added the the existing carpool created by driver {"DID" + inputDriverID}.");
+                                    }
+                                    else
+                                    {
+                                        File.AppendAllText(pathFileCarpools, ("\nDID" + inputDriverID + ",PID" + inputPassengerID));
+                                        Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
+
+                                        //changing the free seats fo freeseats-1
+                                        List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
+                                        string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+                                        var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+                                        addAllOtherEntriesBackToDrivers.Add(j);
+                                        File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+
+                                    }
+                                }
+                            }
                         }
                     }
-                    int numberOfFreeSeats = Convert.ToInt32(fieldWhereFreeSeats[1]);
-
-                    //if there are NO free seats remaining inform the pasenger that the carpool is full and no seat can be taken
-                    if (numberOfFreeSeats == 0)
-                    {
-                        Console.WriteLine($"Unfortunately you can't be added to the carpool because there are NO free seats available.");
-
-                    }
-                    //if there is at least one free seat, take it and change the available seats to seats - 1
-                    else
-                    {
-
-                        bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
-                        if (checkIfDriverHasACarpool)
-                        {
-                            //adding the new passenger to the carpool
-                            List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
-                            var findDriverInCarpool = theCarpoolList.Where(e => e.Contains("DID" + inputDriverID)).Select(e => e + ",PID" + inputPassengerID).ToList();
-                            var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
-                            findDriverInCarpool.AddRange(addAllOtherEntriesBack);
-                            File.WriteAllLines(pathFileCarpools, findDriverInCarpool);
-
-                            //changing the free seats fo freeseats-1
-                            List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
-                            string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{fieldWhereFreeSeats[2]},{fieldWhereFreeSeats[3]},{fieldWhereFreeSeats[4]}";
-                            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
-                            addAllOtherEntriesBackToDrivers.Add(j);
-                            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
-
-                            Console.WriteLine($"You were added the the existing carpool created by driver {"DID" + inputDriverID}.");
-                        }
-                        else
-                        {
-                            File.AppendAllText(pathFileCarpools, ("\nDID" + inputDriverID + ";PID" + inputPassengerID));
-                            Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
-
-                        }
-                    }
-
                 }
                 else
                 {
                     Console.WriteLine("This Driver ID does not exist.");
                 }
+
 
             }
             else
@@ -119,7 +147,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("This Passenger ID does not exist.");
 
             }
-
+            Console.ReadLine();
         }
 
 
@@ -127,12 +155,15 @@ namespace Fahrgemeinschaft
         {
             Console.Clear();
             Console.WriteLine("Offer a ride (add your driver ID to an existing passenger ID)");
+            string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
 
 
             //asking for the driver ID and checking if the ID exists in the drivers list
             Console.Write("Enter your driver ID (DID): ");
             string inputDriverID = Console.ReadLine();
             bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID" + inputDriverID));
+
+
             if (ckeckInputDriverID)
             {
 
@@ -140,67 +171,101 @@ namespace Fahrgemeinschaft
                 Console.Write("Enter the passenger ID for whom you are offering the ride (PID): ");
                 string inputPassengerID = Console.ReadLine();
                 bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID" + inputPassengerID));
+
+                bool checkBothDriverAndPassenger = false;
+
+                foreach (string driverDuo in linesInCarpool)
+                {
+                    string[] splittetArrayDuo = driverDuo.Split(',');
+                    for (int i = 0; i < splittetArrayDuo.Length - 1; i++)
+                    {
+                        if (splittetArrayDuo[0].Equals("DID" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID" + inputPassengerID))
+                        {
+                            checkBothDriverAndPassenger = true;
+                        }
+                    }
+                }
+
+
                 if (ckeckInputPassengerID)
                 {
 
-                    //if the driver ID chose is allready in the carpool list, take the 2 field (free places) and check if there are any free seats remaining
-                    var linesInDrivers = File.ReadAllLines(pathFileDrivers);
-                    var matchLineInDrivers = linesInDrivers[Convert.ToInt32(File.ReadAllLines(pathFileDrivers).ToList().FindIndex(line => line.Contains("DID" + inputDriverID)))];
-                    var fieldWhereFreeSeats = matchLineInDrivers.Split(',');
+                    string[] linesInDrivers = File.ReadAllLines(pathFileDrivers);
 
-                    int numberOfFreeSeats = Convert.ToInt32(fieldWhereFreeSeats[1]);
+                    bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
 
-                    //if there are NO free seats remaining inform the pasenger that the carpool is full and no seat can be taken
-                    if (numberOfFreeSeats == 0)
+                    foreach (string line in linesInDrivers)
                     {
-                        Console.WriteLine($"Unfortunately you can't be added to the carpool because there are NO free seats available.");
-
-                    }
-                    //if there is at least one free seat, take it and change the available seats to seats - 1
-                    else
-                    {
-                        bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
-                        if (checkIfDriverHasACarpool)
+                        string[] splittedLinesInDriversArray = line.Split(',');
+                        if (splittedLinesInDriversArray[0].Equals("DID" + inputDriverID))
                         {
-                            //adding the new passenger to the carpool
-                            List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
-                            var findDriverInCarpool = theCarpoolList.Where(e => e.Contains("DID" + inputDriverID)).Select(e => e + ",PID" + inputPassengerID).ToList();
-                            var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
-                            findDriverInCarpool.AddRange(addAllOtherEntriesBack);
-                            //have to check if the user is not allready part of the carpool
+                            int numberOfFreeSeats = Convert.ToInt32(splittedLinesInDriversArray[1]);
 
-                            File.WriteAllLines(pathFileCarpools, findDriverInCarpool);
+                            if (checkBothDriverAndPassenger)
+                            {
+                                Console.WriteLine($"User {"PID" + inputPassengerID} is allready a member of the carpool {"DID" + inputDriverID}. Choose another user!");
 
-                            //changing the free seats fo freeseats-1
-                            List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
-                            string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{fieldWhereFreeSeats[2]},{fieldWhereFreeSeats[3]},{fieldWhereFreeSeats[4]}";
-                            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
-                            addAllOtherEntriesBackToDrivers.Add(j);
-                            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+                            }
+                            else
+                            {
+                                //if there are NO free seats remaining inform the pasenger that the carpool is full and no seat can be taken
+                                if (numberOfFreeSeats == 0)
+                                {
+                                    Console.WriteLine($"Driver {"DID" + inputDriverID} can't accept any new passengers since he has NO free seats available. Choose another carpool!");
 
-                            Console.WriteLine($"You were added the the existing carpool created by driver {"DID" + inputDriverID}.");
-                        }
-                        else
-                        {
-                            File.AppendAllText(pathFileCarpools, ("\nDID" + inputDriverID + ";PID" + inputPassengerID));
-                            Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
+                                }
+                                //if there is at least one free seat, take it and change the available seats to seats - 1
+                                else
+                                {
 
+                                    if (checkIfDriverHasACarpool)
+                                    {
+                                        //adding the new passenger to the carpool
+                                        List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
+                                        var findDriverInCarpool = theCarpoolList.Where(e => e.Contains("DID" + inputDriverID)).Select(e => e + ",PID" + inputPassengerID).ToList();
+                                        var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                                        findDriverInCarpool.AddRange(addAllOtherEntriesBack);
+                                        File.WriteAllLines(pathFileCarpools, findDriverInCarpool);
+
+                                        //changing the free seats fo freeseats-1
+                                        List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
+                                        string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+                                        var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+                                        addAllOtherEntriesBackToDrivers.Add(j);
+                                        File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+
+                                        Console.WriteLine($"You were added the the existing carpool created by driver {"DID" + inputDriverID}.");
+                                    }
+                                    else
+                                    {
+                                        File.AppendAllText(pathFileCarpools, ("\nDID" + inputDriverID + ",PID" + inputPassengerID));
+                                        Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
+
+                                        //changing the free seats fo freeseats-1
+                                        List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
+                                        string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+                                        var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+                                        addAllOtherEntriesBackToDrivers.Add(j);
+                                        File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+
+                                    }
+                                }
+                            }
                         }
                     }
-
                 }
                 else
                 {
-                    Console.WriteLine("This Driver ID does not exist.");
+                    Console.WriteLine("This Passenger ID does not exist.");
                 }
 
             }
             else
             {
-                Console.WriteLine("This Passenger ID does not exist.");
+                Console.WriteLine("This Driver ID does not exist.");
 
             }
-
+            Console.ReadLine();
         }
 
 
