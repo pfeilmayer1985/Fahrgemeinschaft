@@ -53,17 +53,8 @@ namespace Fahrgemeinschaft
 
                 bool checkBothDriverAndPassenger = false;
                 string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
-                foreach (string driverDuo in linesInCarpool)
-                {
-                    string[] splittetArrayDuo = driverDuo.Split(',');
-                    for (int i = 0; i < splittetArrayDuo.Length - 1; i++)
-                    {
-                        if (splittetArrayDuo[0].Equals("DID" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID" + inputPassengerID))
-                        {
-                            checkBothDriverAndPassenger = true;
-                        }
-                    }
-                }
+                checkBothDriverAndPassenger = CheckBothExistance(linesInCarpool, inputDriverID, inputPassengerID, checkBothDriverAndPassenger);
+
 
                 bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID" + inputDriverID));
                 if (ckeckInputDriverID)
@@ -174,17 +165,8 @@ namespace Fahrgemeinschaft
 
                 bool checkBothDriverAndPassenger = false;
 
-                foreach (string driverDuo in linesInCarpool)
-                {
-                    string[] splittetArrayDuo = driverDuo.Split(',');
-                    for (int i = 0; i < splittetArrayDuo.Length - 1; i++)
-                    {
-                        if (splittetArrayDuo[0].Equals("DID" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID" + inputPassengerID))
-                        {
-                            checkBothDriverAndPassenger = true;
-                        }
-                    }
-                }
+                checkBothDriverAndPassenger = CheckBothExistance(linesInCarpool, inputDriverID, inputPassengerID, checkBothDriverAndPassenger);
+
 
 
                 if (ckeckInputPassengerID)
@@ -228,11 +210,7 @@ namespace Fahrgemeinschaft
                                         File.WriteAllLines(pathFileCarpools, findDriverInCarpool);
 
                                         //changing the free seats fo freeseats-1
-                                        List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
-                                        string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
-                                        var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
-                                        addAllOtherEntriesBackToDrivers.Add(j);
-                                        File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+                                        RemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
 
                                         Console.WriteLine($"You were added the the existing carpool created by driver {"DID" + inputDriverID}.");
                                     }
@@ -242,11 +220,7 @@ namespace Fahrgemeinschaft
                                         Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
 
                                         //changing the free seats fo freeseats-1
-                                        List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
-                                        string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
-                                        var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
-                                        addAllOtherEntriesBackToDrivers.Add(j);
-                                        File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+                                        RemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
 
                                     }
                                 }
@@ -268,6 +242,142 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        private void RemoveFreeSeat(string inputDriverID, string[] splittedLinesInDriversArray, int numberOfFreeSeats)
+        {
+            List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
+            string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+            addAllOtherEntriesBackToDrivers.Add(j);
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+        }
+
+        public void RemovePassengerFromCarpool()
+        {
+            Console.Clear();
+            Console.WriteLine("Remove a passenger from a carpool");
+
+            string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
+
+            //asking for the driver ID and checking if the ID exists in the drivers list
+            Console.Write("Enter the carpool (driver ID (DID)): ");
+            string inputDriverID = Console.ReadLine();
+            bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID" + inputDriverID));
+
+
+            if (ckeckInputDriverID)
+            {
+
+                //asking for the passenger ID and checking if the ID exists in the passenger list
+                Console.Write("Enter the passenger to be removed from the ride (PID): ");
+                string inputPassengerID = Console.ReadLine();
+                bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID" + inputPassengerID));
+
+                bool checkBothDriverAndPassenger = false;
+                checkBothDriverAndPassenger = CheckBothExistance(linesInCarpool, inputDriverID, inputPassengerID, checkBothDriverAndPassenger);
+
+                if (ckeckInputPassengerID)
+                {
+
+                    string[] linesInDrivers = File.ReadAllLines(pathFileDrivers);
+
+                    bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
+
+                    foreach (string line in linesInDrivers)
+                    {
+                        string[] splittedLinesInDriversArray = line.Split(',');
+                        if (splittedLinesInDriversArray[0].Equals("DID" + inputDriverID))
+                        {
+                            int numberOfFreeSeats = Convert.ToInt32(splittedLinesInDriversArray[1]);
+
+                            if (checkBothDriverAndPassenger)
+                            {
+                                //removing the new passenger to the carpool
+                                RemovePassengerByPassengerID(inputDriverID, inputPassengerID);
+
+                                //changing the free seats fo freeseats+1
+                                AddFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
+
+                            }
+                            else
+                            {
+                                Console.WriteLine($"The passenger does not belong to the carpool. ");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This Passenger ID does not exist.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("This Driver ID does not exist.");
+            }
+            Console.ReadLine();
+        }
+
+        private static bool CheckBothExistance(string[] linesInCarpool, string inputDriverID, string inputPassengerID, bool checkBothDriverAndPassenger)
+        {
+            foreach (string driverDuo in linesInCarpool)
+            {
+                string[] splittetArrayDuo = driverDuo.Split(',');
+                for (int i = 0; i < splittetArrayDuo.Length - 1; i++)
+                {
+                    if (splittetArrayDuo[0].Equals("DID" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID" + inputPassengerID))
+                    {
+                        checkBothDriverAndPassenger = true;
+                    }
+                }
+            }
+
+            return checkBothDriverAndPassenger;
+        }
+
+        private void AddFreeSeat(string inputDriverID, string[] splittedLinesInDriversArray, int numberOfFreeSeats)
+        {
+            List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
+            string j = $"{"DID" + inputDriverID},{numberOfFreeSeats + 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+            addAllOtherEntriesBackToDrivers.Add(j);
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
+        }
+
+        private void RemovePassengerByPassengerID(string inputDriverID, string inputPassengerID)
+        {
+            List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
+
+
+            var findDriverInCarpool = theCarpoolList.FirstOrDefault(e => e.Contains("DID" + inputDriverID) && e.Contains("PID" + inputPassengerID));
+            string[] newArray = findDriverInCarpool.Split(',');
+            var foo = new List<string>();
+
+            if (newArray.Length != 2)
+            {
+                for (int i = 1; i < newArray.Length; i++)
+                {
+                    if (newArray[i] != "PID" + inputPassengerID)
+                        foo.Add(newArray[i]);
+                }
+                var result = string.Join(",", foo.ToArray());
+                var finalResult = newArray[0] + "," + result;
+
+                var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                addAllOtherEntriesBack.Add(finalResult);
+                File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBack);
+                Console.WriteLine("Passenger was removed from the carpool.");
+
+            }
+            else
+            {
+
+                var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBack);
+                Console.WriteLine("Passenger was removed from the carpool and since it was the only passenger, the carpool was dissolved.");
+            }
+
+
+        }
 
         public void SearchCarpoolStartDestination()
         {
@@ -504,6 +614,7 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
 
         }
+
 
     }
 }

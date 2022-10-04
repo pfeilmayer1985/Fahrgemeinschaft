@@ -35,17 +35,37 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.WriteLine("You are now adding a Carpool request to the market.");
-            Console.Write("Choose your unique passenger ID (PID): ");
-            string id = "PID" + Console.ReadLine();
+
+            bool userInUse = false;
+            string id;
+            do
+            {
+                Console.Write("Choose your unique passenger ID (PID), 4 chars long: ");
+                id = "PID" + Console.ReadLine();
+
+                bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains(id));
+                if (ckeckInputPassengerID)
+                {
+                    //asking for the driver ID and checking if the ID exists in the drivers list
+                    Console.WriteLine("This ID is allready in use. Choose another ID ");
+                    userInUse = true;
+                }
+                else
+                {
+                    userInUse = false;
+                }
+
+            } while (userInUse == true);
+
             Console.Write("What's your name?: ");
             string name = Console.ReadLine();
             Console.Write("Where do you want to be picked up (Departure City): ");
             string startCity = Console.ReadLine();
             Console.Write("Destination City: ");
             string destination = Console.ReadLine();
-            
-
             File.AppendAllText(pathFilePassengers, ("\n" + id + "," + name + "," + startCity + "," + destination));
+            Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now look for a carpool ride.");
+            Console.ReadLine();
         }
 
         public void ListAllRequests()

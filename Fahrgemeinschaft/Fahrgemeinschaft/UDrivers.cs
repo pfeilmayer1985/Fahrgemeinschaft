@@ -39,8 +39,27 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.WriteLine("You are now adding a Carpool offer to the market.");
-            Console.Write("Choose your unique Driver ID (DID): ");
-            string id = "DID" + Console.ReadLine();
+
+            bool userInUse = false;
+            string id;
+            do
+            {
+                Console.Write("Choose your unique Driver ID (DID), 3 chars long: ");
+                id = "DID" + Console.ReadLine();
+
+                bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains(id));
+                if (ckeckInputDriverID)
+                {
+                    //asking for the driver ID and checking if the ID exists in the drivers list
+                    Console.WriteLine("This ID is allready in use. Choose another ID ");
+                    userInUse = true;
+                }
+                else
+                {
+                    userInUse = false;
+                }
+
+            } while (userInUse == true);
             Console.Write("Who is driving the car (driver's name): ");
             string name = Console.ReadLine();
             Console.Write("What is the make and model of the car: ");
@@ -54,6 +73,10 @@ namespace Fahrgemeinschaft
 
 
             File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
+
+            Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now receive passengers.");
+            Console.ReadLine();
+
         }
 
         public void ListAllOffers()
@@ -66,7 +89,7 @@ namespace Fahrgemeinschaft
             foreach (string driver in showDriversList)
             {
                 string[] splittetDriverArray = driver.Split(',');
-                if (Convert.ToInt32(splittetDriverArray[1]) != 0)
+                if (Convert.ToInt32(splittetDriverArray[1]) > 0)
                 {
                     Console.WriteLine($"\n{counterAvailable}. {splittetDriverArray[2]} has {splittetDriverArray[1]} free places available and is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. His driver ID is: {splittetDriverArray[0]}");
                     counterAvailable++;

@@ -1,6 +1,7 @@
 DID888,4,Louigi,Mercedes C220,Gotham City,Schrozberg
-DID555,2,Andreas,Hyundai Tucson,Schrozberg,Baia Mare
-DID666,0,Klaus,Dacia Duster,Start,End
 DID999,1,Mario,BMW X1,Start,End
-DID777,2,Hans,Ford Focus,Wien,Budapest
-DID444,2,Christian,Ford Focus,Wien,Baia Mare
+DID666,1,Klaus,Dacia Duster,Start,End
+DID555,3,Andreas,Hyundai Tucson,Schrozberg,Baia Mare
+DID444,3,Christian,Ford Focus,Wien,Baia Mare
+DID111,4,Marcello,VW Passat,Stuttgart,Weikersheim
+DID777,3,Hans,Ford Focus,Wien,Budapest
