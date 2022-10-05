@@ -44,17 +44,18 @@ namespace Fahrgemeinschaft
 
             bool userInUse = false;
             string id;
+            
             do
             {
                 Console.Write("Choose your unique Driver ID (DID), 3 chars long: ");
                 id = "DID" + Console.ReadLine();
 
                 bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains(id));
-                if (ckeckInputDriverID)
+                if (ckeckInputDriverID || id.Length != 6)
                 {
                     //asking for the driver ID and checking if the ID exists in the drivers list
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("This ID is allready in use. Choose another ID ");
+                    Console.WriteLine("This ID is allready in use or you used more/less characters than allowed. Choose another ID!");
                     Console.ResetColor();
                     userInUse = true;
                 }
@@ -64,6 +65,7 @@ namespace Fahrgemeinschaft
                 }
 
             } while (userInUse == true);
+
             Console.Write("Who is driving the car (driver's name): ");
             string name = Console.ReadLine();
             Console.Write("What is the make and model of the car: ");
@@ -86,7 +88,7 @@ namespace Fahrgemeinschaft
         public void ListAllOffers()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("The following carpools are now available: ");
             Console.ResetColor();
             string[] showDriversList = File.ReadAllLines(pathFileDrivers);
@@ -97,7 +99,10 @@ namespace Fahrgemeinschaft
                 string[] splittetDriverArray = driver.Split(',');
                 if (Convert.ToInt32(splittetDriverArray[1]) > 0)
                 {
-                    Console.WriteLine($"\n{counterAvailable}. {splittetDriverArray[2]} has {splittetDriverArray[1]} free places available and is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. His driver ID is: {splittetDriverArray[0]}");
+                    Console.WriteLine($"\n{counterAvailable}.\t{splittetDriverArray[2]} has {splittetDriverArray[1]} free places available and is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}.");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\tHis driver ID is: {splittetDriverArray[0]}");
+                    Console.ResetColor();
                     counterAvailable++;
 
                 }
@@ -113,7 +118,7 @@ namespace Fahrgemeinschaft
                 string[] splittetDriverArray = driver.Split(',');
                 if (Convert.ToInt32(splittetDriverArray[1]) == 0)
                 {
-                    Console.WriteLine($"\n{counterUnavailable}. {splittetDriverArray[2]} is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. Unfortunately he does not have any free seats available.");
+                    Console.WriteLine($"\n{counterUnavailable}.\t{splittetDriverArray[2]} is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. Unfortunately he does not have any free seats available.");
                     counterUnavailable++;
                 }
 

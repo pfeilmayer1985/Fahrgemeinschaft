@@ -46,11 +46,11 @@ namespace Fahrgemeinschaft
                 id = "PID" + Console.ReadLine();
 
                 bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains(id));
-                if (ckeckInputPassengerID)
+                if (ckeckInputPassengerID || id.Length != 7)
                 {
                     //asking for the driver ID and checking if the ID exists in the drivers list
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("This ID is allready in use. Choose another ID ");
+                    Console.WriteLine("This ID is allready in use or you used more/less characters than allowed. Choose another ID!");
                     Console.ResetColor();
                     userInUse = true;
                 }
@@ -86,7 +86,11 @@ namespace Fahrgemeinschaft
             {
                 string[] splittetPassengerArray = passenger.Split(',');
 
-                Console.WriteLine($"\n{counter}. {splittetPassengerArray[1]} wants to go from {splittetPassengerArray[2]} to {splittetPassengerArray[3]}. Passenger ID: {splittetPassengerArray[0]}");
+                Console.WriteLine($"\n{counter}.\t{splittetPassengerArray[1]} wants to go from {splittetPassengerArray[2]} to {splittetPassengerArray[3]}.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\tPassenger ID: {splittetPassengerArray[0]}");
+                Console.ResetColor();
+
                 counter++;
 
             }

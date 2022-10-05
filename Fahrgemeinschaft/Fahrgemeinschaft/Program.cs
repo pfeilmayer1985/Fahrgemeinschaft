@@ -101,28 +101,48 @@ namespace Fahrgemeinschaft
             do
             {
 
+                UDrivers offers = new UDrivers();
+                UPassengers requests = new UPassengers();
+                CarpoolC carpools = new CarpoolC();
+
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You are a Driver. What would you like to do: ");
                 Console.WriteLine($"============================================");
                 Console.ResetColor();
                 Console.WriteLine("\n1. Register as a new driver for the Carpool");
-                Console.WriteLine("2. Take a passenger (for both registered drivers and passengers, ID assignment)");
-                Console.WriteLine("3. Kick a passenger (remove a passenger PID from your existing carpool)");
+                Console.WriteLine("2. Take a passenger (you must be registered)");
+                Console.WriteLine("3. Kick a passenger from your carpool");
                 Console.WriteLine("4. Search for a passenger by departure city and destination city");
                 Console.WriteLine("5. See the entire list of Passengers to find a match");
-                Console.WriteLine("6. See existing carpools");
-                Console.WriteLine("\n7. Back to the main menu");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write("\nChoose one of the options above: ");
-                Console.ResetColor();
+                Console.WriteLine("6. Are you registered? See the list of Drivers");
+                Console.WriteLine("7. See existing carpools");
+                Console.WriteLine("\n9. Back to the main menu");
 
-                UDrivers offers = new UDrivers();
-                UPassengers requests = new UPassengers();
-                CarpoolC carpools = new CarpoolC();
+                int driverClass;
+                bool pressedRightKey = false;
+                do
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write("\nChoose one of the options above: ");
+                    Console.ResetColor();
+                    string userInput = Console.ReadLine();
 
 
-                int driverClass = Convert.ToInt32(Console.ReadLine());
+                    if (!int.TryParse(userInput, out driverClass))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Would you like to try again, this time with your brain switched on before typing?");
+                        Console.ResetColor();
+                        pressedRightKey = true;
+                    }
+                    else
+                    {
+                        pressedRightKey = false;
+                        continue;
+                    }
+                } while (pressedRightKey);
+
                 switch (driverClass)
                 {
                     case 1:
@@ -148,10 +168,15 @@ namespace Fahrgemeinschaft
                         userDriverBool = true;
                         continue;
                     case 6:
-                        carpools.ListAllCarpools();
+                        offers.ListAllOffers();
+                        Console.ReadLine();
                         userDriverBool = true;
                         continue;
                     case 7:
+                        carpools.ListAllCarpools();
+                        userDriverBool = true;
+                        continue;
+                    case 9:
                         userDriverBool = false;
                         break;
                     default:
@@ -169,27 +194,50 @@ namespace Fahrgemeinschaft
 
             do
             {
+
+                UPassengers requests = new UPassengers();
+                UDrivers offers = new UDrivers();
+                CarpoolC carpools = new CarpoolC();
+
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You are a Passenger. What would you like to do: ");
                 Console.WriteLine($"===============================================");
                 Console.ResetColor();
                 Console.WriteLine("\n1. Register as a new passenger for the Carpool");
-                Console.WriteLine("2. Take a ride (for both registered drivers and passengers, ID assignment)");
-                Console.WriteLine("3. Remove a passenger PID from an existing carpool");
+                Console.WriteLine("2. Take a ride (you must be registered)");
+                Console.WriteLine("3. Cancel a ride - remove yourself from a carpool");
                 Console.WriteLine("4. Search for a driver/carpool by departure city and destination city");
                 Console.WriteLine("5. See the entire list of Drivers to find a match");
-                Console.WriteLine("6. See existing carpools");
-                Console.WriteLine("\n7. Back to the main menu");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write("\nChoose one of the options above: ");
-                Console.ResetColor();
-                UPassengers requests = new UPassengers();
-                UDrivers offers = new UDrivers();
-                CarpoolC carpools = new CarpoolC();
+                Console.WriteLine("6. Are you registered? See the list of Passengers");
+                Console.WriteLine("7. See existing carpools");
+                Console.WriteLine("\n9. Back to the main menu");
+
+                int passengerClass;
+                bool pressedRightKey = false;
+                do
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write("\nChoose one of the options above: ");
+                    Console.ResetColor();
+                    string userInput = Console.ReadLine();
 
 
-                int passengerClass = Convert.ToInt32(Console.ReadLine());
+                    if (!int.TryParse(userInput, out passengerClass))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Would you like to try again, this time with your brain switched on before typing?");
+                        Console.ResetColor();
+                        pressedRightKey = true;
+                    }
+                    else
+                    {
+                        pressedRightKey = false;
+                        continue;
+                    }
+                } while (pressedRightKey);
+
+
                 switch (passengerClass)
                 {
                     case 1:
@@ -215,10 +263,15 @@ namespace Fahrgemeinschaft
                         userPassengerBool = true;
                         continue;
                     case 6:
-                        carpools.ListAllCarpools();
+                        requests.ListAllRequests();
+                        Console.ReadLine();
                         userPassengerBool = true;
                         continue;
                     case 7:
+                        carpools.ListAllCarpools();
+                        userPassengerBool = true;
+                        continue;
+                    case 9:
                         userPassengerBool = false;
                         break;
                     default:
