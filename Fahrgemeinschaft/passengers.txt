@@ -1,6 +1,6 @@
 PID1234,Gogu,Schrozberg,Niederstetten
-PID2345,Mihaita,Bonn,Berlin
-PID3456,Andreea,Cicarlau,Bucuresti
+PID2345,Mihaita,Start,Berlin
+PID3456,Andreea,Schrozberg,End
 PID4567,Vasile,Start,End
 PID5678,Cristina,Start,End
-PID2A1B,Robert,Barcelona,Wien
+PID2A1B,Robert,Barcelona,Baia Mare

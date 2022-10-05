@@ -38,7 +38,9 @@ namespace Fahrgemeinschaft
         {
 
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("You are now adding a Carpool offer to the market.");
+            Console.ResetColor();
 
             bool userInUse = false;
             string id;
@@ -51,7 +53,9 @@ namespace Fahrgemeinschaft
                 if (ckeckInputDriverID)
                 {
                     //asking for the driver ID and checking if the ID exists in the drivers list
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("This ID is allready in use. Choose another ID ");
+                    Console.ResetColor();
                     userInUse = true;
                 }
                 else
@@ -82,7 +86,9 @@ namespace Fahrgemeinschaft
         public void ListAllOffers()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("The following carpools are now available: ");
+            Console.ResetColor();
             string[] showDriversList = File.ReadAllLines(pathFileDrivers);
             int counterAvailable = 1;
             int counterUnavailable = 1;
@@ -98,8 +104,9 @@ namespace Fahrgemeinschaft
 
             }
 
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\n\nThe following carpools are for the moment full and can't takeany passengers: ");
-
+            Console.ResetColor();
 
             foreach (string driver in showDriversList)
             {
