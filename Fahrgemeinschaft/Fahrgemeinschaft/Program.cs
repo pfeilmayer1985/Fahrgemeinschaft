@@ -43,7 +43,9 @@ namespace Fahrgemeinschaft
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nChoose one of the options above: ");
                     Console.ResetColor();
-                    string userInput = Console.ReadLine();
+
+                    ConsoleKeyInfo userInputKey = Console.ReadKey();
+                    string userInput = Convert.ToString(userInputKey.KeyChar);
 
 
                     if (!int.TryParse(userInput, out userClass))
@@ -122,7 +124,11 @@ namespace Fahrgemeinschaft
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nChoose one of the options above: ");
                     Console.ResetColor();
-                    string userInput = Console.ReadLine();
+
+                    //string userInput = Console.ReadLine();
+
+                    ConsoleKeyInfo userInputKey = Console.ReadKey();
+                    string userInput = Convert.ToString(userInputKey.KeyChar);
 
 
                     if (!int.TryParse(userInput, out driverMenu))
@@ -203,10 +209,11 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("==============================");
                 Console.ResetColor();
                 Console.WriteLine("\n( 1 )\tRegister as a new driver for the Carpool");
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("( 2 )\tEdit your existing account");
+                Console.WriteLine("( 2 )\tSee your existing account details");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("( 3 )\tEdit your existing account");
                 Console.ResetColor();
-                Console.WriteLine("( 3 )\tDelete your driver account completely");
+                Console.WriteLine("( 4 )\tDelete your driver account completely");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the drivers menu");
                 Console.ResetColor();
@@ -218,8 +225,11 @@ namespace Fahrgemeinschaft
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nChoose one of the options above: ");
                     Console.ResetColor();
-                    string userInput = Console.ReadLine();
 
+                    //string userInput = Console.ReadLine();
+
+                    ConsoleKeyInfo userInputKey = Console.ReadKey();
+                    string userInput = Convert.ToString(userInputKey.KeyChar);
 
                     if (!int.TryParse(userInput, out driverMenu))
                     {
@@ -243,9 +253,12 @@ namespace Fahrgemeinschaft
                         continue;
 
                     case 2:
-                        //userDriverBool = true;
+                        driversClass.SeeDriver();
                         continue;
                     case 3:
+                        //userDriverBool = true;
+                        continue;
+                    case 4:
                         carpoolsClass.RemoveDriverAccount();
                         userDriverBool = true;
                         continue;
@@ -297,8 +310,11 @@ namespace Fahrgemeinschaft
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nChoose one of the options above: ");
                     Console.ResetColor();
-                    string userInput = Console.ReadLine();
 
+                    //string userInput = Console.ReadLine();
+
+                    ConsoleKeyInfo userInputKey = Console.ReadKey();
+                    string userInput = Convert.ToString(userInputKey.KeyChar);
 
                     if (!int.TryParse(userInput, out passengerMenu))
                     {
@@ -380,10 +396,9 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("=================================");
                 Console.ResetColor();
                 Console.WriteLine("\n( 1 )\tRegister as a new passenger for the Carpool");
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("( 2 )\tEdit your existing account");
-                Console.ResetColor();
-                Console.WriteLine("( 3 )\tDelete your passenger account completely");
+                Console.WriteLine("( 2 )\tSee your existing account details");
+                Console.WriteLine("( 3 )\tEdit your existing account");
+                Console.WriteLine("( 4 )\tDelete your passenger account completely");
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the passengers menu");
@@ -396,8 +411,11 @@ namespace Fahrgemeinschaft
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\nChoose one of the options above: ");
                     Console.ResetColor();
-                    string userInput = Console.ReadLine();
 
+                    //string userInput = Console.ReadLine();
+
+                    ConsoleKeyInfo userInputKey = Console.ReadKey();
+                    string userInput = Convert.ToString(userInputKey.KeyChar);
 
                     if (!int.TryParse(userInput, out passengerMenu))
                     {
@@ -421,11 +439,14 @@ namespace Fahrgemeinschaft
                         userPassengerBool = true;
                         continue;
                     case 2:
+                        passengersClass.SeePassenger();
+                        userPassengerBool = true;
+                        continue;
+                    case 3:
                         passengersClass.ManagePassengerAccount();
                         userPassengerBool = true;
                         continue;
-
-                    case 3:
+                    case 4:
                         passengersClass.RemovePassengerAccount();
                         userPassengerBool = true;
                         continue;

@@ -89,6 +89,75 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
 
         }
+        public void SeeDriver()
+        {
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("==================================");
+            Console.WriteLine("| See your driver acount details |");
+            Console.WriteLine("==================================");
+            Console.ResetColor();
+
+            //asking for the passenger ID
+            Console.Write("\nEnter driver ID (DID): ");
+            string inputDriverID = Console.ReadLine();
+
+            List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
+            var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID" + inputDriverID)).ToList();
+
+            bool exists = false;
+            foreach (var driver in theDriversList)
+            {
+                string[] strings = driver.Split(',');
+                if (strings[0] == ("DID" + inputDriverID))
+                {
+                    exists = true;
+                }
+            }
+
+            if (exists)
+            {
+                List<string> theEditedUserDetails = new List<string>();
+                foreach (var driver in theDriversList)
+                {
+                    string[] position = driver.Split(',');
+                    if (position[0] == ("DID" + inputDriverID))
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("====================================================================");
+                        Console.WriteLine($"| The following user informations are registered with your account |");
+                        Console.WriteLine("====================================================================");
+                        Console.ResetColor();
+
+                        Console.WriteLine($"\nDriver ID: \t\t\t\t{position[0]}");
+                        Console.WriteLine($"Driver's name: \t\t\t\t{position[2]}");
+                        Console.WriteLine($"Registered vehicle: \t\t\t{position[3]}");
+                        Console.WriteLine($"Free places available: \t\t\t{position[1]}");
+                        Console.WriteLine($"Driving from location: \t\t\t{position[4]}");
+                        Console.WriteLine($"Current registered destination: \t{position[5]}");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+                        Console.ResetColor();
+
+                        Console.ReadLine();
+
+                    }
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The driver DID does not exist, account content can't be retrieved.");
+                Console.ResetColor();
+
+                Console.ReadLine();
+            }
+
+
+
+        }
 
         public void ListAllOffers()
         {
