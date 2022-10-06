@@ -16,7 +16,10 @@ namespace Fahrgemeinschaft
         public string Destination { get; set; }
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
+
+        string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
         string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
+        string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
         public UDrivers(string iD, string name, string startCity, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
@@ -34,17 +37,19 @@ namespace Fahrgemeinschaft
 
         }
 
-        public void AddOffer()
+        public void AddDriver()
         {
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("You are now adding a Carpool offer to the market.");
+            Console.WriteLine("========================================");
+            Console.WriteLine("| You are now  registering as a driver |");
+            Console.WriteLine("========================================");
             Console.ResetColor();
 
             bool userInUse = false;
             string id;
-            
+
             do
             {
                 Console.Write("Choose your unique Driver ID (DID), 3 chars long: ");
@@ -89,7 +94,9 @@ namespace Fahrgemeinschaft
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("The following carpools are now available: ");
+            Console.WriteLine("============================================");
+            Console.WriteLine("| The following carpools are now available |");
+            Console.WriteLine("============================================");
             Console.ResetColor();
             string[] showDriversList = File.ReadAllLines(pathFileDrivers);
             int counterAvailable = 1;
@@ -99,7 +106,8 @@ namespace Fahrgemeinschaft
                 string[] splittetDriverArray = driver.Split(',');
                 if (Convert.ToInt32(splittetDriverArray[1]) > 0)
                 {
-                    Console.WriteLine($"\n{counterAvailable}.\t{splittetDriverArray[2]} has {splittetDriverArray[1]} free places available and is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}.");
+                    Console.WriteLine("\n====================================================================================================================");
+                    Console.WriteLine($"{counterAvailable}.\t{splittetDriverArray[2]} has {splittetDriverArray[1]} free places available and is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}.");
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"\tHis driver ID is: {splittetDriverArray[0]}");
                     Console.ResetColor();
@@ -110,7 +118,9 @@ namespace Fahrgemeinschaft
             }
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n\nThe following carpools are for the moment full and can't takeany passengers: ");
+            Console.WriteLine("\n\n===============================================================================");
+            Console.WriteLine("| The following carpools are for the moment full and can't takeany passengers |");
+            Console.WriteLine("===============================================================================");
             Console.ResetColor();
 
             foreach (string driver in showDriversList)
