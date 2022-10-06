@@ -83,12 +83,13 @@ namespace Fahrgemeinschaft
             string destination = Console.ReadLine();
 
 
-            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
+            File.AppendAllText(pathFileDrivers, (id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
 
             Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now receive passengers.");
             Console.ReadLine();
 
         }
+
         public void SeeDriver()
         {
 
@@ -157,6 +158,331 @@ namespace Fahrgemeinschaft
 
 
 
+        }
+
+        public void ManageDriverAccount()
+        {
+            bool userClassBool = true;
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("=============================");
+            Console.WriteLine("| Manage your driver acount |");
+            Console.WriteLine("=============================");
+            Console.ResetColor();
+
+            //asking for the passenger ID
+            Console.Write("\nEnter driver ID (DID): ");
+            string inputDriverID = Console.ReadLine();
+
+            List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
+            var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID" + inputDriverID)).ToList();
+
+            bool exists = false;
+            foreach (var driver in theDriversList)
+            {
+                string[] strings = driver.Split(',');
+                if (strings[0] == ("DID" + inputDriverID))
+                {
+                    exists = true;
+                }
+            }
+
+            if (exists)
+            {
+                List<string> theEditedUserDetails = new List<string>();
+                foreach (var driver in theDriversList)
+                {
+                    string[] position = driver.Split(',');
+                    if (position[0] == ("DID" + inputDriverID))
+                    {
+
+                        do
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"=======================================================");
+                            Console.WriteLine($"| The following user details are allowed to be edited |");
+                            Console.WriteLine($"=======================================================");
+                            Console.ResetColor();
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine($"\nThe User ID (' {position[0]} ') and the free places (' {position[1]} ') can't be changed.\nIf you want to change these, delete this Driver Account and make a new account.");
+                            Console.ResetColor();
+                            Console.WriteLine($"\n( 1 )\tPassenger name: {position[2]}");
+                            Console.WriteLine($"( 2 )\tCar make and model: {position[3]}");
+                            Console.WriteLine($"( 3 )\tDriving from location: {position[4]}");
+                            Console.WriteLine($"( 4 )\tCurrent destination: {position[5]}");
+                            Console.WriteLine($"( 5 )\tBoth origin and destination");
+                            Console.WriteLine($"( 6 )\tAll fields above (name, car, pickup & destination)");
+
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine($"\n( 9 )\tDon't perform any changes, return to previous menu");
+                            Console.ResetColor();
+
+                            int userChoice;
+                            bool pressedRightKey = false;
+                            do
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.Write("\nChoose one of the options above: ");
+                                Console.ResetColor();
+
+                                //string userInput = Console.ReadLine();
+
+                                ConsoleKeyInfo userInputKey = Console.ReadKey();
+                                string userInput = Convert.ToString(userInputKey.KeyChar);
+
+                                if (!int.TryParse(userInput, out userChoice))
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.Write("Would you like to try again, this time with your brain switched on before typing?");
+                                    Console.ResetColor();
+                                    pressedRightKey = true;
+                                }
+                                else
+                                {
+                                    pressedRightKey = false;
+                                    continue;
+                                }
+                            } while (pressedRightKey);
+
+                            switch (userChoice)
+                            {
+                                case 1:
+
+                                    EditDriverName(inputDriverID, theDriversList, position);
+                                    userClassBool = false;
+                                    continue;
+                                case 2:
+
+                                    EditDriverCarMakeModel(inputDriverID, theDriversList, position);
+                                    userClassBool = false;
+                                    continue;
+                                case 3:
+
+                                    EditDriverOrigin(inputDriverID, theDriversList, position);
+                                    userClassBool = false;
+                                    continue;
+                                case 4:
+
+                                    EditDriverDestination(inputDriverID, theDriversList, position);
+                                    userClassBool = false;
+                                    continue;
+                                case 5:
+
+                                    EditDriverOriginAndDestination(inputDriverID, theDriversList, position);
+                                    userClassBool = false;
+                                    continue;
+                                case 6:
+
+                                    EditDriverAll(inputDriverID, theDriversList, position);
+                                    userClassBool = false;
+                                    continue;
+
+                                case 9:
+                                    userClassBool = false;
+                                    break;
+                                default:
+                                    userClassBool = true;
+                                    continue;
+                            }
+                        } while (userClassBool);
+                    }
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The driver DID does not exist, account can't be edited.");
+                Console.ResetColor();
+
+                Console.ReadLine();
+            }
+        }
+
+        private void EditDriverAll(string inputDriverID, List<string> theDriversList, string[] position)
+        {
+            //edit all driver data
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"=============================================================");
+            Console.WriteLine($"| You chose to change all the available driver information  |");
+            Console.WriteLine($"=============================================================");
+            Console.ResetColor();
+            //Ask user for the new name
+            Console.Write($"\nHow do you want to be called now: ");
+            string newUserName = Console.ReadLine();
+            //Ask user for the new make and model
+            Console.Write($"\nWhat make and model of a car are you driving now: ");
+            string newMakeModel = Console.ReadLine();
+            //Ask user for the new city - start point
+            Console.Write($"\nWhat's your new city, that you are driving from (origin), called: ");
+            string newOrigin = Console.ReadLine();
+            //Ask user for the new city - destination
+            Console.Write($"\nWhat's your new city, that you are driving to (destination), called: ");
+            string newDestination = Console.ReadLine();
+            //build a new string with all the drivers data
+            string editedDriver = $"{position[0]},{position[1]},{newUserName},{newMakeModel},{newOrigin},{newDestination}";
+            //select all other lines in the drivers.txt file add add them to a list
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            //to the previously list you built with all other drivers - current, add the current edited driver
+            addAllOtherEntriesBack.Add(editedDriver);
+            //rewrite the drivers.txt file with the modified entry+all other entries
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+            //show the new user info
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou have successfully changed the driver's name from \" {position[2]} \" to \" {newUserName} \",");
+            Console.WriteLine($"then the car make and model from \" {position[3]} \" to \" {newMakeModel} \",");
+            Console.WriteLine($"and changed the city you are driving from, from \" {position[4]} \" to \" {newOrigin} \",");
+            Console.WriteLine($"finally the city you are driving to, from \" {position[5]} \" to \" {newDestination} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        private void EditDriverOriginAndDestination(string inputDriverID, List<string> theDriversList, string[] position)
+        {
+
+            //edit driving origin and destination
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"=====================================================================");
+            Console.WriteLine($"| You chose to change both cities : origin and the destination city |");
+            Console.WriteLine($"=====================================================================");
+            Console.ResetColor();
+            //Ask user for the new city - start point
+            Console.Write($"\nWhat's your new city, that you are driving from (origin), called: ");
+            string newOrigin = Console.ReadLine();
+            //Ask user for the new city - destination
+            Console.Write($"\nWhat's your new city, that you are driving to (destination), called: ");
+            string newDestination = Console.ReadLine();
+            //build a new string with all the drivers data
+            string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{newOrigin},{newDestination}";
+            //select all other lines in the drivers.txt file add add them to a list
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            //to the previously list you built with all other drivers - current, add the current edited driver
+            addAllOtherEntriesBack.Add(editedDriver);
+            //rewrite the drivers.txt file with the modified entry+all other entries
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+            //show the new user info
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou have successfully changed the city you are driving from, from \" {position[4]} \" to \" {newOrigin} \",");
+            Console.WriteLine($"and the city you are driving to, from \" {position[5]} \" to \" {newDestination} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        private void EditDriverDestination(string inputDriverID, List<string> theDriversList, string[] position)
+        {
+            //edit driving destination
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"============================================");
+            Console.WriteLine($"| You chose to change the destination city |");
+            Console.WriteLine($"============================================");
+            Console.ResetColor();
+            //Ask user for the new city - destination
+            Console.Write($"\nWhat's your new city, that you are driving to, called: ");
+            string newDestination = Console.ReadLine();
+            //build a new string with all the drivers data
+            string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{newDestination}";
+            //select all other lines in the drivers.txt file add add them to a list
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            //to the previously list you built with all other drivers - current, add the current edited driver
+            addAllOtherEntriesBack.Add(editedDriver);
+            //rewrite the drivers.txt file with the modified entry+all other entries
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+            //show the new user info
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou have successfully changed the city you are driving to, from \" {position[5]} \" to \" {newDestination} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        private void EditDriverOrigin(string inputDriverID, List<string> theDriversList, string[] position)
+        {
+            //edit driving from location
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"=====================================================");
+            Console.WriteLine($"| You chose to change the city you are driving from |");
+            Console.WriteLine($"====================================================");
+            Console.ResetColor();
+            //Ask user for the new city - start point
+            Console.Write($"\nWhat's your new city, that you are driving from, called: ");
+            string newOrigin = Console.ReadLine();
+            //build a new string with all the drivers data
+            string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{newOrigin},{position[5]}";
+            //select all other lines in the drivers.txt file add add them to a list
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            //to the previously list you built with all other drivers - current, add the current edited driver
+            addAllOtherEntriesBack.Add(editedDriver);
+            //rewrite the drivers.txt file with the modified entry+all other entries
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+            //show the new user info
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou have successfully changed the city you are driving from, from \" {position[4]} \" to \" {newOrigin} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        private void EditDriverCarMakeModel(string inputDriverID, List<string> theDriversList, string[] position)
+        {
+            //edit car make and model
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"==============================================");
+            Console.WriteLine($"| You chose to change the car make and model |");
+            Console.WriteLine($"==============================================");
+            Console.ResetColor();
+            //Ask user for the new make and model
+            Console.Write($"\nWhat make and model of a car are you driving now: ");
+            string newMakeModel = Console.ReadLine();
+            //build a new string with all the drivers data
+            string editedDriver = $"{position[0]},{position[1]},{position[2]},{newMakeModel},{position[4]},{position[5]}";
+            //select all other lines in the drivers.txt file add add them to a list
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            //to the previously list you built with all other drivers - current, add the current edited driver
+            addAllOtherEntriesBack.Add(editedDriver);
+            //rewrite the drivers.txt file with the modified entry+all other entries
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+            //show the new user info
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou have successfully changed the car make and model from \" {position[3]} \" to \" {newMakeModel} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        private void EditDriverName(string inputDriverID, List<string> theDriversList, string[] position)
+        {
+            //edit driver name
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"=========================================");
+            Console.WriteLine($"| You chose to change the driver's name |");
+            Console.WriteLine($"=========================================");
+            Console.ResetColor();
+            //Ask user for the new name
+            Console.Write($"\nHow do you want to be called now: ");
+            string newUserName = Console.ReadLine();
+            //build a new string with all the drivers data
+            string editedDriver = $"{position[0]},{position[1]},{newUserName},{position[3]},{position[4]},{position[5]}".TrimEnd();
+            //select all other lines in the drivers.txt file add add them to a list
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            //to the previously list you built with all other drivers - current, add the current edited driver
+            addAllOtherEntriesBack.Add(editedDriver);
+            //rewrite the drivers.txt file with the modified entry+all other entries
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack.Select(e=>e.TrimEnd()));
+            //show the new user info
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou have successfully changed the driver's name from \" {position[2]} \" to \" {newUserName} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+            Console.ReadLine();
         }
 
         public void ListAllOffers()

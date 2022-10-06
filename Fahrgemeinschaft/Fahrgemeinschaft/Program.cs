@@ -210,9 +210,7 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
                 Console.WriteLine("\n( 1 )\tRegister as a new driver for the Carpool");
                 Console.WriteLine("( 2 )\tSee your existing account details");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("( 3 )\tEdit your existing account");
-                Console.ResetColor();
                 Console.WriteLine("( 4 )\tDelete your driver account completely");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the drivers menu");
@@ -256,7 +254,8 @@ namespace Fahrgemeinschaft
                         driversClass.SeeDriver();
                         continue;
                     case 3:
-                        //userDriverBool = true;
+                        driversClass.ManageDriverAccount();
+                        userDriverBool = true;
                         continue;
                     case 4:
                         carpoolsClass.RemoveDriverAccount();

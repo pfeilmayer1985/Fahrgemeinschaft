@@ -201,7 +201,7 @@ namespace Fahrgemeinschaft
                             Console.WriteLine($"( 3 )\tCurrent destination: {position[3]}");
                             Console.WriteLine($"( 4 )\tBoth pick-up location and destination");
                             Console.WriteLine($"( 5 )\tAll fields above (name, pickup & destination)");
-                            
+
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine($"\n( 9 )\tDon't perform any changes, return to previous menu");
                             Console.ResetColor();
@@ -248,15 +248,15 @@ namespace Fahrgemeinschaft
                                     continue;
                                 case 3:
                                     EditPassengerDestination(inputPassengerID, thePassengersList, position, out editedPassenger, out addAllOtherEntriesBack);
-                                    userClassBool = true;
+                                    userClassBool = false;
                                     continue;
                                 case 4:
                                     EditPassengerPickupDestination(inputPassengerID, thePassengersList, position, out editedPassenger, out addAllOtherEntriesBack);
-                                    userClassBool = true;
+                                    userClassBool = false;
                                     continue;
                                 case 5:
                                     EditPassengerAllData(inputPassengerID, thePassengersList, position, out editedPassenger, out addAllOtherEntriesBack);
-                                    userClassBool = true;
+                                    userClassBool = false;
                                     continue;
 
                                 case 9:
@@ -425,6 +425,7 @@ namespace Fahrgemeinschaft
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the passenger's name from \" {position[1]} \" to \" {newUserName} \" !");
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
             Console.ReadLine();
         }
