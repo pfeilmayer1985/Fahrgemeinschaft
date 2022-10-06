@@ -117,6 +117,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("5. See the entire list of Passengers to find a match");
                 Console.WriteLine("6. Are you registered? See the list of Drivers");
                 Console.WriteLine("7. See existing carpools");
+                Console.WriteLine("8. Remove your driver account completely");
                 Console.WriteLine("\n9. Back to the main menu");
 
                 int driverClass;
@@ -176,6 +177,10 @@ namespace Fahrgemeinschaft
                         carpools.ListAllCarpools();
                         userDriverBool = true;
                         continue;
+                    case 8:
+                        carpools.RemoveDriverAccount();
+                        userDriverBool = true;
+                        continue;
                     case 9:
                         userDriverBool = false;
                         break;
@@ -211,6 +216,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("5. See the entire list of Drivers to find a match");
                 Console.WriteLine("6. Are you registered? See the list of Passengers");
                 Console.WriteLine("7. See existing carpools");
+                Console.WriteLine("8. Remove your passenger account completely");
                 Console.WriteLine("\n9. Back to the main menu");
 
                 int passengerClass;
@@ -269,6 +275,10 @@ namespace Fahrgemeinschaft
                         continue;
                     case 7:
                         carpools.ListAllCarpools();
+                        userPassengerBool = true;
+                        continue;
+                    case 8:
+                        carpools.RemovePassengerAccount();
                         userPassengerBool = true;
                         continue;
                     case 9:

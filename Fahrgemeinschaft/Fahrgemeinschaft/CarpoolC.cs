@@ -747,6 +747,36 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        public void RemovePassengerAccount()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Remove a passenger acount from passenger as well as carpool lists");
+            Console.WriteLine($"=================================================================");
+            Console.ResetColor();
+
+            //asking for the passenger ID
+            Console.Write("Enter passenger ID (PID): ");
+            string inputPassengerID = Console.ReadLine();
+            SMRemovePassengerAccountByPassengerID(inputPassengerID);
+
+        }
+
+        public void RemoveDriverAccount()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Remove a driver acount from both drivers and carpool lists");
+            Console.WriteLine($"==========================================================");
+            Console.ResetColor();
+
+            //asking for the driver ID
+            Console.Write("Enter driver ID (DID): ");
+            string inputDriverID = Console.ReadLine();
+            SMRemoveDriverAccountByDriverID(inputDriverID);
+
+        }
+
         private void SMAddFreeSeat(string inputDriverID, string[] splittedLinesInDriversArray, int numberOfFreeSeats)
         {
             List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
@@ -831,21 +861,203 @@ namespace Fahrgemeinschaft
 
         }
 
-        private void SMRemovePassengerInPassengersAndCarpoolByPassengerID(string inputPassengerID)
+        private void SMRemovePassengerAccountByPassengerID(string inputPassengerID)
         {
+
+            //removing a passenger from the passengers list
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
 
+            var findPassengerInPassengers = thePassengersList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
 
-            var findPassenger = thePassengersList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
-            string[] newArray = findPassenger.Split(',');
-            var foo = new List<string>();
+            bool exists = false;
+            bool existsInCarpool = false;
+            foreach (var passenger in thePassengersList)
+            {
+                string[] strings = passenger.Split(',');
+                if (strings[0] == ("PID" + inputPassengerID))
+                {
+                    exists = true;
+                }
+            }
+
+            if (exists)
+            {
+                var addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+                File.WriteAllLines(pathFilePassengers, addAllOtherEntriesBack);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"Passenger PID{inputPassengerID} was removed from the registered passengers list.");
+                Console.ResetColor();
+
+                //removing a passenger from the carpool list
+                List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
 
 
-            var addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
-            File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBack);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Passenger was removed from the carpool and since it was the only passenger, the carpool was dissolved.");
-            Console.ResetColor();
+
+                foreach (var passenger in theCarpoolList)
+                {
+                    string[] strings = passenger.Split(',');
+                    for (int i = 0; i < strings.Length; i++)
+                    {
+                        if (strings[i] == ("PID" + inputPassengerID))
+                        {
+                            existsInCarpool = true;
+                        }
+                    }
+                }
+
+                if (existsInCarpool)
+                {
+
+                    var findPassengerInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
+
+                    string[] arrayWithSplittedCarpoolLines = findPassengerInCarpools.Split(',');
+
+                    var foo = new List<string>();
+
+                    if (arrayWithSplittedCarpoolLines.Length != 2)
+                    {
+                        for (int i = 1; i < arrayWithSplittedCarpoolLines.Length; i++)
+                        {
+                            if (arrayWithSplittedCarpoolLines[i] != "PID" + inputPassengerID)
+                                foo.Add(arrayWithSplittedCarpoolLines[i]);
+                        }
+                        var result = string.Join(",", foo.ToArray());
+                        var finalResult = arrayWithSplittedCarpoolLines[0] + "," + result;
+
+                        //find the driver
+                        var findTheDriver = theCarpoolList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
+                        foreach (string driver in findTheDriver)
+                        {
+                            string[] arrayWithDrivers = driver.Split(',');
+                            string currentDriverInCarpool = arrayWithDrivers[0];
+
+                            List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
+                            foreach (string driverInDrivesList in theDriversList)
+                            {
+                                var findTheDriverAgain = theDriversList.FirstOrDefault(e => e.Contains(currentDriverInCarpool));
+
+                                string[] findTheDriverAgainSplitted = findTheDriverAgain.Split(',');
+                                string currentDriverInDrivers = findTheDriverAgainSplitted[0];
+
+                                //var findTheDriverInDrivers = theCarpoolList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
+
+                                int actualFreeSeats = Convert.ToInt32(findTheDriverAgainSplitted[1]);
+                                SMAddFreeSeat(currentDriverInDrivers.TrimStart(new char[] { 'D', 'I' }), findTheDriverAgainSplitted, actualFreeSeats);
+
+
+                            }
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"One free seat was returned to the driver {currentDriverInCarpool}.");
+                            Console.ResetColor();
+                        }
+
+
+                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+                        addAllOtherEntriesBackToCarpoolList.Add(finalResult);
+                        File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("Passenger was entirely removed from the carpool.");
+                        Console.ResetColor();
+
+                    }
+                    else
+                    {
+
+                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+                        File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("Passenger was removed from the carpool and since it was the only passenger, the carpool was dissolved.");
+                        Console.ResetColor();
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("The passenger PID isn't riding in any of the carpools, the carpool list remains untouched.");
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The passenger PID does not exist, account can't be deleted.");
+                Console.ResetColor();
+            }
+
+            Console.ReadLine();
+
+
+
+        }
+
+        private void SMRemoveDriverAccountByDriverID(string inputDriverID)
+        {
+
+            //removing a driver from the drivers list
+            List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
+
+            var findDriverInDrivers = theDriversList.FirstOrDefault(e => e.Contains("DID" + inputDriverID));
+
+            bool exists = false;
+            bool existsInCarpool = false;
+
+            foreach (var driver in theDriversList)
+            {
+                string[] strings = driver.Split(',');
+                if (strings[0] == ("DID" + inputDriverID))
+                {
+                    exists = true;
+                }
+            }
+
+
+            if (exists)
+            {
+
+                var addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"Driver DID{inputDriverID} was removed from the registered drivers list.");
+                Console.ResetColor();
+
+                //removing a driver from the carpool list
+                List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
+
+                foreach (var driver in theCarpoolList)
+                {
+                    string[] strings = driver.Split(',');
+                    if (strings[0] == ("DID" + inputDriverID))
+                    {
+                        existsInCarpool = true;
+                    }
+                }
+                if (existsInCarpool)
+                {
+                    var findDriverInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("DID" + inputDriverID));
+
+                    string[] arrayWithSplittedCarpoolLines = findDriverInCarpools.Split(',');
+
+                    var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                    File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Driver DID{inputDriverID} was also removed from the carpool list and since the carpool was dissolved all his passengers were removed as well.");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("The driver DID doesn't have any carpools created, the carpool list remains untouched.");
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The driver DID does not exist, account can't be deleted.");
+                Console.ResetColor();
+            }
+
+            Console.ReadLine();
 
 
 
