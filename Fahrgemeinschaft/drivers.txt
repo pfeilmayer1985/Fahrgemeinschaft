@@ -15,3 +15,4 @@ DID777,2,Hans Gross,Ford Focus,Wien,End
 DID345,3,Adrian Hontau,Ford EcoSport,Baia Mare,End
 DID010,2,Aladin,Rug,Zes,No
 DID011,4,TheDriver,OneCar,Start,End
+DID956,6,NewTest Driver,Subaru Whatewer,Yes,End

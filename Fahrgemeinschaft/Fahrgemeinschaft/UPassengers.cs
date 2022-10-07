@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fahrgemeinschaft
 {
-    public class UPassengers : Users
+    public class UPassengers : UsersC
     {
         public string StartingCity { get; set; }
         public string Destination { get; set; }
@@ -20,6 +20,7 @@ namespace Fahrgemeinschaft
         public List<UPassengers> PassengersList { get; set; }
 
         CarpoolC carpoolClass = new CarpoolC();
+        HandleUserInputC h = new HandleUserInputC();
 
         public UPassengers(string iD, string name, string startCity, string destination)
         {
@@ -70,11 +71,11 @@ namespace Fahrgemeinschaft
             } while (userInUse == true);
 
             Console.Write("What's your name?: ");
-            string name = Console.ReadLine();
+            string name = h.HandleUserTextInput(true);
             Console.Write("Where do you want to be picked up (Departure City): ");
-            string startCity = Console.ReadLine();
+            string startCity = h.HandleUserTextInput(true);
             Console.Write("Destination City: ");
-            string destination = Console.ReadLine();
+            string destination = h.HandleUserTextInput(true); ;
             File.AppendAllText(pathFilePassengers, ("\n" + id + "," + name + "," + startCity + "," + destination));
             Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now look for a carpool ride.");
             Console.ReadLine();
@@ -291,11 +292,11 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"===================================================");
             Console.ResetColor();
             Console.Write($"\nHow do you want to be called now: ");
-            string newUserNameI = Console.ReadLine();
+            string newUserNameI = h.HandleUserTextInput(true);
             Console.Write($"Your new city as pickup location: ");
-            string newPickUp = Console.ReadLine();
+            string newPickUp = h.HandleUserTextInput(true);
             Console.Write($"What's your new destination city: ");
-            string newDestination = Console.ReadLine();
+            string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{newUserNameI},{newPickUp},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
@@ -326,9 +327,9 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"============================================================================");
             Console.ResetColor();
             Console.Write($"\nYour new city as pickup location: ");
-            string newPickUp = Console.ReadLine();
+            string newPickUp = h.HandleUserTextInput(true);
             Console.Write($"What's your new destination city: ");
-            string newDestination = Console.ReadLine();
+            string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{position[1]},{newPickUp},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
@@ -357,7 +358,7 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"===================================================");
             Console.ResetColor();
             Console.Write($"\nWhat is your new destination: ");
-            string newDestination = Console.ReadLine();
+            string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{position[1]},{position[2]},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
@@ -385,7 +386,7 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"=======================================================");
             Console.ResetColor();
             Console.Write($"\nWhere do you want to be picked up from now: ");
-            string newUserPickUp = Console.ReadLine();
+            string newUserPickUp = h.HandleUserTextInput(true);
             //build a new string with all the passengers data
             string editedPassengerPickUp = $"{position[0]},{position[1]},{newUserPickUp},{position[3]}";
             //select all other lines in the passenger.txt file add add them to a list
@@ -413,7 +414,7 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"============================================");
             Console.ResetColor();
             Console.Write($"\nHow do you want to be called now: ");
-            newUserName = Console.ReadLine();
+            newUserName = h.HandleUserTextInput(true);
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{newUserName},{position[2]},{position[3]}";
             //select all other lines in the passenger.txt file add add them to a list

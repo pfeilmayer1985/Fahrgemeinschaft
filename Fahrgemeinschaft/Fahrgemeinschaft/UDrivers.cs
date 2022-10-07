@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Fahrgemeinschaft
 {
-    public class UDrivers : Users
+    public class UDrivers : UsersC
     {
         public string CarTypeMake { get; set; }
         public string StartingCity { get; set; }
@@ -17,9 +17,12 @@ namespace Fahrgemeinschaft
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
 
-        string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
+        //string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
         string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
-        string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
+        //string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
+
+        HandleUserInputC h = new HandleUserInputC();
+
         public UDrivers(string iD, string name, string startCity, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
@@ -53,7 +56,9 @@ namespace Fahrgemeinschaft
             do
             {
                 Console.Write("Choose your unique Driver ID (DID), 3 chars long: ");
-                id = "DID" + Console.ReadLine();
+                string newUserID = h.HandleUserTextInput();
+
+                id = "DID" + newUserID;
 
                 bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains(id));
                 if (ckeckInputDriverID || id.Length != 6)
@@ -72,24 +77,24 @@ namespace Fahrgemeinschaft
             } while (userInUse == true);
 
             Console.Write("Who is driving the car (driver's name): ");
-            string name = Console.ReadLine();
+            string name = h.HandleUserTextInput(true);
             Console.Write("What is the make and model of the car: ");
-            string carTypeMake = Console.ReadLine();
+            string carTypeMake = h.HandleUserTextInput();
             Console.Write("How many places are free in the car: ");
-            int freePlaces = Convert.ToInt32(Console.ReadLine());
+            int freePlaces = h.HandleUserNumbersInput();
             Console.Write("Departure from City: ");
-            string startCity = Console.ReadLine();
+            string startCity = h.HandleUserTextInput(true);
             Console.Write("Destination City: ");
-            string destination = Console.ReadLine();
+            string destination = h.HandleUserTextInput(true);
 
 
-            File.AppendAllText(pathFileDrivers, (id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
+            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
 
             Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now receive passengers.");
             Console.ReadLine();
 
         }
-
+               
         public void SeeDriver()
         {
 
@@ -311,16 +316,16 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             //Ask user for the new name
             Console.Write($"\nHow do you want to be called now: ");
-            string newUserName = Console.ReadLine();
+            string newUserName = h.HandleUserTextInput(true);
             //Ask user for the new make and model
             Console.Write($"\nWhat make and model of a car are you driving now: ");
-            string newMakeModel = Console.ReadLine();
+            string newMakeModel = h.HandleUserTextInput();
             //Ask user for the new city - start point
             Console.Write($"\nWhat's your new city, that you are driving from (origin), called: ");
-            string newOrigin = Console.ReadLine();
+            string newOrigin = h.HandleUserTextInput(true);
             //Ask user for the new city - destination
             Console.Write($"\nWhat's your new city, that you are driving to (destination), called: ");
-            string newDestination = Console.ReadLine();
+            string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{newUserName},{newMakeModel},{newOrigin},{newDestination}";
             //select all other lines in the drivers.txt file add add them to a list
@@ -352,10 +357,10 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             //Ask user for the new city - start point
             Console.Write($"\nWhat's your new city, that you are driving from (origin), called: ");
-            string newOrigin = Console.ReadLine();
+            string newOrigin = h.HandleUserTextInput(true);
             //Ask user for the new city - destination
             Console.Write($"\nWhat's your new city, that you are driving to (destination), called: ");
-            string newDestination = Console.ReadLine();
+            string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{newOrigin},{newDestination}";
             //select all other lines in the drivers.txt file add add them to a list
@@ -384,7 +389,7 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             //Ask user for the new city - destination
             Console.Write($"\nWhat's your new city, that you are driving to, called: ");
-            string newDestination = Console.ReadLine();
+            string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{newDestination}";
             //select all other lines in the drivers.txt file add add them to a list
@@ -412,7 +417,7 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             //Ask user for the new city - start point
             Console.Write($"\nWhat's your new city, that you are driving from, called: ");
-            string newOrigin = Console.ReadLine();
+            string newOrigin = h.HandleUserTextInput(true);
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{newOrigin},{position[5]}";
             //select all other lines in the drivers.txt file add add them to a list
@@ -440,7 +445,7 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             //Ask user for the new make and model
             Console.Write($"\nWhat make and model of a car are you driving now: ");
-            string newMakeModel = Console.ReadLine();
+            string newMakeModel = h.HandleUserTextInput(true);
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{newMakeModel},{position[4]},{position[5]}";
             //select all other lines in the drivers.txt file add add them to a list
@@ -468,7 +473,7 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             //Ask user for the new name
             Console.Write($"\nHow do you want to be called now: ");
-            string newUserName = Console.ReadLine();
+            string newUserName = h.HandleUserTextInput(true);
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{newUserName},{position[3]},{position[4]},{position[5]}".TrimEnd();
             //select all other lines in the drivers.txt file add add them to a list
@@ -476,7 +481,7 @@ namespace Fahrgemeinschaft
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
-            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack.Select(e=>e.TrimEnd()));
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack.Select(e => e.TrimEnd()));
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the driver's name from \" {position[2]} \" to \" {newUserName} \" !");

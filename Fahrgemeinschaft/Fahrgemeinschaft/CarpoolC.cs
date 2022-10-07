@@ -451,17 +451,17 @@ namespace Fahrgemeinschaft
             {
                 string[] splittetArray = driverCheck.Split(',');
 
-                if (splittetArray[4].Equals(inputStartLocation) && splittetArray[5].Equals(inputDestination))
+                if ((splittetArray[4].ToLower()).Equals(inputStartLocation.ToLower()) && (splittetArray[5].ToLower)().Equals(inputDestination.ToLower()))
                 {
                     trefferBothWays.Add(splittetArray[0] + "," + splittetArray[1] + "," + splittetArray[2] + "," + splittetArray[3] + "," + splittetArray[4] + "," + splittetArray[5]);
                 }
 
-                if (splittetArray[4].Equals(inputStartLocation) && !splittetArray[5].Equals(inputDestination))
+                if ((splittetArray[4].ToLower()).Equals(inputStartLocation.ToLower()) && !(splittetArray[5].ToLower)().Equals(inputDestination.ToLower()))
                 {
                     trefferStart.Add(splittetArray[0] + "," + splittetArray[1] + "," + splittetArray[2] + "," + splittetArray[3] + "," + splittetArray[4] + "," + splittetArray[5]);
                 }
 
-                if (!splittetArray[4].Equals(inputStartLocation) && splittetArray[5].Equals(inputDestination))
+                if (!(splittetArray[4].ToLower()).Equals(inputStartLocation.ToLower()) && (splittetArray[5].ToLower)().Equals(inputDestination.ToLower()))
                 {
                     trefferDestination.Add(splittetArray[0] + "," + splittetArray[1] + "," + splittetArray[2] + "," + splittetArray[3] + "," + splittetArray[4] + "," + splittetArray[5]);
                 }
@@ -559,17 +559,17 @@ namespace Fahrgemeinschaft
             {
                 string[] splittetArray = passengerCheck.Split(',');
 
-                if (splittetArray[2].Equals(inputStartLocation) && splittetArray[3].Equals(inputDestination))
+                if ((splittetArray[2].ToLower()).Equals(inputStartLocation.ToLower()) && (splittetArray[3].ToLower()).Equals(inputDestination.ToLower()))
                 {
                     trefferBothWays.Add(splittetArray[0] + "," + splittetArray[1] + "," + splittetArray[2] + "," + splittetArray[3]);
                 }
 
-                if (splittetArray[2].Equals(inputStartLocation) && !splittetArray[3].Equals(inputDestination))
+                if ((splittetArray[2].ToLower()).Equals(inputStartLocation.ToLower()) && !(splittetArray[3].ToLower()).Equals(inputDestination.ToLower()))
                 {
                     trefferStart.Add(splittetArray[0] + "," + splittetArray[1] + "," + splittetArray[2] + "," + splittetArray[3]);
                 }
 
-                if (!splittetArray[2].Equals(inputStartLocation) && splittetArray[3].Equals(inputDestination))
+                if (!(splittetArray[2].ToLower()).Equals(inputStartLocation.ToLower()) && (splittetArray[3].ToLower()).Equals(inputDestination.ToLower()))
                 {
                     trefferDestination.Add(splittetArray[0] + "," + splittetArray[1] + "," + splittetArray[2] + "," + splittetArray[3]);
                 }
@@ -753,22 +753,6 @@ namespace Fahrgemeinschaft
             }
             Console.ReadLine();
         }
-
-        /* public void RemovePassengerAccount()
-         {
-             Console.Clear();
-             Console.ForegroundColor = ConsoleColor.Blue;
-             Console.WriteLine("=====================================================================");
-             Console.WriteLine("| Remove a passenger acount from passenger as well as carpool lists |");
-             Console.WriteLine("=====================================================================");
-             Console.ResetColor();
-
-             //asking for the passenger ID
-             Console.Write("Enter passenger ID (PID): ");
-             string inputPassengerID = Console.ReadLine();
-             SMRemovePassengerAccountByPassengerID(inputPassengerID);
-
-         }*/
 
         public void RemoveDriverAccount()
         {

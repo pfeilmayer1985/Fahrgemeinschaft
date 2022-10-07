@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Fahrgemeinschaft
 {
-    public abstract class Users
+    public abstract class UsersC
     {
         public string ID { get; set; }
         public string Name { get; set; }
         
-        public List<Users> AllUserList { get; set; }
+        public List<UsersC> AllUserList { get; set; }
 
 
 
 
-        public Users()
+        public UsersC()
         {
-            AllUserList = new List<Users>();
+            AllUserList = new List<UsersC>();
 
         }
 
