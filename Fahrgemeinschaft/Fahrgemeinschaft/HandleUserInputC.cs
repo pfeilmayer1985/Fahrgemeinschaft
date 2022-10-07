@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Fahrgemeinschaft
@@ -19,7 +20,7 @@ namespace Fahrgemeinschaft
             do
             {
                 string inputToBeChecked = Console.ReadLine();
-                if (checkSpecialCharacter && inputToBeChecked.Any(ch => !Char.IsLetterOrDigit(ch)))
+                if (checkSpecialCharacter && !Regex.IsMatch(inputToBeChecked, @"^[a-zA-Z0-9_ -]*$"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("\nYou need help, mate! Are you for real?\nHow about you take your pills and try once again: ");

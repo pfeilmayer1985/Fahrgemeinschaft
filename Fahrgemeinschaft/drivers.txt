@@ -16,3 +16,4 @@ DID345,3,Adrian Hontau,Ford EcoSport,Baia Mare,End
 DID010,2,Aladin,Rug,Zes,No
 DID011,4,TheDriver,OneCar,Start,End
 DID956,6,NewTest Driver,Subaru Whatewer,Yes,End
+DID875,4,Robert Pfeilmayer,Ford Mondeo,End,Pula-Calului

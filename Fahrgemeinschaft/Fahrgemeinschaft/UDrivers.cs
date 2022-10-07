@@ -80,7 +80,7 @@ namespace Fahrgemeinschaft
             string name = h.HandleUserTextInput(true);
             Console.Write("What is the make and model of the car: ");
             string carTypeMake = h.HandleUserTextInput();
-            Console.Write("How many places are free in the car: ");
+            Console.Write("How many places are free in the car (1 to 9): ");
             int freePlaces = h.HandleUserNumbersInput();
             Console.Write("Departure from City: ");
             string startCity = h.HandleUserTextInput(true);
@@ -91,10 +91,15 @@ namespace Fahrgemeinschaft
             File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
 
             Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now receive passengers.");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+
             Console.ReadLine();
 
         }
-               
+
         public void SeeDriver()
         {
 
@@ -299,6 +304,10 @@ namespace Fahrgemeinschaft
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The driver DID does not exist, account can't be edited.");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
                 Console.ResetColor();
 
                 Console.ReadLine();
@@ -536,6 +545,9 @@ namespace Fahrgemeinschaft
 
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
 
 
         }

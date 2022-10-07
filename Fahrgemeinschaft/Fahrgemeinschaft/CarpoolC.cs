@@ -21,6 +21,7 @@ namespace Fahrgemeinschaft
         string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
         string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
 
+        HandleUserInputC h = new HandleUserInputC();
 
 
         public CarpoolC(UDrivers driver, UPassengers passengers, string startingCity, string destination, List<string> carpPassengers)
@@ -225,7 +226,10 @@ namespace Fahrgemeinschaft
                     } while (choiceUserNew);
                 }
             } while (AddLoop);
-            // Console.ReadLine();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
         }
 
         public void OfferCarpoolToPassenger()
@@ -420,7 +424,9 @@ namespace Fahrgemeinschaft
                 }
             } while (AddLoop);
 
-            // Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
         }
 
         public void SearchCarpoolStartDestination()
@@ -435,11 +441,11 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             Console.Write("Where (city) do you want to be picked up from: ");
-            string inputStartLocation = Console.ReadLine();
+            string inputStartLocation = h.HandleUserTextInput(true);
 
             //asking for the passenger destination city
             Console.Write("What is your destination: ");
-            string inputDestination = Console.ReadLine();
+            string inputDestination = h.HandleUserTextInput(true);
 
             string[] theDriverslList = File.ReadAllLines(pathFileDrivers);
 
@@ -528,7 +534,10 @@ namespace Fahrgemeinschaft
                 Console.WriteLine($"No drivers were found matching your start location as: {inputStartLocation} and destination as: {inputDestination}.");
                 Console.ResetColor();
             }
-
+            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
             Console.ReadLine();
         }
 
@@ -543,11 +552,11 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             Console.Write("Passenger's start location (city): ");
-            string inputStartLocation = Console.ReadLine();
+            string inputStartLocation = h.HandleUserTextInput(true);
 
             //asking for the passenger destination city
             Console.Write("Passenger's destination: ");
-            string inputDestination = Console.ReadLine();
+            string inputDestination = h.HandleUserTextInput(true);
 
             string[] thePassengerlList = File.ReadAllLines(pathFilePassengers);
 
@@ -630,6 +639,9 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
 
             Console.ReadLine();
 
@@ -675,6 +687,10 @@ namespace Fahrgemeinschaft
                 }
                 Console.WriteLine();
             }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
             Console.ReadLine();
         }
 
@@ -751,6 +767,10 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("This Driver ID does not exist.");
                 Console.ResetColor();
             }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
             Console.ReadLine();
         }
 
@@ -767,6 +787,10 @@ namespace Fahrgemeinschaft
             Console.Write("Enter driver ID (DID): ");
             string inputDriverID = Console.ReadLine();
             SMRemoveDriverAccountByDriverID(inputDriverID);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
 
         }
 
