@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Fahrgemeinschaft
 {
@@ -12,24 +7,29 @@ namespace Fahrgemeinschaft
         static void Main(string[] args)
         {
 
-            TheMainScreen();
+            MainScreen();
 
         }
 
-        public static void TheMainScreen()
+        /// <summary>
+        /// The MainScreen method is the main menu of the carpool app, where the user chooses it's class (driver/passenger)
+        /// </summary>
+
+        public static void MainScreen()
         {
             bool userClassBool = true;
 
             do
             {
+                //Clearing console and showing the main menu in a loop. User can choose tthe drivers or passengers menu, list all the carpools or exit
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("===============================");
                 Console.WriteLine("| Welcome to the Free Carpool |");
                 Console.WriteLine("===============================");
                 Console.ResetColor();
-                Console.WriteLine("\n( 1 )\tDriver");
-                Console.WriteLine("( 2 )\tPassenger");
+                Console.WriteLine("\n( 1 )\tDrivers");
+                Console.WriteLine("( 2 )\tPassengers");
                 Console.WriteLine("( 3 )\tSee existing carpools");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 4 )\tExit");
@@ -37,6 +37,7 @@ namespace Fahrgemeinschaft
                 int userClass;
                 CarpoolC carpools = new CarpoolC();
 
+                //if user chooses a non-existing menu item stays in loop until he enters a existing value
                 bool pressedRightKey = false;
                 do
                 {
@@ -90,6 +91,10 @@ namespace Fahrgemeinschaft
 
         }
 
+        /// <summary>
+        /// This is the main menu for the Drivers class, managing account, taking a passenger (making a carpool), kick passenger, see the passengers, drivers and carpool lists
+        /// </summary>
+
         public static void DriverMenu()
         {
             bool userDriverBool = true;
@@ -117,6 +122,9 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the main menu");
                 Console.ResetColor();
+
+                //if user chooses a non-existing menu item stays in loop until he enters a existing value
+
                 int driverMenu;
                 bool pressedRightKey = false;
                 do
@@ -165,12 +173,12 @@ namespace Fahrgemeinschaft
                         userDriverBool = true;
                         continue;
                     case 5:
-                        passengersClass.ListAllRequests();
+                        passengersClass.ListAllPassengers();
                         Console.ReadLine();
                         userDriverBool = true;
                         continue;
                     case 6:
-                        driversClass.ListAllOffers();
+                        driversClass.ListAllDrivers();
                         Console.ReadLine();
                         userDriverBool = true;
                         continue;
@@ -190,6 +198,10 @@ namespace Fahrgemeinschaft
             } while (userDriverBool);
 
         }
+
+        /// <summary>
+        /// This is the account management for the drivers class, register, edit, delete account
+        /// </summary>
 
         public static void DriverAccountMenu()
         {
@@ -215,6 +227,8 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the drivers menu");
                 Console.ResetColor();
+
+                //if user chooses a non-existing menu item stays in loop until he enters a existing value
 
                 int driverMenu;
                 bool pressedRightKey = false;
@@ -258,7 +272,7 @@ namespace Fahrgemeinschaft
                         userDriverBool = true;
                         continue;
                     case 4:
-                        carpoolsClass.RemoveDriverAccount();
+                        driversClass.RemoveDriverAccount();
                         userDriverBool = true;
                         continue;
                     case 9:
@@ -272,6 +286,10 @@ namespace Fahrgemeinschaft
             } while (userDriverBool);
 
         }
+
+        /// <summary>
+        /// This is the main menu for the Passengers class, managing account, joining a carpool, cancelling a carpool, see the passengers, drivers and carpool lists 
+        /// </summary>
 
         public static void PassengerMenu()
         {
@@ -301,6 +319,8 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the main menu");
                 Console.ResetColor();
+
+                //if user chooses a non-existing menu item stays in loop until he enters a existing value
 
                 int passengerMenu;
                 bool pressedRightKey = false;
@@ -350,12 +370,12 @@ namespace Fahrgemeinschaft
                         userPassengerBool = true;
                         continue;
                     case 5:
-                        driversClass.ListAllOffers();
+                        driversClass.ListAllDrivers();
                         Console.ReadLine();
                         userPassengerBool = true;
                         continue;
                     case 6:
-                        passengersClass.ListAllRequests();
+                        passengersClass.ListAllPassengers();
                         Console.ReadLine();
                         userPassengerBool = true;
                         continue;
@@ -375,6 +395,10 @@ namespace Fahrgemeinschaft
             } while (userPassengerBool);
 
         }
+
+        /// <summary>
+        /// This is the account management for the passengers class, register, edit, delete account
+        /// </summary>
 
         public static void PassengerAccountMenu()
         {
@@ -398,10 +422,11 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("( 2 )\tSee your existing account details");
                 Console.WriteLine("( 3 )\tEdit your existing account");
                 Console.WriteLine("( 4 )\tDelete your passenger account completely");
-
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the passengers menu");
                 Console.ResetColor();
+
+                //if user chooses a non-existing menu item stays in loop until he enters a existing value
 
                 int passengerMenu;
                 bool pressedRightKey = false;
@@ -446,7 +471,7 @@ namespace Fahrgemeinschaft
                         userPassengerBool = true;
                         continue;
                     case 4:
-                        passengersClass.RemovePassengerAccount();
+                        carpoolsClass.RemovePassengerAccount();
                         userPassengerBool = true;
                         continue;
                     case 9:

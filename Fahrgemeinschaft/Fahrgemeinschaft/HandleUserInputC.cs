@@ -1,16 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
 
 namespace Fahrgemeinschaft
+
 {
+    /// <summary>
+    /// handeling user input class. checking the user input and setting the borders for characters allowed
+    /// </summary>
+
     public class HandleUserInputC
     {
+        
         public HandleUserInputC()
         { }
+
+        /// <summary>
+        /// Handeling the stings/text input from user, limiting or not the use of special characters
+        /// </summary>
 
         public string HandleUserTextInput(bool checkSpecialCharacter=false)
         {
@@ -44,6 +51,10 @@ namespace Fahrgemeinschaft
             } while (pressedRightKey);
             return userInput;
         }
+
+        /// <summary>
+        /// Handeling the numbers/ints input from user
+        /// </summary>
 
         public int HandleUserNumbersInput()
         {

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Fahrgemeinschaft
 {
     public class UDrivers : UsersC
     {
+        /// <summary>
+        /// class properties
+        /// </summary>
+        
         public string CarTypeMake { get; set; }
         public string StartingCity { get; set; }
         public float TimeStart { get; set; }
@@ -17,12 +18,15 @@ namespace Fahrgemeinschaft
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
 
-        //string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
         string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
-        //string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
+        string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
 
         HandleUserInputC h = new HandleUserInputC();
 
+        /// <summary>
+        /// class constructor
+        /// </summary>
+        
         public UDrivers(string iD, string name, string startCity, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
@@ -39,6 +43,10 @@ namespace Fahrgemeinschaft
             DriversList = new List<UDrivers>();
 
         }
+
+        /// <summary>
+        /// This method saves a driver account to the drivers.txt file
+        /// </summary>
 
         public void AddDriver()
         {
@@ -99,6 +107,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
 
         }
+
+        /// <summary>
+        /// This method shows a driver account details from the drivers.txt file, searching for driver by driver ID
+        /// </summary>
 
         public void SeeDriver()
         {
@@ -169,6 +181,10 @@ namespace Fahrgemeinschaft
 
 
         }
+
+        /// <summary>
+        /// This main method manages a driver account details from the drivers.txt file, being able to "edit"/replace all drivers infos without ID and free places
+        /// </summary>
 
         public void ManageDriverAccount()
         {
@@ -314,6 +330,10 @@ namespace Fahrgemeinschaft
             }
         }
 
+        /// <summary>
+        /// This is a sub method of the manage driver account method, where all fields are editable
+        /// </summary>
+
         private void EditDriverAll(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit all driver data
@@ -354,6 +374,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// This is a sub method of the manage driver account method, where only origin and destination fields are editable
+        /// </summary>
+
         private void EditDriverOriginAndDestination(string inputDriverID, List<string> theDriversList, string[] position)
         {
 
@@ -387,6 +411,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// This is a sub method of the manage driver account method, where only the destination field is editable
+        /// </summary>
+
         private void EditDriverDestination(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit driving destination
@@ -414,6 +442,10 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// This is a sub method of the manage driver account method, where only the origin field is editable
+        /// </summary>
 
         private void EditDriverOrigin(string inputDriverID, List<string> theDriversList, string[] position)
         {
@@ -443,6 +475,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// This is a sub method of the manage driver account method, where only the car/make field is editable
+        /// </summary>
+
         private void EditDriverCarMakeModel(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit car make and model
@@ -470,6 +506,10 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// This is a sub method of the manage driver account method, where only the driver name field is editable
+        /// </summary>
 
         private void EditDriverName(string inputDriverID, List<string> theDriversList, string[] position)
         {
@@ -499,7 +539,11 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
-        public void ListAllOffers()
+        /// <summary>
+        /// This method lists all the drivers saved in the drivers.txt
+        /// </summary>
+
+        public void ListAllDrivers()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -552,8 +596,106 @@ namespace Fahrgemeinschaft
 
         }
 
+        /// <summary>
+        /// Main method to delete a drivers account. Taking input from user and calling the sub method
+        /// </summary>
+
+        public void RemoveDriverAccount()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("==============================================================");
+            Console.WriteLine("| Remove a driver acount from both drivers and carpool lists |");
+            Console.WriteLine("==============================================================");
+            Console.ResetColor();
+
+            //asking for the driver ID
+            Console.Write("Enter driver ID (DID): ");
+            string inputDriverID = Console.ReadLine();
+            SMRemoveDriverAccountByDriverID(inputDriverID);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
+            Console.ResetColor();
+
+        }
+
+        /// <summary>
+        /// Sub method to delete a drivers account, looking for a driver after driver ID taken from user input
+        /// </summary>
+
+        public void SMRemoveDriverAccountByDriverID(string inputDriverID)
+        {
+
+            //removing a driver from the drivers list
+            List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
+
+            var findDriverInDrivers = theDriversList.FirstOrDefault(e => e.Contains("DID" + inputDriverID));
+
+            bool exists = false;
+            bool existsInCarpool = false;
+
+            foreach (var driver in theDriversList)
+            {
+                string[] strings = driver.Split(',');
+                if (strings[0] == ("DID" + inputDriverID))
+                {
+                    exists = true;
+                }
+            }
 
 
+            if (exists)
+            {
+
+                var addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"Driver DID{inputDriverID} was removed from the registered drivers list.");
+                Console.ResetColor();
+
+                //removing a driver from the carpool list
+                List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
+
+                foreach (var driver in theCarpoolList)
+                {
+                    string[] strings = driver.Split(',');
+                    if (strings[0] == ("DID" + inputDriverID))
+                    {
+                        existsInCarpool = true;
+                    }
+                }
+                if (existsInCarpool)
+                {
+                    var findDriverInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("DID" + inputDriverID));
+
+                    string[] arrayWithSplittedCarpoolLines = findDriverInCarpools.Split(',');
+
+                    var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                    File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Driver DID{inputDriverID} was also removed from the carpool list and since the carpool was dissolved all his passengers were removed as well.");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("The driver DID doesn't have any carpools created, the carpool list remains untouched.");
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The driver DID does not exist, account can't be deleted.");
+                Console.ResetColor();
+            }
+
+            Console.ReadLine();
+
+
+
+        }
 
     }
 }

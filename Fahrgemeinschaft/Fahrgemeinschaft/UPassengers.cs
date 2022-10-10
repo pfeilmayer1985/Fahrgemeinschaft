@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fahrgemeinschaft
 {
@@ -19,7 +17,6 @@ namespace Fahrgemeinschaft
 
         public List<UPassengers> PassengersList { get; set; }
 
-        CarpoolC carpoolClass = new CarpoolC();
         HandleUserInputC h = new HandleUserInputC();
 
         public UPassengers(string iD, string name, string startCity, string destination)
@@ -36,6 +33,10 @@ namespace Fahrgemeinschaft
             PassengersList = new List<UPassengers>();
 
         }
+
+        /// <summary>
+        /// This method saves a passenger account to the passenger.txt file
+        /// </summary>
 
         public void AddPassenger()
         {
@@ -80,6 +81,10 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now look for a carpool ride.");
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// This method shows a passenger account details from the passenger.txt file, searching for passenger by passenger ID
+        /// </summary>
 
         public void SeePassenger()
         {
@@ -148,6 +153,10 @@ namespace Fahrgemeinschaft
 
 
         }
+
+        /// <summary>
+        /// This is the main method of the manage passenger account, where all the choices of the menu are shown
+        /// </summary>
 
         public void ManagePassengerAccount()
         {
@@ -281,6 +290,10 @@ namespace Fahrgemeinschaft
             }
         }
 
+        /// <summary>
+        /// This is a sub method of the manage passenger account method, where all of the passenger fields are editable, except ID
+        /// </summary>
+
         private void EditPassengerAllData(string inputPassengerID, List<string> thePassengersList, string[] position, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit all fields
@@ -316,6 +329,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// This is a sub method of the manage passenger account method, where only the passenger origin and destination fields are editable
+        /// </summary>
+
         private void EditPassengerPickupDestination(string inputPassengerID, List<string> thePassengersList, string[] position, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit pickup and destination
@@ -347,6 +364,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// This is a sub method of the manage passenger account method, where only the passenger destination field is editable
+        /// </summary>
+
         private void EditPassengerDestination(string inputPassengerID, List<string> thePassengersList, string[] position, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit destination
@@ -374,6 +395,10 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// This is a sub method of the manage passenger account method, where only the origin of passenger field is editable
+        /// </summary>
 
         private void EditPassengerPickup(string inputPassengerID, List<string> thePassengersList, string[] position)
         {
@@ -403,6 +428,10 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// This is a sub method of the manage passenger account method, where only the passenger name field is editable
+        /// </summary>
+
         private void EditPassengerName(string inputPassengerID, List<string> thePassengersList, string[] position, out string newUserName, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit passenger name
@@ -431,152 +460,12 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
-        public void RemovePassengerAccount()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("=====================================================================");
-            Console.WriteLine("| Remove a passenger acount from passenger as well as carpool lists |");
-            Console.WriteLine("=====================================================================");
-            Console.ResetColor();
+      
+        /// <summary>
+        /// This method lists all the drivers saved in the drivers.txt
+        /// </summary>
 
-            //asking for the passenger ID
-            Console.Write("Enter passenger ID (PID): ");
-            string inputPassengerID = Console.ReadLine();
-            SMRemovePassengerAccountByPassengerID(inputPassengerID);
-
-        }
-
-        private void SMRemovePassengerAccountByPassengerID(string inputPassengerID)
-        {
-
-            //removing a passenger from the passengers list
-            List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
-
-            var findPassengerInPassengers = thePassengersList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
-
-            bool exists = false;
-            bool existsInCarpool = false;
-            foreach (var passenger in thePassengersList)
-            {
-                string[] strings = passenger.Split(',');
-                if (strings[0] == ("PID" + inputPassengerID))
-                {
-                    exists = true;
-                }
-            }
-
-            if (exists)
-            {
-                var addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
-                File.WriteAllLines(pathFilePassengers, addAllOtherEntriesBack);
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Passenger PID{inputPassengerID} was removed from the registered passengers list.");
-                Console.ResetColor();
-
-                //removing a passenger from the carpool list
-                List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
-
-
-
-                foreach (var passenger in theCarpoolList)
-                {
-                    string[] strings = passenger.Split(',');
-                    for (int i = 0; i < strings.Length; i++)
-                    {
-                        if (strings[i] == ("PID" + inputPassengerID))
-                        {
-                            existsInCarpool = true;
-                        }
-                    }
-                }
-
-                if (existsInCarpool)
-                {
-
-                    var findPassengerInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
-
-                    string[] arrayWithSplittedCarpoolLines = findPassengerInCarpools.Split(',');
-
-                    var foo = new List<string>();
-
-                    if (arrayWithSplittedCarpoolLines.Length != 2)
-                    {
-                        for (int i = 1; i < arrayWithSplittedCarpoolLines.Length; i++)
-                        {
-                            if (arrayWithSplittedCarpoolLines[i] != "PID" + inputPassengerID)
-                                foo.Add(arrayWithSplittedCarpoolLines[i]);
-                        }
-                        var result = string.Join(",", foo.ToArray());
-                        var finalResult = arrayWithSplittedCarpoolLines[0] + "," + result;
-
-                        //find the driver
-                        var findTheDriver = theCarpoolList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
-                        foreach (string driver in findTheDriver)
-                        {
-                            string[] arrayWithDrivers = driver.Split(',');
-                            string currentDriverInCarpool = arrayWithDrivers[0];
-
-                            List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
-                            foreach (string driverInDrivesList in theDriversList)
-                            {
-                                var findTheDriverAgain = theDriversList.FirstOrDefault(e => e.Contains(currentDriverInCarpool));
-
-                                string[] findTheDriverAgainSplitted = findTheDriverAgain.Split(',');
-                                string currentDriverInDrivers = findTheDriverAgainSplitted[0];
-
-                                //var findTheDriverInDrivers = theCarpoolList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
-
-                                int actualFreeSeats = Convert.ToInt32(findTheDriverAgainSplitted[1]);
-                                carpoolClass.SMAddFreeSeat(currentDriverInDrivers.TrimStart(new char[] { 'D', 'I' }), findTheDriverAgainSplitted, actualFreeSeats);
-
-
-                            }
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"One free seat was returned to the driver {currentDriverInCarpool}.");
-                            Console.ResetColor();
-                        }
-
-
-                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
-                        addAllOtherEntriesBackToCarpoolList.Add(finalResult);
-                        File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("Passenger was entirely removed from the carpool.");
-                        Console.ResetColor();
-
-                    }
-                    else
-                    {
-
-                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
-                        File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("Passenger was removed from the carpool and since it was the only passenger, the carpool was dissolved.");
-                        Console.ResetColor();
-                    }
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine("The passenger PID isn't riding in any of the carpools, the carpool list remains untouched.");
-                    Console.ResetColor();
-                }
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The passenger PID does not exist, account can't be deleted.");
-                Console.ResetColor();
-            }
-
-            Console.ReadLine();
-
-
-
-        }
-
-        public void ListAllRequests()
+        public void ListAllPassengers()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -607,7 +496,5 @@ namespace Fahrgemeinschaft
             Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
         }
-
-
     }
 }
