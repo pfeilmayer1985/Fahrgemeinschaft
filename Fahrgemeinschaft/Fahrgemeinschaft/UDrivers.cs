@@ -10,7 +10,7 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// class properties
         /// </summary>
-        
+
         public string CarTypeMake { get; set; }
         public string StartingCity { get; set; }
         public float TimeStart { get; set; }
@@ -26,7 +26,7 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// class constructor
         /// </summary>
-        
+
         public UDrivers(string iD, string name, string startCity, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
@@ -80,7 +80,7 @@ namespace Fahrgemeinschaft
             bool userInUse = false;
             string id;
             id = "DID#" + firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper();
-                  
+
             do
             {
 
@@ -106,7 +106,7 @@ namespace Fahrgemeinschaft
 
             } while (userInUse == true);
 
-           
+
             Console.Write("What is the make of the car: ");
             string carMake = h.HandleUserTextInput();
             Console.Write("What is the model of the car: ");
@@ -147,7 +147,7 @@ namespace Fahrgemeinschaft
 
             //asking for the passenger ID
             Console.Write("\nEnter driver ID (DID#): ");
-            string inputDriverID = Console.ReadLine();
+            string inputDriverID = Console.ReadLine().ToUpper();
 
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
             var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID#" + inputDriverID)).ToList();
@@ -222,7 +222,7 @@ namespace Fahrgemeinschaft
 
             //asking for the passenger ID
             Console.Write("\nEnter driver ID (DID#): ");
-            string inputDriverID = Console.ReadLine();
+            string inputDriverID = Console.ReadLine().ToUpper();
 
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
             var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID#" + inputDriverID)).ToList();
@@ -255,9 +255,11 @@ namespace Fahrgemeinschaft
                             Console.WriteLine($"=======================================================");
                             Console.ResetColor();
                             Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine($"\nThe User ID (' {position[0]} ') and the free places (' {position[1]} ') can't be changed.\nIf you want to change these, delete this Driver Account and make a new account.");
+                            Console.WriteLine($"\nThe User ID and the free places can't be changed.\nIf you want to change these, delete this Driver Account and make a new account.");
+                            Console.WriteLine($"\n( - )\tUser ID: {position[0]}");
+                            Console.WriteLine($"( - )\tAvailable free places: {position[1]}");
                             Console.ResetColor();
-                            Console.WriteLine($"\n( 1 )\tPassenger name: {position[2]}");
+                            Console.WriteLine($"( 1 )\tPassenger name: {position[2]}");
                             Console.WriteLine($"( 2 )\tCar make and model: {position[3]}");
                             Console.WriteLine($"( 3 )\tDriving from location: {position[4]}");
                             Console.WriteLine($"( 4 )\tCurrent destination: {position[5]}");
@@ -367,8 +369,11 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"=============================================================");
             Console.ResetColor();
             //Ask user for the new name
-            Console.Write($"\nHow do you want to be called now: ");
-            string newUserName = h.HandleUserTextInput(true);
+            Console.Write("\nWhat's your new first name?: ");
+            string firstname = h.HandleUserTextInput(true);
+            Console.Write("What's your new last name?: ");
+            string lastname = h.HandleUserTextInput(true);
+            string newUserName = firstname + " " + lastname;
             //Ask user for the new make and model
             Console.Write($"\nWhat make and model of a car are you driving now: ");
             string newMakeModel = h.HandleUserTextInput();
@@ -544,8 +549,11 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"=========================================");
             Console.ResetColor();
             //Ask user for the new name
-            Console.Write($"\nHow do you want to be called now: ");
-            string newUserName = h.HandleUserTextInput(true);
+            Console.Write("\nWhat's your new first name?: ");
+            string firstname = h.HandleUserTextInput(true);
+            Console.Write("What's your new last name?: ");
+            string lastname = h.HandleUserTextInput(true);
+            string newUserName = firstname + " " + lastname;
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{newUserName},{position[3]},{position[4]},{position[5]}".TrimEnd();
             //select all other lines in the drivers.txt file add add them to a list
@@ -634,7 +642,7 @@ namespace Fahrgemeinschaft
 
             //asking for the driver ID
             Console.Write("Enter driver ID (DID#): ");
-            string inputDriverID = Console.ReadLine();
+            string inputDriverID = Console.ReadLine().ToUpper();
             SMRemoveDriverAccountByDriverID(inputDriverID);
 
             Console.ForegroundColor = ConsoleColor.Green;

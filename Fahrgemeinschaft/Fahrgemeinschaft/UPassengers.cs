@@ -61,8 +61,8 @@ namespace Fahrgemeinschaft
 
             bool userInUse = false;
             string id;
-            id = "PID#" + firstname.Substring(0,3).ToUpper() + lastname.Substring(0, 3).ToUpper();
-           
+            id = "PID#" + firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper();
+
             do
             {
 
@@ -72,7 +72,7 @@ namespace Fahrgemeinschaft
                     //asking for the passenger ID and checking if the ID exists in the passengers list
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"This ID is allready in use or you used more/less characters than allowed." +
-                        $"\nChoose another custom ID (except '{firstname.Substring(0,3).ToUpper() + lastname.Substring(0, 3).ToUpper()}'!" +
+                        $"\nChoose another custom ID (except '{firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper()}'!" +
                         $"Enter your ID now (6 characters long): ");
                     Console.ResetColor();
                     id = "PID#" + Console.ReadLine().ToUpper();
@@ -115,7 +115,7 @@ namespace Fahrgemeinschaft
 
             //asking for the passenger ID
             Console.Write("\nEnter passenger ID (PID#): ");
-            string inputPassengerID = Console.ReadLine();
+            string inputPassengerID = Console.ReadLine().ToUpper();
 
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
             var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
@@ -188,7 +188,7 @@ namespace Fahrgemeinschaft
 
             //asking for the passenger ID
             Console.Write("\nEnter passenger ID (PID#): ");
-            string inputPassengerID = Console.ReadLine();
+            string inputPassengerID = Console.ReadLine().ToUpper();
 
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
             var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
@@ -221,9 +221,10 @@ namespace Fahrgemeinschaft
                             Console.WriteLine($"=======================================================");
                             Console.ResetColor();
                             Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine($"\nThe User ID ({position[0]}) can't be changed.\nIf you want to change it, delete the Passenger and make a new account.");
+                            Console.WriteLine($"\nThe User ID can't be changed.\nIf you want to change it, delete the Passenger Account and register a new one.");
+                            Console.WriteLine($"\n( - )\tUser ID: {position[0]}");
                             Console.ResetColor();
-                            Console.WriteLine($"\n( 1 )\tPassenger name: {position[1]}");
+                            Console.WriteLine($"( 1 )\tPassenger name: {position[1]}");
                             Console.WriteLine($"( 2 )\tCurrent pick-up location: {position[2]}");
                             Console.WriteLine($"( 3 )\tCurrent destination: {position[3]}");
                             Console.WriteLine($"( 4 )\tBoth pick-up location and destination");
@@ -321,14 +322,17 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"| You chose to change all of the passenger's data |");
             Console.WriteLine($"===================================================");
             Console.ResetColor();
-            Console.Write($"\nHow do you want to be called now: ");
-            string newUserNameI = h.HandleUserTextInput(true);
+            Console.Write("\nWhat's your new first name?: ");
+            string firstname = h.HandleUserTextInput(true);
+            
+            Console.Write("What's your new last name?: ");
+            string lastname = h.HandleUserTextInput(true);
             Console.Write($"Your new city as pickup location: ");
             string newPickUp = h.HandleUserTextInput(true);
             Console.Write($"What's your new destination city: ");
             string newDestination = h.HandleUserTextInput(true);
             //build a new string with all the passengers data
-            editedPassenger = $"{position[0]},{newUserNameI},{newPickUp},{newDestination}";
+            editedPassenger = $"{position[0]},{firstname + " " + lastname},{newPickUp},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
             addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
             //to the previously list you built with all other passengers - current, add the current edited passenger
@@ -338,7 +342,7 @@ namespace Fahrgemeinschaft
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the following: \n" +
-                                $"1. Name from \" {position[1]} \" to \" {newUserNameI} \n" +
+                                $"1. Name from \" {position[1]} \" to \" {firstname + " " + lastname} \n" +
                                 $"2. Pickup city from \" {position[2]} \" to \" {newPickUp} \"");
             Console.WriteLine($"3. Destination city from \" {position[3]} \" to \" {newDestination} \"");
             Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
@@ -459,8 +463,11 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"| You chose to change the passenger's name |");
             Console.WriteLine($"============================================");
             Console.ResetColor();
-            Console.Write($"\nHow do you want to be called now: ");
-            newUserName = h.HandleUserTextInput(true);
+            Console.Write("\nWhat's your new first name?: ");
+            string firstname = h.HandleUserTextInput(true);
+            Console.Write("What's your new last name?: ");
+            string lastname = h.HandleUserTextInput(true);
+            newUserName = firstname + " " + lastname;
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{newUserName},{position[2]},{position[3]}";
             //select all other lines in the passenger.txt file add add them to a list
@@ -471,7 +478,7 @@ namespace Fahrgemeinschaft
             File.WriteAllLines(pathFilePassengers, addAllOtherEntriesBack);
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\nYou have successfully changed the passenger's name from \" {position[1]} \" to \" {newUserName} \" !");
+            Console.WriteLine($"\nYou have successfully changed the passenger's name from \" {position[1]} \" to \" {firstname + " " + lastname} \" !");
             Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
             Console.ReadLine();

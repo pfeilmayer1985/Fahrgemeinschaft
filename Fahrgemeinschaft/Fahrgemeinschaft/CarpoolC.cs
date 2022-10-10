@@ -896,9 +896,9 @@ namespace Fahrgemeinschaft
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("===================================");
-            Console.WriteLine("| Kick a passenger from a carpool |");
-            Console.WriteLine("===================================");
+            Console.WriteLine("=====================================");
+            Console.WriteLine("| Remove a passenger from a carpool |");
+            Console.WriteLine("=====================================");
             Console.ResetColor();
 
             string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);

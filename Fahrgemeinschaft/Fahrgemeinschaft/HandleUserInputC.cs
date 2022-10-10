@@ -48,6 +48,11 @@ namespace Fahrgemeinschaft
                     userInput = inputToBeChecked.TrimEnd().TrimStart();
                 }
 
+                if (userInput == "exit".ToLower())
+                {
+                    Program.MainScreen();
+                }
+
             } while (pressedRightKey);
             return userInput;
         }
@@ -66,6 +71,11 @@ namespace Fahrgemeinschaft
                 string inputToBeChecked = Console.ReadLine();
 
                 inputToBeChecked = inputToBeChecked.TrimEnd().TrimStart();
+
+                if (inputToBeChecked.ToString() == "exit".ToLower())
+                {
+                    Program.MainScreen();
+                }
 
                 if (!int.TryParse(inputToBeChecked, out userInput))
                 {
@@ -89,6 +99,7 @@ namespace Fahrgemeinschaft
 
                 }
 
+               
 
             } while (itIsntANumber);
             return userInput;
