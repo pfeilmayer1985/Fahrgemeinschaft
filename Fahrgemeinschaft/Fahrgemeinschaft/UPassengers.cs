@@ -12,8 +12,6 @@ namespace Fahrgemeinschaft
         public int HowManyPassengers { get; set; }
 
         string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
-        string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
-        string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
 
         public List<UPassengers> PassengersList { get; set; }
 
@@ -47,6 +45,14 @@ namespace Fahrgemeinschaft
             Console.WriteLine("| You are now registering as a Passenger and adding a Carpool request to the market |");
             Console.WriteLine("=====================================================================================");
             Console.ResetColor();
+
+            //if this file does not exist in the specified path
+            if (!File.Exists(pathFilePassengers))
+            {
+                //the file will be created in the specified path
+                File.Create(pathFilePassengers);
+            }
+
 
             bool userInUse = false;
             string id;
@@ -460,7 +466,7 @@ namespace Fahrgemeinschaft
             Console.ReadLine();
         }
 
-      
+
         /// <summary>
         /// This method lists all the drivers saved in the drivers.txt
         /// </summary>

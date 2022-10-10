@@ -24,13 +24,13 @@ namespace Fahrgemeinschaft
                 //Clearing console and showing the main menu in a loop. User can choose tthe drivers or passengers menu, list all the carpools or exit
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("===============================");
-                Console.WriteLine("| Welcome to the Free Carpool |");
-                Console.WriteLine("===============================");
+                CwL("===============================\n" +
+                    "| Welcome to the Free Carpool |\n" +
+                    "===============================");
                 Console.ResetColor();
-                Console.WriteLine("\n( 1 )\tDrivers");
-                Console.WriteLine("( 2 )\tPassengers");
-                Console.WriteLine("( 3 )\tSee existing carpools");
+                CwL("\n( 1 )\tDrivers" +
+                    "\n( 2 )\tPassengers" +
+                    "\n( 3 )\tSee existing carpools");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 4 )\tExit");
                 Console.ResetColor();
@@ -108,17 +108,17 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("===============================");
-                Console.WriteLine("| You are in the Drivers Menu |");
-                Console.WriteLine("===============================");
+                CwL("===============================\n" +
+                    "| You are in the Drivers Menu |\n" +
+                    "===============================");
                 Console.ResetColor();
-                Console.WriteLine("\n( 1 )\tManage your Driver Account");
-                Console.WriteLine("( 2 )\tTake a passenger (you must be registered)");
-                Console.WriteLine("( 3 )\tKick a passenger from your carpool");
-                Console.WriteLine("( 4 )\tSearch for a passenger by departure city and destination city");
-                Console.WriteLine("( 5 )\tSee the entire list of Passengers to find a match");
-                Console.WriteLine("( 6 )\tAre you registered? See the list of Drivers");
-                Console.WriteLine("( 7 )\tSee existing carpools");
+                CwL("\n( 1 )\tManage your Driver Account" +
+                    "\n( 2 )\tTake a passenger (you must be registered)" +
+                    "\n( 3 )\tKick a passenger from your carpool" +
+                    "\n( 4 )\tSearch for a passenger by departure city and destination city" +
+                    "\n( 5 )\tSee the entire list of Passengers to find a match" +
+                    "\n( 6 )\tAre you registered? See the list of Drivers" +
+                    "\n( 7 )\tSee existing carpools");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the main menu");
                 Console.ResetColor();
@@ -216,14 +216,14 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("==============================");
-                Console.WriteLine("| Manage your Driver Account |");
-                Console.WriteLine("==============================");
+                CwL("==============================\n" +
+                    "| Manage your Driver Account |\n" +
+                    "==============================");
                 Console.ResetColor();
-                Console.WriteLine("\n( 1 )\tRegister as a new driver for the Carpool");
-                Console.WriteLine("( 2 )\tSee your existing account details");
-                Console.WriteLine("( 3 )\tEdit your existing account");
-                Console.WriteLine("( 4 )\tDelete your driver account completely");
+                CwL("\n( 1 )\tRegister as a new driver for the Carpool" +
+                    "\n( 2 )\tSee your existing account details" +
+                    "\n( 3 )\tEdit your existing account" +
+                    "\n( 4 )\tDelete your driver account completely");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the drivers menu");
                 Console.ResetColor();
@@ -305,17 +305,17 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("==================================");
-                Console.WriteLine("| You are in the Passengers Menu |");
-                Console.WriteLine("==================================");
+                CwL("==================================\n" +
+                    "| You are in the Passengers Menu |\n" +
+                    "==================================");
                 Console.ResetColor();
-                Console.WriteLine("\n( 1 )\tManage your Passenger Account");
-                Console.WriteLine("( 2 )\tTake a ride (you must be registered)");
-                Console.WriteLine("( 3 )\tCancel a ride - remove yourself from a carpool");
-                Console.WriteLine("( 4 )\tSearch for a driver/carpool by departure city and destination city");
-                Console.WriteLine("( 5 )\tSee the entire list of Drivers to find a match");
-                Console.WriteLine("( 6 )\tAre you registered? See the list of Passengers");
-                Console.WriteLine("( 7 )\tSee existing carpools");
+                CwL("\n( 1 )\tManage your Passenger Account" +
+                    "\n( 2 )\tTake a ride (you must be registered)" +
+                    "\n( 3 )\tCancel a ride - remove yourself from a carpool" +
+                    "\n( 4 )\tSearch for a driver/carpool by departure city and destination city" +
+                    "\n( 5 )\tSee the entire list of Drivers to find a match" +
+                    "\n( 6 )\tAre you registered? See the list of Passengers" +
+                    "\n( 7 )\tSee existing carpools");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the main menu");
                 Console.ResetColor();
@@ -414,14 +414,14 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("=================================");
-                Console.WriteLine("| Manage your Passenger Account |");
-                Console.WriteLine("=================================");
+                CwL("=================================\n" +
+                    "| Manage your Passenger Account |\n" +
+                    "=================================");
                 Console.ResetColor();
-                Console.WriteLine("\n( 1 )\tRegister as a new passenger for the Carpool");
-                Console.WriteLine("( 2 )\tSee your existing account details");
-                Console.WriteLine("( 3 )\tEdit your existing account");
-                Console.WriteLine("( 4 )\tDelete your passenger account completely");
+                CwL("\n( 1 )\tRegister as a new passenger for the Carpool" +
+                    "\n( 2 )\tSee your existing account details" +
+                    "\n( 3 )\tEdit your existing account" +
+                    "\n( 4 )\tDelete your passenger account completely");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the passengers menu");
                 Console.ResetColor();
@@ -484,6 +484,18 @@ namespace Fahrgemeinschaft
                 }
             } while (userPassengerBool);
 
+        }
+
+        /// <summary>
+        /// Quick ConsoleWriteLine
+        /// </summary>
+
+        public static void CwL(params string[] words)
+        {
+            foreach (string word in words)
+            {
+                Console.WriteLine(word);
+            }
         }
     }
 

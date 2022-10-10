@@ -58,6 +58,20 @@ namespace Fahrgemeinschaft
             Console.WriteLine("========================================");
             Console.ResetColor();
 
+            //if this file does not exist in the specified path
+            if (!File.Exists(pathFileDrivers))
+            {
+                //the file will be created in the specified path
+                File.Create(pathFileDrivers);
+            }
+
+            //if this file does not exist in the specified path
+            if (!File.Exists(pathFileCarpools))
+            {
+                //the file will be created in the specified path
+                File.Create(pathFileCarpools);
+            }
+
             bool userInUse = false;
             string id;
 
