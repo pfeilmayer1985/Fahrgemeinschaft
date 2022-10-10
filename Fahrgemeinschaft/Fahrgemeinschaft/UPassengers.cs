@@ -54,37 +54,48 @@ namespace Fahrgemeinschaft
             }
 
 
+            Console.Write("\nWhat's your first name?: ");
+            string firstname = h.HandleUserTextInput(true);
+            Console.Write("What's your last name?: ");
+            string lastname = h.HandleUserTextInput(true);
+
             bool userInUse = false;
             string id;
+            id = "PID#" + firstname.Substring(0,3).ToUpper() + lastname.Substring(0, 3).ToUpper();
+           
             do
             {
-                Console.Write("Choose your unique passenger ID (PID), 4 chars long: ");
-                id = "PID" + Console.ReadLine();
 
                 bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains(id));
-                if (ckeckInputPassengerID || id.Length != 7)
+                if (ckeckInputPassengerID || id.Length != 10)
                 {
-                    //asking for the driver ID and checking if the ID exists in the drivers list
+                    //asking for the passenger ID and checking if the ID exists in the passengers list
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("This ID is allready in use or you used more/less characters than allowed. Choose another ID!");
+                    Console.WriteLine($"This ID is allready in use or you used more/less characters than allowed." +
+                        $"\nChoose another custom ID (except '{firstname.Substring(0,3).ToUpper() + lastname.Substring(0, 3).ToUpper()}'!" +
+                        $"Enter your ID now (6 characters long): ");
                     Console.ResetColor();
+                    id = "PID#" + Console.ReadLine().ToUpper();
+
                     userInUse = true;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"ID {id} was generated and assigned to you based on your first and last name.");
+                    Console.ResetColor();
                     userInUse = false;
                 }
 
             } while (userInUse == true);
 
-            Console.Write("What's your name?: ");
-            string name = h.HandleUserTextInput(true);
+
             Console.Write("Where do you want to be picked up (Departure City): ");
             string startCity = h.HandleUserTextInput(true);
             Console.Write("Destination City: ");
             string destination = h.HandleUserTextInput(true); ;
-            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + name + "," + startCity + "," + destination));
-            Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now look for a carpool ride.");
+            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + firstname + " " + lastname + "," + startCity + "," + destination));
+            Console.WriteLine($"\nThe new user ID {id} for {firstname + " " + lastname} was successfully added to the list.\nYou can now look for a carpool ride.");
             Console.ReadLine();
         }
 
@@ -103,17 +114,17 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             //asking for the passenger ID
-            Console.Write("\nEnter passenger ID (PID): ");
+            Console.Write("\nEnter passenger ID (PID#): ");
             string inputPassengerID = Console.ReadLine();
 
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
-            var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
+            var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
 
             bool exists = false;
             foreach (var passenger in thePassengersList)
             {
                 string[] strings = passenger.Split(',');
-                if (strings[0] == ("PID" + inputPassengerID))
+                if (strings[0] == ("PID#" + inputPassengerID))
                 {
                     exists = true;
                 }
@@ -125,7 +136,7 @@ namespace Fahrgemeinschaft
                 foreach (var passenger in thePassengersList)
                 {
                     string[] position = passenger.Split(',');
-                    if (position[0] == ("PID" + inputPassengerID))
+                    if (position[0] == ("PID#" + inputPassengerID))
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Blue;
@@ -134,7 +145,7 @@ namespace Fahrgemeinschaft
                         Console.WriteLine("====================================================================");
                         Console.ResetColor();
 
-                        Console.WriteLine($"\nPassenger ID: \t\t\t\t{position[0]}");
+                        Console.WriteLine($"\nPassenger ID#: \t\t\t\t{position[0]}");
                         Console.WriteLine($"Passenger name: \t\t\t{position[1]}");
                         Console.WriteLine($"Current pick-up location: \t\t{position[2]}");
                         Console.WriteLine($"Current registered destination: \t{position[3]}");
@@ -150,7 +161,7 @@ namespace Fahrgemeinschaft
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The passenger PID does not exist, account content can't be retrieved.");
+                Console.WriteLine("The passenger PID# does not exist, account content can't be retrieved.");
                 Console.ResetColor();
 
                 Console.ReadLine();
@@ -176,17 +187,17 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             //asking for the passenger ID
-            Console.Write("\nEnter passenger ID (PID): ");
+            Console.Write("\nEnter passenger ID (PID#): ");
             string inputPassengerID = Console.ReadLine();
 
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
-            var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
+            var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
 
             bool exists = false;
             foreach (var passenger in thePassengersList)
             {
                 string[] strings = passenger.Split(',');
-                if (strings[0] == ("PID" + inputPassengerID))
+                if (strings[0] == ("PID#" + inputPassengerID))
                 {
                     exists = true;
                 }
@@ -198,7 +209,7 @@ namespace Fahrgemeinschaft
                 foreach (var passenger in thePassengersList)
                 {
                     string[] position = passenger.Split(',');
-                    if (position[0] == ("PID" + inputPassengerID))
+                    if (position[0] == ("PID#" + inputPassengerID))
                     {
 
                         do
@@ -289,7 +300,7 @@ namespace Fahrgemeinschaft
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The passenger PID does not exist, account can't be edited.");
+                Console.WriteLine("The passenger PID# does not exist, account can't be edited.");
                 Console.ResetColor();
 
                 Console.ReadLine();
@@ -319,7 +330,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{newUserNameI},{newPickUp},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
-            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
             //to the previously list you built with all other passengers - current, add the current edited passenger
             addAllOtherEntriesBack.Add(editedPassenger);
             //rewrite the passengers.txt file with the modified entry+all other entries
@@ -356,7 +367,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{position[1]},{newPickUp},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
-            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
             //to the previously list you built with all other passengers - current, add the current edited passenger
             addAllOtherEntriesBack.Add(editedPassenger);
             //rewrite the passengers.txt file with the modified entry+all other entries
@@ -389,7 +400,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{position[1]},{position[2]},{newDestination}";
             //select all other lines in the passenger.txt file add add them to a list
-            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
             //to the previously list you built with all other passengers - current, add the current edited passenger
             addAllOtherEntriesBack.Add(editedPassenger);
             //rewrite the passengers.txt file with the modified entry+all other entries
@@ -421,7 +432,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the passengers data
             string editedPassengerPickUp = $"{position[0]},{position[1]},{newUserPickUp},{position[3]}";
             //select all other lines in the passenger.txt file add add them to a list
-            var addAllOtherEntriesBackPick = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+            var addAllOtherEntriesBackPick = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
             //to the previously list you built with all other passengers - current, add the current edited passenger
             addAllOtherEntriesBackPick.Add(editedPassengerPickUp);
             //rewrite the passengers.txt file with the modified entry+all other entries
@@ -453,7 +464,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the passengers data
             editedPassenger = $"{position[0]},{newUserName},{position[2]},{position[3]}";
             //select all other lines in the passenger.txt file add add them to a list
-            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+            addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
             //to the previously list you built with all other passengers - current, add the current edited passenger
             addAllOtherEntriesBack.Add(editedPassenger);
             //rewrite the passengers.txt file with the modified entry+all other entries

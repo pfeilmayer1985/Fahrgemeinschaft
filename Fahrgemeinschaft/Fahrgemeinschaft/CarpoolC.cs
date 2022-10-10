@@ -48,20 +48,20 @@ namespace Fahrgemeinschaft
                 //asking for the passenger ID and checking if the ID exists in the passenger list
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("==================================================================");
-                Console.WriteLine("| Take a ride (add your passenger PID to an existing driver DID) |");
-                Console.WriteLine("==================================================================");
+                Console.WriteLine("====================================================================");
+                Console.WriteLine("| Take a ride (add your passenger PID# to an existing driver DID#) |");
+                Console.WriteLine("====================================================================");
                 Console.ResetColor();
 
-                Console.Write("What id your PID (Passenger ID): ");
-                string inputPassengerID = Console.ReadLine();
-                bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID" + inputPassengerID));
+                Console.Write("What id your PID# (Passenger ID#): ");
+                string inputPassengerID = Console.ReadLine().ToUpper();
+                bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID#" + inputPassengerID));
 
                 if (ckeckInputPassengerID)
                 {
                     //asking for the driver ID and checking if the ID exists in the drivers list
-                    Console.Write("Choose your carpool by driver DID (Driver ID) to be assigned to: ");
-                    string inputDriverID = Console.ReadLine();
+                    Console.Write("Choose your carpool by driver DID# (Driver ID#) to be assigned to: ");
+                    string inputDriverID = Console.ReadLine().ToUpper();
 
 
                     bool checkBothDriverAndPassenger = false;
@@ -76,7 +76,7 @@ namespace Fahrgemeinschaft
                     foreach (string line in thePassengerList)
                     {
                         string[] linesInPassengerArray = line.Split(',');
-                        if (linesInPassengerArray[0] == ("PID" + inputPassengerID))
+                        if (linesInPassengerArray[0] == ("PID#" + inputPassengerID))
                         {
                             passStart = linesInPassengerArray[2];
                             passDest = linesInPassengerArray[3];
@@ -93,7 +93,7 @@ namespace Fahrgemeinschaft
                     foreach (string line in theDriversList)
                     {
                         string[] linesInDriversArray = line.Split(',');
-                        if (linesInDriversArray[0] == ("DID" + inputDriverID))
+                        if (linesInDriversArray[0] == ("DID#" + inputDriverID))
                         {
                             driveStart = linesInDriversArray[4];
                             driveDest = linesInDriversArray[5];
@@ -103,7 +103,7 @@ namespace Fahrgemeinschaft
                     }
 
 
-                    bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID" + inputDriverID));
+                    bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID#" + inputDriverID));
                     if (ckeckInputDriverID)
                     {
 
@@ -112,12 +112,12 @@ namespace Fahrgemeinschaft
 
                             string[] linesInDrivers = File.ReadAllLines(pathFileDrivers);
 
-                            bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
+                            bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID#" + inputDriverID));
 
                             foreach (string line in linesInDrivers)
                             {
                                 string[] splittedLinesInDriversArray = line.Split(',');
-                                if (splittedLinesInDriversArray[0].Equals("DID" + inputDriverID))
+                                if (splittedLinesInDriversArray[0].Equals("DID#" + inputDriverID))
                                 {
                                     int numberOfFreeSeats = Convert.ToInt32(splittedLinesInDriversArray[1]);
 
@@ -125,7 +125,7 @@ namespace Fahrgemeinschaft
                                     if (checkBothDriverAndPassenger)
                                     {
                                         Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine($"User {"PID" + inputPassengerID} is allready a member of the carpool {"DID" + inputDriverID}. Choose another carpool!");
+                                        Console.WriteLine($"User {"PID#" + inputPassengerID} is allready a member of the carpool {"DID#" + inputDriverID}. Choose another carpool!");
                                         Console.ResetColor();
                                     }
                                     else
@@ -152,15 +152,15 @@ namespace Fahrgemeinschaft
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
 
 
-                                                Console.WriteLine($"You were added to the existing carpool created by driver {"DID" + inputDriverID}.");
+                                                Console.WriteLine($"You were added to the existing carpool created by driver {"DID#" + inputDriverID}.");
                                                 Console.ReadLine();
                                                 AddLoop = false;
 
                                             }
                                             else
                                             {
-                                                File.AppendAllText(pathFileCarpools, ("\nDID" + inputDriverID + ",PID" + inputPassengerID));
-                                                Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
+                                                File.AppendAllText(pathFileCarpools, ("\nDID#" + inputDriverID + ",PID#" + inputPassengerID));
+                                                Console.WriteLine($"A new carpool was created by driver {"DID#" + inputDriverID} and {"PID#" + inputPassengerID} as passenger.");
 
                                                 //changing the free seats fo freeseats-1
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
@@ -244,27 +244,27 @@ namespace Fahrgemeinschaft
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("=================================================================");
-                Console.WriteLine("| Offer a ride (add your driver ID to an existing passenger ID) |");
-                Console.WriteLine("=================================================================");
+                Console.WriteLine("===================================================================");
+                Console.WriteLine("| Offer a ride (add your driver ID# to an existing passenger ID#) |");
+                Console.WriteLine("===================================================================");
                 Console.ResetColor();
 
                 string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
 
 
                 //asking for the driver ID and checking if the ID exists in the drivers list
-                Console.Write("Enter your driver ID (DID): ");
-                string inputDriverID = Console.ReadLine();
-                bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID" + inputDriverID));
+                Console.Write("Enter your driver ID (DID#): ");
+                string inputDriverID = Console.ReadLine().ToUpper();
+                bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains("DID#" + inputDriverID));
 
 
                 if (ckeckInputDriverID)
                 {
 
                     //asking for the passenger ID and checking if the ID exists in the passenger list
-                    Console.Write("Enter the passenger ID for whom you are offering the ride (PID): ");
-                    string inputPassengerID = Console.ReadLine();
-                    bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID" + inputPassengerID));
+                    Console.Write("Enter the passenger ID for whom you are offering the ride (PID#): ");
+                    string inputPassengerID = Console.ReadLine().ToUpper();
+                    bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID#" + inputPassengerID));
 
                     bool checkBothDriverAndPassenger = false;
 
@@ -279,7 +279,7 @@ namespace Fahrgemeinschaft
                     foreach (string line in thePassengerList)
                     {
                         string[] linesInPassengerArray = line.Split(',');
-                        if (linesInPassengerArray[0] == ("PID" + inputPassengerID))
+                        if (linesInPassengerArray[0] == ("PID#" + inputPassengerID))
                         {
                             passStart = linesInPassengerArray[2];
                             passDest = linesInPassengerArray[3];
@@ -296,7 +296,7 @@ namespace Fahrgemeinschaft
                     foreach (string line in theDriversList)
                     {
                         string[] linesInDriversArray = line.Split(',');
-                        if (linesInDriversArray[0] == ("DID" + inputDriverID))
+                        if (linesInDriversArray[0] == ("DID#" + inputDriverID))
                         {
                             driveStart = linesInDriversArray[4];
                             driveDest = linesInDriversArray[5];
@@ -314,19 +314,19 @@ namespace Fahrgemeinschaft
 
                             string[] linesInDrivers = File.ReadAllLines(pathFileDrivers);
 
-                            bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
+                            bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID#" + inputDriverID));
 
                             foreach (string line in linesInDrivers)
                             {
                                 string[] splittedLinesInDriversArray = line.Split(',');
-                                if (splittedLinesInDriversArray[0].Equals("DID" + inputDriverID))
+                                if (splittedLinesInDriversArray[0].Equals("DID#" + inputDriverID))
                                 {
                                     int numberOfFreeSeats = Convert.ToInt32(splittedLinesInDriversArray[1]);
 
                                     if (checkBothDriverAndPassenger)
                                     {
                                         Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine($"User {"PID" + inputPassengerID} is allready a member of the carpool {"DID" + inputDriverID}. Choose another user!");
+                                        Console.WriteLine($"User {"PID#" + inputPassengerID} is allready a member of the carpool {"DID#" + inputDriverID}. Choose another user!");
                                         Console.ResetColor();
                                     }
                                     else
@@ -335,7 +335,7 @@ namespace Fahrgemeinschaft
                                         if (numberOfFreeSeats == 0)
                                         {
                                             Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine($"Driver {"DID" + inputDriverID} can't accept any new passengers since he has NO free seats available. Choose another carpool!");
+                                            Console.WriteLine($"Driver {"DID#" + inputDriverID} can't accept any new passengers since he has NO free seats available. Choose another carpool!");
                                             Console.ResetColor();
 
                                         }
@@ -351,15 +351,15 @@ namespace Fahrgemeinschaft
                                                 //changing the free seats fo freeseats-1
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
 
-                                                Console.WriteLine($"You were added the the existing carpool created by driver {"DID" + inputDriverID}.");
+                                                Console.WriteLine($"You were added the the existing carpool created by driver {"DID#" + inputDriverID}.");
                                                 Console.ReadLine();
                                                 AddLoop = false;
 
                                             }
                                             else
                                             {
-                                                File.AppendAllText(pathFileCarpools, ("\nDID" + inputDriverID + ",PID" + inputPassengerID));
-                                                Console.WriteLine($"A new carpool was created by driver {"DID" + inputDriverID} and {"PID" + inputPassengerID} as passenger.");
+                                                File.AppendAllText(pathFileCarpools, ("\nDID#" + inputDriverID + ",PID#" + inputPassengerID));
+                                                Console.WriteLine($"A new carpool was created by driver {"DID#" + inputDriverID} and {"PID#" + inputPassengerID} as passenger.");
 
                                                 //changing the free seats fo freeseats-1
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
@@ -665,11 +665,34 @@ namespace Fahrgemeinschaft
         /// </summary>
 
         public void ListAllCarpools()
+
+
         {
+            //if this file does not exist in the specified path
+            if (!File.Exists(pathFileCarpools))
+            {
+                //the file will be created in the specified path
+                File.Create(pathFileCarpools);
+            }
+
+            //if this file does not exist in the specified path
+            if (!File.Exists(pathFileDrivers))
+            {
+                //the file will be created in the specified path
+                File.Create(pathFileDrivers);
+            }
+
+            //if this file does not exist in the specified path
+            if (!File.Exists(pathFilePassengers))
+            {
+                //the file will be created in the specified path
+                File.Create(pathFilePassengers);
+            }
+
             string[] theCarpoolList = File.ReadAllLines(pathFileCarpools);
             string[] thePassengerList = File.ReadAllLines(pathFilePassengers);
             string[] theDriversList = File.ReadAllLines(pathFileDrivers);
-
+            
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"==============================================");
@@ -726,8 +749,8 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             //asking for the passenger ID
-            Console.Write("Enter passenger ID (PID): ");
-            string inputPassengerID = Console.ReadLine();
+            Console.Write("Enter passenger ID (PID#): ");
+            string inputPassengerID = Console.ReadLine().ToUpper();
             SMRemovePassengerAccountByPassengerID(inputPassengerID);
 
         }
@@ -742,14 +765,14 @@ namespace Fahrgemeinschaft
             //removing a passenger from the passengers list
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
 
-            var findPassengerInPassengers = thePassengersList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
+            var findPassengerInPassengers = thePassengersList.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID));
 
             bool exists = false;
             bool existsInCarpool = false;
             foreach (var passenger in thePassengersList)
             {
                 string[] strings = passenger.Split(',');
-                if (strings[0] == ("PID" + inputPassengerID))
+                if (strings[0] == ("PID#" + inputPassengerID))
                 {
                     exists = true;
                 }
@@ -757,10 +780,10 @@ namespace Fahrgemeinschaft
 
             if (exists)
             {
-                var addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+                var addAllOtherEntriesBack = thePassengersList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
                 File.WriteAllLines(pathFilePassengers, addAllOtherEntriesBack);
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Passenger PID{inputPassengerID} was removed from the registered passengers list.");
+                Console.WriteLine($"Passenger PID#{inputPassengerID} was removed from the registered passengers list.");
                 Console.ResetColor();
 
                 //removing a passenger from the carpool list
@@ -773,7 +796,7 @@ namespace Fahrgemeinschaft
                     string[] strings = passenger.Split(',');
                     for (int i = 0; i < strings.Length; i++)
                     {
-                        if (strings[i] == ("PID" + inputPassengerID))
+                        if (strings[i] == ("PID#" + inputPassengerID))
                         {
                             existsInCarpool = true;
                         }
@@ -783,7 +806,7 @@ namespace Fahrgemeinschaft
                 if (existsInCarpool)
                 {
 
-                    var findPassengerInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("PID" + inputPassengerID));
+                    var findPassengerInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID));
 
                     string[] arrayWithSplittedCarpoolLines = findPassengerInCarpools.Split(',');
 
@@ -793,14 +816,14 @@ namespace Fahrgemeinschaft
                     {
                         for (int i = 1; i < arrayWithSplittedCarpoolLines.Length; i++)
                         {
-                            if (arrayWithSplittedCarpoolLines[i] != "PID" + inputPassengerID)
+                            if (arrayWithSplittedCarpoolLines[i] != "PID#" + inputPassengerID)
                                 foo.Add(arrayWithSplittedCarpoolLines[i]);
                         }
                         var result = string.Join(",", foo.ToArray());
                         var finalResult = arrayWithSplittedCarpoolLines[0] + "," + result;
 
                         //find the driver
-                        var findTheDriver = theCarpoolList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
+                        var findTheDriver = theCarpoolList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
                         foreach (string driver in findTheDriver)
                         {
                             string[] arrayWithDrivers = driver.Split(',');
@@ -814,7 +837,7 @@ namespace Fahrgemeinschaft
                                 string[] findTheDriverAgainSplitted = findTheDriverAgain.Split(',');
                                 string currentDriverInDrivers = findTheDriverAgainSplitted[0];
 
-                                //var findTheDriverInDrivers = theCarpoolList.Where(e => e.Contains("PID" + inputPassengerID)).ToList();
+                                //var findTheDriverInDrivers = theCarpoolList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
 
                                 int actualFreeSeats = Convert.ToInt32(findTheDriverAgainSplitted[1]);
                                 SMAddFreeSeat(currentDriverInDrivers.TrimStart(new char[] { 'D', 'I' }), findTheDriverAgainSplitted, actualFreeSeats);
@@ -827,7 +850,7 @@ namespace Fahrgemeinschaft
                         }
 
 
-                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
                         addAllOtherEntriesBackToCarpoolList.Add(finalResult);
                         File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
                         Console.ForegroundColor = ConsoleColor.Blue;
@@ -838,7 +861,7 @@ namespace Fahrgemeinschaft
                     else
                     {
 
-                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID" + inputPassengerID)).ToList();
+                        var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("PID#" + inputPassengerID)).ToList();
                         File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("Passenger was removed from the carpool and since it was the only passenger, the carpool was dissolved.");
@@ -848,14 +871,14 @@ namespace Fahrgemeinschaft
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine("The passenger PID isn't riding in any of the carpools, the carpool list remains untouched.");
+                    Console.WriteLine("The passenger PID# isn't riding in any of the carpools, the carpool list remains untouched.");
                     Console.ResetColor();
                 }
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The passenger PID does not exist, account can't be deleted.");
+                Console.WriteLine("The passenger PID# does not exist, account can't be deleted.");
                 Console.ResetColor();
             }
 
@@ -881,18 +904,18 @@ namespace Fahrgemeinschaft
             string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
 
             //asking for the driver ID and checking if the ID exists in the drivers list
-            Console.Write("Enter the carpool (driver ID (DID)): ");
-            string inputDriverID = Console.ReadLine();
-            bool ckeckInputDriverID = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
+            Console.Write("Enter the carpool (driver ID (DID#)): ");
+            string inputDriverID = Console.ReadLine().ToUpper();
+            bool ckeckInputDriverID = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID#" + inputDriverID));
 
 
             if (ckeckInputDriverID)
             {
 
                 //asking for the passenger ID and checking if the ID exists in the passenger list
-                Console.Write("Enter the passenger to be removed from the ride (PID): ");
-                string inputPassengerID = Console.ReadLine();
-                bool ckeckInputPassengerID = File.ReadLines(pathFileCarpools).Any(line => line.Contains("PID" + inputPassengerID));
+                Console.Write("Enter the passenger to be removed from the ride (PID#): ");
+                string inputPassengerID = Console.ReadLine().ToUpper();
+                bool ckeckInputPassengerID = File.ReadLines(pathFileCarpools).Any(line => line.Contains("PID#" + inputPassengerID));
 
                 bool checkBothDriverAndPassenger = false;
                 checkBothDriverAndPassenger = SMCheckBothExistance(linesInCarpool, inputDriverID, inputPassengerID, checkBothDriverAndPassenger);
@@ -902,12 +925,12 @@ namespace Fahrgemeinschaft
 
                     string[] linesInDrivers = File.ReadAllLines(pathFileDrivers);
 
-                    bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID" + inputDriverID));
+                    bool checkIfDriverHasACarpool = File.ReadLines(pathFileCarpools).Any(line => line.Contains("DID#" + inputDriverID));
 
                     foreach (string line in linesInDrivers)
                     {
                         string[] splittedLinesInDriversArray = line.Split(',');
-                        if (splittedLinesInDriversArray[0].Equals("DID" + inputDriverID))
+                        if (splittedLinesInDriversArray[0].Equals("DID#" + inputDriverID))
                         {
                             int numberOfFreeSeats = Convert.ToInt32(splittedLinesInDriversArray[1]);
 
@@ -957,8 +980,8 @@ namespace Fahrgemeinschaft
         public void SMAddFreeSeat(string inputDriverID, string[] splittedLinesInDriversArray, int numberOfFreeSeats)
         {
             List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
-            string j = $"{"DID" + inputDriverID},{numberOfFreeSeats + 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
-            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+            string j = $"{"DID#" + inputDriverID},{numberOfFreeSeats + 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID#" + inputDriverID)).ToList();
             addAllOtherEntriesBackToDrivers.Add(j);
             File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
         }
@@ -974,7 +997,7 @@ namespace Fahrgemeinschaft
             List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
 
 
-            var findDriverInCarpool = theCarpoolList.FirstOrDefault(e => e.Contains("DID" + inputDriverID) && e.Contains("PID" + inputPassengerID));
+            var findDriverInCarpool = theCarpoolList.FirstOrDefault(e => e.Contains("DID#" + inputDriverID) && e.Contains("PID#" + inputPassengerID));
             string[] newArray = findDriverInCarpool.Split(',');
             var foo = new List<string>();
 
@@ -982,13 +1005,13 @@ namespace Fahrgemeinschaft
             {
                 for (int i = 1; i < newArray.Length; i++)
                 {
-                    if (newArray[i] != "PID" + inputPassengerID)
+                    if (newArray[i] != "PID#" + inputPassengerID)
                         foo.Add(newArray[i]);
                 }
                 var result = string.Join(",", foo.ToArray());
                 var finalResult = newArray[0] + "," + result;
 
-                var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
                 addAllOtherEntriesBack.Add(finalResult);
                 File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBack);
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -999,7 +1022,7 @@ namespace Fahrgemeinschaft
             else
             {
 
-                var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                var addAllOtherEntriesBack = theCarpoolList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
                 File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBack);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Passenger was removed from the carpool and since it was the only passenger, the carpool was dissolved.");
@@ -1016,8 +1039,8 @@ namespace Fahrgemeinschaft
         public void SMRemoveFreeSeat(string inputDriverID, string[] splittedLinesInDriversArray, int numberOfFreeSeats)
         {
             List<string> theDriverslList = File.ReadAllLines(pathFileDrivers).ToList();
-            string j = $"{"DID" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
-            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID" + inputDriverID)).ToList();
+            string j = $"{"DID#" + inputDriverID},{numberOfFreeSeats - 1},{splittedLinesInDriversArray[2]},{splittedLinesInDriversArray[3]},{splittedLinesInDriversArray[4]},{splittedLinesInDriversArray[5]}";
+            var addAllOtherEntriesBackToDrivers = theDriverslList.Where(f => !f.Contains("DID#" + inputDriverID)).ToList();
             addAllOtherEntriesBackToDrivers.Add(j);
             File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBackToDrivers);
         }
@@ -1029,8 +1052,8 @@ namespace Fahrgemeinschaft
         public void SMAddPassengerToCarpool(string inputPassengerID, string inputDriverID)
         {
             List<string> theCarpoolToList = File.ReadAllLines(pathFileCarpools).ToList();
-            var findDriverInCarpool = theCarpoolToList.Where(e => e.Contains("DID" + inputDriverID)).Select(e => e + ",PID" + inputPassengerID).ToList();
-            var addAllOtherEntriesBack = theCarpoolToList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            var findDriverInCarpool = theCarpoolToList.Where(e => e.Contains("DID#" + inputDriverID)).Select(e => e + ",PID#" + inputPassengerID).ToList();
+            var addAllOtherEntriesBack = theCarpoolToList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             findDriverInCarpool.AddRange(addAllOtherEntriesBack);
             File.WriteAllLines(pathFileCarpools, findDriverInCarpool);
         }
@@ -1046,7 +1069,7 @@ namespace Fahrgemeinschaft
                 string[] splittetArrayDuo = driverDuo.Split(',');
                 for (int i = 0; i < splittetArrayDuo.Length - 1; i++)
                 {
-                    if (splittetArrayDuo[0].Equals("DID" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID" + inputPassengerID))
+                    if (splittetArrayDuo[0].Equals("DID#" + inputDriverID) && splittetArrayDuo[i + 1].Equals("PID#" + inputPassengerID))
                     {
                         checkBothDriverAndPassenger = true;
                     }

@@ -72,36 +72,45 @@ namespace Fahrgemeinschaft
                 File.Create(pathFileCarpools);
             }
 
+            Console.Write("\nWhat's your first name?: ");
+            string firstname = h.HandleUserTextInput(true);
+            Console.Write("What's your last name?: ");
+            string lastname = h.HandleUserTextInput(true);
+
             bool userInUse = false;
             string id;
-
+            id = "DID#" + firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper();
+                  
             do
             {
-                Console.Write("Choose your unique Driver ID (DID), 3 chars long: ");
-                string newUserID = h.HandleUserTextInput();
-
-                id = "DID" + newUserID;
 
                 bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains(id));
-                if (ckeckInputDriverID || id.Length != 6)
+                if (ckeckInputDriverID || id.Length != 10)
                 {
-                    //asking for the driver ID and checking if the ID exists in the drivers list
+                    //asking for the passenger ID and checking if the ID exists in the passengers list
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("This ID is allready in use or you used more/less characters than allowed. Choose another ID!");
+                    Console.WriteLine($"This ID is allready in use or you used more/less characters than allowed." +
+                        $"\nChoose another custom ID (except '{firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper()}'!" +
+                        $"Enter your ID now (6 characters long): ");
                     Console.ResetColor();
+                    id = "DID#" + Console.ReadLine().ToUpper();
                     userInUse = true;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Driver ID {id} was generated and assigned to you based on your first and last name.");
+                    Console.ResetColor();
                     userInUse = false;
                 }
 
             } while (userInUse == true);
 
-            Console.Write("Who is driving the car (driver's name): ");
-            string name = h.HandleUserTextInput(true);
-            Console.Write("What is the make and model of the car: ");
-            string carTypeMake = h.HandleUserTextInput();
+           
+            Console.Write("What is the make of the car: ");
+            string carMake = h.HandleUserTextInput();
+            Console.Write("What is the model of the car: ");
+            string carModel = h.HandleUserTextInput();
             Console.Write("How many places are free in the car (1 to 9): ");
             int freePlaces = h.HandleUserNumbersInput();
             Console.Write("Departure from City: ");
@@ -110,9 +119,9 @@ namespace Fahrgemeinschaft
             string destination = h.HandleUserTextInput(true);
 
 
-            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + name + "," + carTypeMake + "," + startCity + "," + destination));
+            File.AppendAllText(pathFileDrivers, ("\n" + id + "," + freePlaces + "," + firstname + " " + lastname + "," + carMake + " " + carModel + "," + startCity + "," + destination));
 
-            Console.WriteLine($"\nThe new user ID {id} for {name} was successfully added to the list. You can now receive passengers.");
+            Console.WriteLine($"\nThe new user ID {id} for {firstname + " " + lastname} was successfully added to the list.\nYou can now receive passengers.");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
@@ -137,17 +146,17 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             //asking for the passenger ID
-            Console.Write("\nEnter driver ID (DID): ");
+            Console.Write("\nEnter driver ID (DID#): ");
             string inputDriverID = Console.ReadLine();
 
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
-            var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID" + inputDriverID)).ToList();
+            var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID#" + inputDriverID)).ToList();
 
             bool exists = false;
             foreach (var driver in theDriversList)
             {
                 string[] strings = driver.Split(',');
-                if (strings[0] == ("DID" + inputDriverID))
+                if (strings[0] == ("DID#" + inputDriverID))
                 {
                     exists = true;
                 }
@@ -159,7 +168,7 @@ namespace Fahrgemeinschaft
                 foreach (var driver in theDriversList)
                 {
                     string[] position = driver.Split(',');
-                    if (position[0] == ("DID" + inputDriverID))
+                    if (position[0] == ("DID#" + inputDriverID))
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Blue;
@@ -186,7 +195,7 @@ namespace Fahrgemeinschaft
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The driver DID does not exist, account content can't be retrieved.");
+                Console.WriteLine("The driver DID# does not exist, account content can't be retrieved.");
                 Console.ResetColor();
 
                 Console.ReadLine();
@@ -212,17 +221,17 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             //asking for the passenger ID
-            Console.Write("\nEnter driver ID (DID): ");
+            Console.Write("\nEnter driver ID (DID#): ");
             string inputDriverID = Console.ReadLine();
 
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
-            var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID" + inputDriverID)).ToList();
+            var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID#" + inputDriverID)).ToList();
 
             bool exists = false;
             foreach (var driver in theDriversList)
             {
                 string[] strings = driver.Split(',');
-                if (strings[0] == ("DID" + inputDriverID))
+                if (strings[0] == ("DID#" + inputDriverID))
                 {
                     exists = true;
                 }
@@ -234,7 +243,7 @@ namespace Fahrgemeinschaft
                 foreach (var driver in theDriversList)
                 {
                     string[] position = driver.Split(',');
-                    if (position[0] == ("DID" + inputDriverID))
+                    if (position[0] == ("DID#" + inputDriverID))
                     {
 
                         do
@@ -333,7 +342,7 @@ namespace Fahrgemeinschaft
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The driver DID does not exist, account can't be edited.");
+                Console.WriteLine("The driver DID# does not exist, account can't be edited.");
                 Console.ResetColor();
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -372,7 +381,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{newUserName},{newMakeModel},{newOrigin},{newDestination}";
             //select all other lines in the drivers.txt file add add them to a list
-            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
@@ -411,7 +420,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{newOrigin},{newDestination}";
             //select all other lines in the drivers.txt file add add them to a list
-            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
@@ -444,7 +453,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{newDestination}";
             //select all other lines in the drivers.txt file add add them to a list
-            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
@@ -476,7 +485,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{position[3]},{newOrigin},{position[5]}";
             //select all other lines in the drivers.txt file add add them to a list
-            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
@@ -508,7 +517,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{position[2]},{newMakeModel},{position[4]},{position[5]}";
             //select all other lines in the drivers.txt file add add them to a list
-            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
@@ -540,7 +549,7 @@ namespace Fahrgemeinschaft
             //build a new string with all the drivers data
             string editedDriver = $"{position[0]},{position[1]},{newUserName},{position[3]},{position[4]},{position[5]}".TrimEnd();
             //select all other lines in the drivers.txt file add add them to a list
-            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+            List<string> addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
             //to the previously list you built with all other drivers - current, add the current edited driver
             addAllOtherEntriesBack.Add(editedDriver);
             //rewrite the drivers.txt file with the modified entry+all other entries
@@ -624,7 +633,7 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
 
             //asking for the driver ID
-            Console.Write("Enter driver ID (DID): ");
+            Console.Write("Enter driver ID (DID#): ");
             string inputDriverID = Console.ReadLine();
             SMRemoveDriverAccountByDriverID(inputDriverID);
 
@@ -644,7 +653,7 @@ namespace Fahrgemeinschaft
             //removing a driver from the drivers list
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
 
-            var findDriverInDrivers = theDriversList.FirstOrDefault(e => e.Contains("DID" + inputDriverID));
+            var findDriverInDrivers = theDriversList.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
 
             bool exists = false;
             bool existsInCarpool = false;
@@ -652,7 +661,7 @@ namespace Fahrgemeinschaft
             foreach (var driver in theDriversList)
             {
                 string[] strings = driver.Split(',');
-                if (strings[0] == ("DID" + inputDriverID))
+                if (strings[0] == ("DID#" + inputDriverID))
                 {
                     exists = true;
                 }
@@ -662,10 +671,10 @@ namespace Fahrgemeinschaft
             if (exists)
             {
 
-                var addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                var addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
                 File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Driver DID{inputDriverID} was removed from the registered drivers list.");
+                Console.WriteLine($"Driver DID# {inputDriverID} was removed from the registered drivers list.");
                 Console.ResetColor();
 
                 //removing a driver from the carpool list
@@ -674,34 +683,34 @@ namespace Fahrgemeinschaft
                 foreach (var driver in theCarpoolList)
                 {
                     string[] strings = driver.Split(',');
-                    if (strings[0] == ("DID" + inputDriverID))
+                    if (strings[0] == ("DID#" + inputDriverID))
                     {
                         existsInCarpool = true;
                     }
                 }
                 if (existsInCarpool)
                 {
-                    var findDriverInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("DID" + inputDriverID));
+                    var findDriverInCarpools = theCarpoolList.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
 
                     string[] arrayWithSplittedCarpoolLines = findDriverInCarpools.Split(',');
 
-                    var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("DID" + inputDriverID)).ToList();
+                    var addAllOtherEntriesBackToCarpoolList = theCarpoolList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
                     File.WriteAllLines(pathFileCarpools, addAllOtherEntriesBackToCarpoolList);
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine($"Driver DID{inputDriverID} was also removed from the carpool list and since the carpool was dissolved all his passengers were removed as well.");
+                    Console.WriteLine($"Driver DID# {inputDriverID} was also removed from the carpool list and since the carpool was dissolved all his passengers were removed as well.");
                     Console.ResetColor();
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine("The driver DID doesn't have any carpools created, the carpool list remains untouched.");
+                    Console.WriteLine("The driver DID# doesn't have any carpools created, the carpool list remains untouched.");
                     Console.ResetColor();
                 }
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The driver DID does not exist, account can't be deleted.");
+                Console.WriteLine("The driver DID# does not exist, account can't be deleted.");
                 Console.ResetColor();
             }
 

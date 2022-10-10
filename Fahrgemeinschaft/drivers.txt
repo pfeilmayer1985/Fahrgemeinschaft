@@ -1,20 +1,2 @@
-DID999,1,Mario,BMW X1,Start,End
-DID444,4,Christian,Ford Focus,Wien,Baia Mare
-DID666,0,Klaus,Dacia Duster,Start,End
-DID123,1,Robin,keins,Muenchen,Koeln
-DID234,3,Francesco,Dodge Ram,Muenchen,End
-DID111,2,Marcello,VW Passat,Start,Weikersheim
-DID222,1,Leon,Seat Alhambra,Start,Bucuresti
-DID888,2,Louigi,Mercedes C220,Schrozberg,Niederstetten
-DID555,2,Andreas,Hyundai Tucson,Schrozberg,Baia Mare
-DID007,4,Robert,Ford,Schrozberg,Whatever
-DID005,3,James Bond,Aston Martin,London,No
-DID003,4,Till Schmidt,Opel Astra,Schrozberg,Weikersheim
-DID001,4,Christiano Ronaldo,Masseratti,London,Bucharest
-DID777,2,Hans Gross,Ford Focus,Wien,End
-DID345,3,Adrian Hontau,Ford EcoSport,Baia Mare,End
-DID010,2,Aladin,Rug,Zes,No
-DID011,4,TheDriver,OneCar,Start,End
-DID956,6,NewTest Driver,Subaru Whatewer,Yes,End
-DID875,4,Robert Pfeilmayer,Ford Mondeo,End,Pula-Calului
-DIDpeh,4,Philipp,Audi A3,Foo,Bar
+DID#ROBPFE,4,Robert Pfeilmayer,Ford Focus,Schrozberg,End
+DID#ANDPFE,2,Andreea Pfeilmayer,BMW X1,Schrozberg,End
