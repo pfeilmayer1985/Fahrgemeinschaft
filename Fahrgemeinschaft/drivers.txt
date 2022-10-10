@@ -1,2 +1,3 @@
 DID#ROBPFE,4,Robert Pfeilmayer,Ford Focus,Schrozberg,End
 DID#ANDPFE,2,Andreea Pfeilmayer,BMW X1,Schrozberg,End
+DID#HANGRO,3,Hans Gross,Audi A6,Start,Niederstetten

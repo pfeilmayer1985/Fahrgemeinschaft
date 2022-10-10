@@ -53,7 +53,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("====================================================================");
                 Console.ResetColor();
 
-                Console.Write("What id your PID# (Passenger ID#): ");
+                Console.Write("What is your PID# (Passenger ID#): ");
                 string inputPassengerID = Console.ReadLine().ToUpper();
                 bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains("PID#" + inputPassengerID));
 
@@ -245,7 +245,7 @@ namespace Fahrgemeinschaft
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("===================================================================");
-                Console.WriteLine("| Offer a ride (add your driver ID# to an existing passenger ID#) |");
+                Console.WriteLine("| Offer a ride (add an existing passenger ID# to your driver ID#) |");
                 Console.WriteLine("===================================================================");
                 Console.ResetColor();
 
@@ -449,11 +449,11 @@ namespace Fahrgemeinschaft
             Console.WriteLine("====================================================================");
             Console.ResetColor();
 
-            Console.Write("Where (city) do you want to be picked up from: ");
+            Console.Write("Where do you want to be picked up from (city): ");
             string inputStartLocation = h.HandleUserTextInput(true);
 
             //asking for the passenger destination city
-            Console.Write("What is your destination: ");
+            Console.Write("What is your destination (city): ");
             string inputDestination = h.HandleUserTextInput(true);
 
             string[] theDriverslList = File.ReadAllLines(pathFileDrivers);
@@ -543,7 +543,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine($"No drivers were found matching your start location as: {inputStartLocation} and destination as: {inputDestination}.");
                 Console.ResetColor();
             }
-            
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
@@ -568,7 +568,7 @@ namespace Fahrgemeinschaft
             string inputStartLocation = h.HandleUserTextInput(true);
 
             //asking for the passenger destination city
-            Console.Write("Passenger's destination: ");
+            Console.Write("Passenger's destination (city): ");
             string inputDestination = h.HandleUserTextInput(true);
 
             string[] thePassengerlList = File.ReadAllLines(pathFilePassengers);
@@ -692,12 +692,12 @@ namespace Fahrgemeinschaft
             string[] theCarpoolList = File.ReadAllLines(pathFileCarpools);
             string[] thePassengerList = File.ReadAllLines(pathFilePassengers);
             string[] theDriversList = File.ReadAllLines(pathFileDrivers);
-            
+
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"==============================================");
-            Console.WriteLine($"| The entire list with the current carpools: |");
-            Console.WriteLine($"==============================================");
+            Console.WriteLine($"===============================================");
+            Console.WriteLine($"| The entire list with the existing carpools: |");
+            Console.WriteLine($"===============================================");
             Console.ResetColor();
 
             foreach (string line in theCarpoolList)
@@ -708,11 +708,11 @@ namespace Fahrgemeinschaft
                 string[] splitCurrentDriverDetails = SMFindCurrentUserInCarpool(theDriversList, linesInCarpoolArray, 0);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\n============================================================================================");
-                Console.WriteLine($"\tCarpool {splitCurrentDriverDetails[0]}");
+                Console.WriteLine($"\tCarpool\t\t{splitCurrentDriverDetails[0]}");
                 Console.WriteLine($"============================================================================================");
                 Console.ResetColor();
-                Console.WriteLine($"The driver of this carpool is {splitCurrentDriverDetails[2]} and he owns a {splitCurrentDriverDetails[3]} with {splitCurrentDriverDetails[1]} free places. " +
-                    $"\nThe start point is {splitCurrentDriverDetails[4]} and the destination is {splitCurrentDriverDetails[5]}.");
+                Console.WriteLine($"The driver of this carpool is {splitCurrentDriverDetails[2]}; (s)he owns a {splitCurrentDriverDetails[3]} with another {splitCurrentDriverDetails[1]} free seats. " +
+                    $"\n(S)He is driving from {splitCurrentDriverDetails[4]} to {splitCurrentDriverDetails[5]} as destination.");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write($"The following passengers are present:");
                 Console.ResetColor();
@@ -722,8 +722,18 @@ namespace Fahrgemeinschaft
                 {
                     //The passengers
                     string[] splitCurrentPassengerDetails = SMFindCurrentUserInCarpool(thePassengerList, linesInCarpoolArray, i);
-
-                    Console.Write($"\n{splitCurrentPassengerDetails[1]}, with ID {splitCurrentPassengerDetails[0]}, riding along from {splitCurrentPassengerDetails[2]} to {splitCurrentPassengerDetails[3]}.");
+                    if (splitCurrentPassengerDetails[2] == splitCurrentDriverDetails[4] && splitCurrentPassengerDetails[3] != splitCurrentDriverDetails[5])
+                    {
+                        Console.Write($"\nID {splitCurrentPassengerDetails[0]}, {splitCurrentPassengerDetails[1]} is riding along from {splitCurrentPassengerDetails[2]} but will get out when reaching {splitCurrentPassengerDetails[3]}.");
+                    }
+                    else if (splitCurrentPassengerDetails[2] != splitCurrentDriverDetails[4] && splitCurrentPassengerDetails[3] == splitCurrentDriverDetails[5])
+                    {
+                        Console.Write($"\nID {splitCurrentPassengerDetails[0]}, {splitCurrentPassengerDetails[1]} will only be riding along from {splitCurrentPassengerDetails[2]} to {splitCurrentPassengerDetails[3]}.");
+                    }
+                    else
+                    {
+                        Console.Write($"\nID {splitCurrentPassengerDetails[0]}, {splitCurrentPassengerDetails[1]} is riding along the entire trip from {splitCurrentPassengerDetails[2]} to {splitCurrentPassengerDetails[3]}.");
+                    }
                 }
                 Console.WriteLine();
             }
@@ -1079,7 +1089,7 @@ namespace Fahrgemeinschaft
             return checkBothDriverAndPassenger;
         }
 
-             
+
         /// <summary>
         /// Sub method to find the current user in the carpool (splitting the list to be able to work with individual values)
         /// </summary>
