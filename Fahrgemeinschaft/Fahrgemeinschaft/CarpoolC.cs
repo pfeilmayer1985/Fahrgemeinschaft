@@ -48,9 +48,9 @@ namespace Fahrgemeinschaft
                 //asking for the passenger ID and checking if the ID exists in the passenger list
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("====================================================================");
-                Console.WriteLine("| Take a ride (add your passenger PID# to an existing driver DID#) |");
-                Console.WriteLine("====================================================================");
+                Console.WriteLine("╔══════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║ Take a ride (add your passenger PID# to an existing driver DID#) ║");
+                Console.WriteLine("╚══════════════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
 
                 Console.Write("What is your PID# (Passenger ID#): ");
@@ -228,9 +228,7 @@ namespace Fahrgemeinschaft
                 }
             } while (AddLoop);
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
         }
 
         /// <summary>
@@ -244,9 +242,9 @@ namespace Fahrgemeinschaft
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("===================================================================");
-                Console.WriteLine("| Offer a ride (add an existing passenger ID# to your driver ID#) |");
-                Console.WriteLine("===================================================================");
+                Console.WriteLine("╔═════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║ Offer a ride (add an existing passenger ID# to your driver ID#) ║");
+                Console.WriteLine("╚═════════════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
 
                 string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
@@ -429,9 +427,7 @@ namespace Fahrgemeinschaft
                 }
             } while (AddLoop);
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
         }
 
         /// <summary>
@@ -444,9 +440,9 @@ namespace Fahrgemeinschaft
             //asking for the passenger starting location/city
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("====================================================================");
-            Console.WriteLine("| Searching for a driver based on your start point and destination |");
-            Console.WriteLine("====================================================================");
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Searching for a driver based on your start point and destination ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
 
             Console.Write("Where do you want to be picked up from (city): ");
@@ -544,9 +540,7 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
             }
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -559,9 +553,9 @@ namespace Fahrgemeinschaft
             //asking for the passenger starting location/city
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("=======================================================================");
-            Console.WriteLine("| Searching for a passenger based on your start point and destination |");
-            Console.WriteLine("=======================================================================");
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Searching for a passenger based on your start point and destination ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
 
             Console.Write("Passenger's start location (city): ");
@@ -652,9 +646,7 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
             }
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
 
             Console.ReadLine();
 
@@ -695,9 +687,9 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"===============================================");
-            Console.WriteLine($"| The entire list with the existing carpools: |");
-            Console.WriteLine($"===============================================");
+            Console.WriteLine($"╔═════════════════════════════════════════════╗");
+            Console.WriteLine($"║ The entire list with the existing carpools: ║");
+            Console.WriteLine($"╚═════════════════════════════════════════════╝");
             Console.ResetColor();
 
             foreach (string line in theCarpoolList)
@@ -706,13 +698,14 @@ namespace Fahrgemeinschaft
 
                 //The driver
                 string[] splitCurrentDriverDetails = SMFindCurrentUserInCarpool(theDriversList, linesInCarpoolArray, 0);
+
+                Console.WriteLine($"\n════════════════════════════════════════════════════════════════════════════════════════════");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"\n============================================================================================");
                 Console.WriteLine($"\tCarpool\t\t{splitCurrentDriverDetails[0]}");
-                Console.WriteLine($"============================================================================================");
                 Console.ResetColor();
+                Console.WriteLine($"════════════════════════════════════════════════════════════════════════════════════════════");
                 Console.WriteLine($"The driver of this carpool is {splitCurrentDriverDetails[2]}; (s)he owns a {splitCurrentDriverDetails[3]} with another {splitCurrentDriverDetails[1]} free seats. " +
-                    $"\n(S)He is driving from {splitCurrentDriverDetails[4]} to {splitCurrentDriverDetails[5]} as destination.");
+    $"\n(S)He is driving from {splitCurrentDriverDetails[4]} to {splitCurrentDriverDetails[5]} as destination.");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write($"The following passengers are present:");
                 Console.ResetColor();
@@ -738,9 +731,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine();
             }
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -753,9 +744,9 @@ namespace Fahrgemeinschaft
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("=====================================================================");
-            Console.WriteLine("| Remove a passenger acount from passenger as well as carpool lists |");
-            Console.WriteLine("=====================================================================");
+            Console.WriteLine("╔═══════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Remove a passenger acount from passenger as well as carpool lists ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
 
             //asking for the passenger ID
@@ -892,6 +883,7 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
             }
 
+            Program.PressEnterTxt();
             Console.ReadLine();
 
 
@@ -906,9 +898,9 @@ namespace Fahrgemeinschaft
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("=====================================");
-            Console.WriteLine("| Remove a passenger from a carpool |");
-            Console.WriteLine("=====================================");
+            Console.WriteLine("╔═══════════════════════════════════╗");
+            Console.WriteLine("║ Remove a passenger from a carpool ║");
+            Console.WriteLine("╚═══════════════════════════════════╝");
             Console.ResetColor();
 
             string[] linesInCarpool = File.ReadAllLines(pathFileCarpools);
@@ -976,9 +968,7 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
             }
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 

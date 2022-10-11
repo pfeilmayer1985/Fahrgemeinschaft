@@ -41,9 +41,9 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("=====================================================================================");
-            Console.WriteLine("| You are now registering as a Passenger and adding a Carpool request to the market |");
-            Console.WriteLine("=====================================================================================");
+            Console.WriteLine("╔═══════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ You are now registering as a Passenger and adding a Carpool request to the market ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
 
             //if this file does not exist in the specified path
@@ -96,6 +96,8 @@ namespace Fahrgemeinschaft
             string destination = h.HandleUserTextInput(true); ;
             File.AppendAllText(pathFilePassengers, ("\n" + id + "," + firstname + " " + lastname + "," + startCity + "," + destination));
             Console.WriteLine($"\nThe new user ID {id} for {firstname + " " + lastname} was successfully added to the list.\nYou can now look for a carpool ride.");
+
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -108,9 +110,9 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("=====================================");
-            Console.WriteLine("| See your passenger acount details |");
-            Console.WriteLine("=====================================");
+            Console.WriteLine("╔═══════════════════════════════════╗");
+            Console.WriteLine("║ See your passenger acount details ║");
+            Console.WriteLine("╚═══════════════════════════════════╝");
             Console.ResetColor();
 
             //asking for the passenger ID
@@ -140,19 +142,16 @@ namespace Fahrgemeinschaft
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("====================================================================");
-                        Console.WriteLine($"| The following user informations are registered with your account |");
-                        Console.WriteLine("====================================================================");
+                        Console.WriteLine($"╔══════════════════════════════════════════════════════════════════╗");
+                        Console.WriteLine($"║ The following user informations are registered with your account ║");
+                        Console.WriteLine($"╚══════════════════════════════════════════════════════════════════╝");
                         Console.ResetColor();
 
                         Console.WriteLine($"\nPassenger ID#: \t\t\t\t{position[0]}");
                         Console.WriteLine($"Passenger name: \t\t\t{position[1]}");
                         Console.WriteLine($"Current pick-up location: \t\t{position[2]}");
                         Console.WriteLine($"Current registered destination: \t{position[3]}");
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-                        Console.ResetColor();
-
+                        Program.PressEnterTxt();
                         Console.ReadLine();
 
                     }
@@ -181,9 +180,9 @@ namespace Fahrgemeinschaft
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("================================");
-            Console.WriteLine("| Manage your passenger acount |");
-            Console.WriteLine("================================");
+            Console.WriteLine("╔══════════════════════════════╗");
+            Console.WriteLine("║ Manage your passenger acount ║");
+            Console.WriteLine("╚══════════════════════════════╝");
             Console.ResetColor();
 
             //asking for the passenger ID
@@ -216,9 +215,9 @@ namespace Fahrgemeinschaft
                         {
                             Console.Clear();
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"=======================================================");
-                            Console.WriteLine($"| The following user details are allowed to be edited |");
-                            Console.WriteLine($"=======================================================");
+                            Console.WriteLine($"╔═════════════════════════════════════════════════════╗");
+                            Console.WriteLine($"║ The following user details are allowed to be edited ║");
+                            Console.WriteLine($"╚═════════════════════════════════════════════════════╝");
                             Console.ResetColor();
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine($"\nThe User ID can't be changed.\nIf you want to change it, delete the Passenger Account and register a new one.");
@@ -318,9 +317,9 @@ namespace Fahrgemeinschaft
             Console.Clear();
             //Ask user for the new name
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"===================================================");
-            Console.WriteLine($"| You chose to change all of the passenger's data |");
-            Console.WriteLine($"===================================================");
+            Console.WriteLine($"╔═════════════════════════════════════════════════╗");
+            Console.WriteLine($"║ You chose to change all of the passenger's data ║");
+            Console.WriteLine($"╚═════════════════════════════════════════════════╝");
             Console.ResetColor();
             Console.Write("\nWhat's your new first name?: ");
             string firstname = h.HandleUserTextInput(true);
@@ -345,8 +344,8 @@ namespace Fahrgemeinschaft
                                 $"1. Name from \" {position[1]} \" to \" {firstname + " " + lastname} \n" +
                                 $"2. Pickup city from \" {position[2]} \" to \" {newPickUp} \"");
             Console.WriteLine($"3. Destination city from \" {position[3]} \" to \" {newDestination} \"");
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -360,9 +359,9 @@ namespace Fahrgemeinschaft
             Console.Clear();
             //Ask user for the new name
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"============================================================================");
-            Console.WriteLine($"| You chose to change both the passenger's pickup location and destination |");
-            Console.WriteLine($"============================================================================");
+            Console.WriteLine($"╔══════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine($"║ You chose to change both the passenger's pickup location and destination ║");
+            Console.WriteLine($"╚══════════════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
             Console.Write($"\nYour new city as pickup location: ");
             string newPickUp = h.HandleUserTextInput(true);
@@ -380,8 +379,8 @@ namespace Fahrgemeinschaft
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the passenger's pickup city from \" {position[2]} \" to \" {newPickUp} \"");
             Console.WriteLine($"and the destination city from \" {position[3]} \" to \" {newDestination} \"");
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -395,9 +394,9 @@ namespace Fahrgemeinschaft
             Console.Clear();
             //Ask user for the new name
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"===================================================");
-            Console.WriteLine($"| You chose to change the passenger's destination |");
-            Console.WriteLine($"===================================================");
+            Console.WriteLine($"╔═════════════════════════════════════════════════╗");
+            Console.WriteLine($"║ You chose to change the passenger's destination ║");
+            Console.WriteLine($"╚═════════════════════════════════════════════════╝");
             Console.ResetColor();
             Console.Write($"\nWhat is your new destination: ");
             string newDestination = h.HandleUserTextInput(true);
@@ -412,8 +411,8 @@ namespace Fahrgemeinschaft
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the passenger's destination city from \" {position[3]} \" to \" {newDestination} \" !");
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -427,9 +426,9 @@ namespace Fahrgemeinschaft
             Console.Clear();
             //Ask user for the new name
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"=======================================================");
-            Console.WriteLine($"| You chose to change the passenger's pickup location |");
-            Console.WriteLine($"=======================================================");
+            Console.WriteLine($"╔═════════════════════════════════════════════════════╗");
+            Console.WriteLine($"║ You chose to change the passenger's pickup location ║");
+            Console.WriteLine($"╚═════════════════════════════════════════════════════╝");
             Console.ResetColor();
             Console.Write($"\nWhere do you want to be picked up from now: ");
             string newUserPickUp = h.HandleUserTextInput(true);
@@ -444,8 +443,8 @@ namespace Fahrgemeinschaft
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the passenger's pickup location from \" {position[2]} \" to \" {newUserPickUp} \" !");
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -459,9 +458,9 @@ namespace Fahrgemeinschaft
             Console.Clear();
             //Ask user for the new name
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"============================================");
-            Console.WriteLine($"| You chose to change the passenger's name |");
-            Console.WriteLine($"============================================");
+            Console.WriteLine($"╔══════════════════════════════════════════╗");
+            Console.WriteLine($"║ You chose to change the passenger's name ║");
+            Console.WriteLine($"╚══════════════════════════════════════════╝");
             Console.ResetColor();
             Console.Write("\nWhat's your new first name?: ");
             string firstname = h.HandleUserTextInput(true);
@@ -479,8 +478,8 @@ namespace Fahrgemeinschaft
             //show the new user info
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou have successfully changed the passenger's name from \" {position[1]} \" to \" {firstname + " " + lastname} \" !");
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
             Console.ResetColor();
+            Program.PressEnterTxt();
             Console.ReadLine();
         }
 
@@ -493,9 +492,9 @@ namespace Fahrgemeinschaft
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("======================================");
-            Console.WriteLine("| The available carpool requests are |");
-            Console.WriteLine("======================================");
+            Console.WriteLine("╔════════════════════════════════════╗");
+            Console.WriteLine("║ The available carpool requests are ║");
+            Console.WriteLine("╚════════════════════════════════════╝");
             Console.ResetColor();
 
             string[] showPassengerList = File.ReadAllLines(pathFilePassengers);
@@ -504,9 +503,7 @@ namespace Fahrgemeinschaft
             foreach (string passenger in showPassengerList)
             {
                 string[] splittetPassengerArray = passenger.Split(',');
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("\n==================================================================");
-                Console.ResetColor();
+                Console.WriteLine("\n═════════════════════════════════════════════════════════════════════════════════");
                 Console.WriteLine($"{counter}.\t{splittetPassengerArray[1]} wants to go from {splittetPassengerArray[2]} to {splittetPassengerArray[3]}.");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\tPassenger ID: {splittetPassengerArray[0]}");
@@ -516,9 +513,7 @@ namespace Fahrgemeinschaft
 
             }
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\nPress <Enter> to return to the previous menu.");
-            Console.ResetColor();
+            Program.PressEnterTxt();
         }
     }
 }

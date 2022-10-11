@@ -24,9 +24,9 @@ namespace Fahrgemeinschaft
                 //Clearing console and showing the main menu in a loop. User can choose tthe drivers or passengers menu, list all the carpools or exit
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("===============================\n" +
-                    "| Welcome to the Free Carpool |\n" +
-                    "===============================");
+                CwL("╔═════════════════════════════╗\n" +
+                    "║ Welcome to the Free Carpool ║\n" +
+                    "╚═════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tDrivers" +
                     "\n( 2 )\tPassengers" +
@@ -41,9 +41,7 @@ namespace Fahrgemeinschaft
                 bool pressedRightKey = false;
                 do
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nChoose one of the options above: ");
-                    Console.ResetColor();
+                    ChoseOptionAbvTxt();
 
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
                     string userInput = Convert.ToString(userInputKey.KeyChar);
@@ -108,9 +106,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("===============================\n" +
-                    "| You are in the Drivers Menu |\n" +
-                    "===============================");
+                CwL("╔═════════════════════════════╗\n" +
+                    "║ You are in the Drivers Menu ║\n" +
+                    "╚═════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tManage your Driver Account" +
                     "\n( 2 )\tTake a passenger (you must be registered)" +
@@ -129,9 +127,7 @@ namespace Fahrgemeinschaft
                 bool pressedRightKey = false;
                 do
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nChoose one of the options above: ");
-                    Console.ResetColor();
+                    ChoseOptionAbvTxt();
 
                     //string userInput = Console.ReadLine();
 
@@ -216,9 +212,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("==============================\n" +
-                    "| Manage your Driver Account |\n" +
-                    "==============================");
+                CwL("╔════════════════════════════╗\n" +
+                    "║ Manage your Driver Account ║\n" +
+                    "╚════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tRegister as a new driver for the Carpool" +
                     "\n( 2 )\tSee your existing account details" +
@@ -234,9 +230,7 @@ namespace Fahrgemeinschaft
                 bool pressedRightKey = false;
                 do
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nChoose one of the options above: ");
-                    Console.ResetColor();
+                    ChoseOptionAbvTxt();
 
                     //string userInput = Console.ReadLine();
 
@@ -305,9 +299,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("==================================\n" +
-                    "| You are in the Passengers Menu |\n" +
-                    "==================================");
+                CwL("╔════════════════════════════════╗\n" +
+                    "║ You are in the Passengers Menu ║\n" +
+                    "╚════════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tManage your Passenger Account" +
                     "\n( 2 )\tTake a ride (you must be registered)" +
@@ -326,9 +320,8 @@ namespace Fahrgemeinschaft
                 bool pressedRightKey = false;
                 do
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nChoose one of the options above: ");
-                    Console.ResetColor();
+                    ChoseOptionAbvTxt();
+
 
                     //string userInput = Console.ReadLine();
 
@@ -414,9 +407,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("=================================\n" +
-                    "| Manage your Passenger Account |\n" +
-                    "=================================");
+                CwL("╔═══════════════════════════════╗\n" +
+                    "║ Manage your Passenger Account ║\n" +
+                    "╚═══════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tRegister as a new passenger for the Carpool" +
                     "\n( 2 )\tSee your existing account details" +
@@ -432,9 +425,8 @@ namespace Fahrgemeinschaft
                 bool pressedRightKey = false;
                 do
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\nChoose one of the options above: ");
-                    Console.ResetColor();
+                    ChoseOptionAbvTxt();
+
 
                     //string userInput = Console.ReadLine();
 
@@ -496,6 +488,33 @@ namespace Fahrgemeinschaft
             {
                 Console.WriteLine(word);
             }
+        }
+
+        /// <summary>
+        /// Standard text for choose an option
+        /// </summary>
+
+        public static void ChoseOptionAbvTxt()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n╔═════════════════════════════════╗");
+            Console.Write("║ Choose one of the options above ║");
+            Console.Write("\n╚═════════════════════════════════╝");
+            Console.ResetColor();
+        }
+
+
+        /// <summary>
+        /// Standard text for choose an option
+        /// </summary>
+
+        public static void PressEnterTxt()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n╔═══════════════════════════════════════════════╗");
+            Console.Write("║ Press <Enter> to return to the previous menu. ║");
+            Console.Write("\n╚═══════════════════════════════════════════════╝");
+            Console.ResetColor();
         }
     }
 
