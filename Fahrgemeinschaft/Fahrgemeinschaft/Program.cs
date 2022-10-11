@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Fahrgemeinschaft
 {
@@ -516,6 +517,42 @@ namespace Fahrgemeinschaft
             Console.Write("\n╚═══════════════════════════════════════════════╝");
             Console.ResetColor();
         }
-    }
 
+        public static string readLineWithCancel()
+        {
+            string result = null;
+
+            StringBuilder buffer = new StringBuilder();
+
+            //The key is read passing true for the intercept argument to prevent
+            //any characters from displaying when the Escape key is pressed.
+            ConsoleKeyInfo info = Console.ReadKey(true);
+            while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
+            {
+                if (info.Key == ConsoleKey.Backspace && buffer.Length > 0)
+                {
+                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    //buffer = buffer.Substring(0, buffer.Length - 1);
+                    Console.Write(' ');                    
+                    buffer.Remove(buffer.Length - 1, 1);
+                }
+                else
+                {
+                    Console.Write(info.KeyChar);
+                    buffer.Append(info.KeyChar);
+                    info = Console.ReadKey(true);
+                }
+            }
+
+
+
+            if (info.Key == ConsoleKey.Enter)
+            {
+                result = buffer.ToString();
+            }
+
+            return result;
+        }
+
+    }
 }

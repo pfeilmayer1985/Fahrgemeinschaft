@@ -4,3 +4,4 @@ PID#PFE321,Francisc Pfeilmayer,Start,Niederstetten
 PID#ROBPFE,Robert Pfeilmayer,Start,End
 PID#BENFUR,Benjamin Furo,Start,Malaga
 PID#RAUCIC,Raul Ciceu,Schrozberg,End
+PID#PETMAX,Petre Maxim,Baia Mare,End

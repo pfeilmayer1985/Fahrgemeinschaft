@@ -26,7 +26,14 @@ namespace Fahrgemeinschaft
             bool pressedRightKey = true;
             do
             {
-                string inputToBeChecked = Console.ReadLine();
+                
+                string inputToBeChecked = Program.readLineWithCancel();
+                if (inputToBeChecked == null)
+                {
+                    Program.MainScreen();
+                    continue;
+                }
+                
                 if (checkSpecialCharacter && !Regex.IsMatch(inputToBeChecked, @"^[a-zA-Z0-9_ -]*$"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -48,12 +55,13 @@ namespace Fahrgemeinschaft
                     userInput = inputToBeChecked.TrimEnd().TrimStart();
                 }
 
-                if (userInput == "exit".ToLower())
+                if (userInput == "exit".ToLower() || userInput == "back".ToLower())
                 {
                     Program.MainScreen();
                 }
 
             } while (pressedRightKey);
+            Console.Write("\n");
             return userInput;
         }
 
@@ -68,7 +76,13 @@ namespace Fahrgemeinschaft
             bool itIsntANumber = true;
             do
             {
-                string inputToBeChecked = Console.ReadLine();
+                string inputToBeChecked = Program.readLineWithCancel();
+
+                if (inputToBeChecked == null)
+                {
+                    Program.MainScreen();
+                    continue;
+                }
 
                 inputToBeChecked = inputToBeChecked.TrimEnd().TrimStart();
 
