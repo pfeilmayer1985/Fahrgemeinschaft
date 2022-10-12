@@ -25,9 +25,9 @@ namespace Fahrgemeinschaft
                 //Clearing console and showing the main menu in a loop. User can choose tthe drivers or passengers menu, list all the carpools or exit
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("╔═════════════════════════════╗\n" +
-                    "║ Welcome to the Free Carpool ║\n" +
-                    "╚═════════════════════════════╝");
+                CwL("╔═════════════════════════════════╗\n" +
+                    "║        Welcome to Narnia        ║\n" +
+                    "╚═════════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tDrivers" +
                     "\n( 2 )\tPassengers" +
@@ -107,9 +107,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("╔═════════════════════════════╗\n" +
-                    "║ You are in the Drivers Menu ║\n" +
-                    "╚═════════════════════════════╝");
+                CwL("╔═════════════════════════════════╗\n" +
+                    "║           Drivers Menu          ║\n" +
+                    "╚═════════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tManage your Driver Account" +
                     "\n( 2 )\tTake a passenger (you must be registered)" +
@@ -171,12 +171,10 @@ namespace Fahrgemeinschaft
                         continue;
                     case 5:
                         passengersClass.ListAllPassengers();
-                        Console.ReadLine();
                         userDriverBool = true;
                         continue;
                     case 6:
                         driversClass.ListAllDrivers();
-                        Console.ReadLine();
                         userDriverBool = true;
                         continue;
                     case 7:
@@ -213,9 +211,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("╔════════════════════════════╗\n" +
-                    "║ Manage your Driver Account ║\n" +
-                    "╚════════════════════════════╝");
+                CwL("╔═════════════════════════════════╗\n" +
+                    "║    Driver Account Management    ║\n" +
+                    "╚═════════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tRegister as a new driver for the Carpool" +
                     "\n( 2 )\tSee your existing account details" +
@@ -300,9 +298,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("╔════════════════════════════════╗\n" +
-                    "║ You are in the Passengers Menu ║\n" +
-                    "╚════════════════════════════════╝");
+                CwL("╔═════════════════════════════════╗\n" +
+                    "║         Passengers Menu         ║\n" +
+                    "╚═════════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tManage your Passenger Account" +
                     "\n( 2 )\tTake a ride (you must be registered)" +
@@ -352,7 +350,6 @@ namespace Fahrgemeinschaft
                         continue;
                     case 2:
                         carpoolsClass.AddPassengerToCarpool();
-                        Console.ReadLine();
                         userPassengerBool = true;
                         continue;
                     case 3:
@@ -365,12 +362,10 @@ namespace Fahrgemeinschaft
                         continue;
                     case 5:
                         driversClass.ListAllDrivers();
-                        Console.ReadLine();
                         userPassengerBool = true;
                         continue;
                     case 6:
                         passengersClass.ListAllPassengers();
-                        Console.ReadLine();
                         userPassengerBool = true;
                         continue;
                     case 7:
@@ -408,9 +403,9 @@ namespace Fahrgemeinschaft
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                CwL("╔═══════════════════════════════╗\n" +
-                    "║ Manage your Passenger Account ║\n" +
-                    "╚═══════════════════════════════╝");
+                CwL("╔═════════════════════════════════╗\n" +
+                    "║  Passenger Account Management   ║\n" +
+                    "╚═════════════════════════════════╝");
                 Console.ResetColor();
                 CwL("\n( 1 )\tRegister as a new passenger for the Carpool" +
                     "\n( 2 )\tSee your existing account details" +
@@ -516,6 +511,7 @@ namespace Fahrgemeinschaft
             Console.Write("║ Press <Enter> to return to the previous menu. ║");
             Console.Write("\n╚═══════════════════════════════════════════════╝");
             Console.ResetColor();
+            Console.ReadKey();
         }
 
         public static string readLineWithCancel()
@@ -529,22 +525,27 @@ namespace Fahrgemeinschaft
             ConsoleKeyInfo info = Console.ReadKey(true);
             while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
             {
-                if (info.Key == ConsoleKey.Backspace && buffer.Length > 0)
+
+                if (info.Key == ConsoleKey.Backspace)
                 {
-                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                    //buffer = buffer.Substring(0, buffer.Length - 1);
-                    Console.Write(' ');                    
-                    buffer.Remove(buffer.Length - 1, 1);
+                    if (buffer.Length > 0)
+                    {
+                        Console.Write("\b\0\b");
+                        buffer.Length--;
+                    }
+                    info = Console.ReadKey(true);
+                    continue;
+
+
                 }
                 else
                 {
                     Console.Write(info.KeyChar);
                     buffer.Append(info.KeyChar);
                     info = Console.ReadKey(true);
+
                 }
             }
-
-
 
             if (info.Key == ConsoleKey.Enter)
             {

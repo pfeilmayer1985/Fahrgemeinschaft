@@ -187,8 +187,6 @@ namespace Fahrgemeinschaft
 
             Program.PressEnterTxt();
 
-            Console.ReadLine();
-
         }
 
         /// <summary>
@@ -245,8 +243,6 @@ namespace Fahrgemeinschaft
                         Console.WriteLine($"Current registered destination: \t{position[5]}");
                         Program.PressEnterTxt();
 
-                        Console.ReadLine();
-
                     }
                 }
             }
@@ -255,8 +251,7 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The driver DID# does not exist, account content can't be retrieved.");
                 Console.ResetColor();
-
-                Console.ReadLine();
+                Program.PressEnterTxt();
             }
 
 
@@ -406,8 +401,6 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
 
                 Program.PressEnterTxt();
-
-                Console.ReadLine();
             }
         }
 
@@ -455,7 +448,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"finally the city you are driving to, from \" {position[5]} \" to \" {newDestination} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -492,7 +484,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"and the city you are driving to, from \" {position[5]} \" to \" {newDestination} \" !");
             Program.PressEnterTxt();
             Console.ResetColor();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -524,7 +515,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the city you are driving to, from \" {position[5]} \" to \" {newDestination} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -556,7 +546,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the city you are driving from, from \" {position[4]} \" to \" {newOrigin} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -588,7 +577,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the car make and model from \" {position[3]} \" to \" {newMakeModel} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -623,7 +611,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the driver's name from \" {position[2]} \" to \" {newUserName} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -675,9 +662,7 @@ namespace Fahrgemeinschaft
 
 
             }
-
             Program.PressEnterTxt();
-
 
         }
 
@@ -699,7 +684,7 @@ namespace Fahrgemeinschaft
             string inputDriverID = Console.ReadLine().ToUpper();
             SMRemoveDriverAccountByDriverID(inputDriverID);
 
-          
+
         }
 
         /// <summary>
@@ -774,7 +759,6 @@ namespace Fahrgemeinschaft
             }
 
             Program.PressEnterTxt();
-            Console.ReadLine();
 
 
 

@@ -98,7 +98,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nThe new user ID {id} for {firstname + " " + lastname} was successfully added to the list.\nYou can now look for a carpool ride.");
 
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -152,7 +151,6 @@ namespace Fahrgemeinschaft
                         Console.WriteLine($"Current pick-up location: \t\t{position[2]}");
                         Console.WriteLine($"Current registered destination: \t{position[3]}");
                         Program.PressEnterTxt();
-                        Console.ReadLine();
 
                     }
                 }
@@ -162,8 +160,7 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The passenger PID# does not exist, account content can't be retrieved.");
                 Console.ResetColor();
-
-                Console.ReadLine();
+                Program.PressEnterTxt();
             }
 
 
@@ -302,8 +299,7 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The passenger PID# does not exist, account can't be edited.");
                 Console.ResetColor();
-
-                Console.ReadLine();
+                Program.PressEnterTxt();
             }
         }
 
@@ -346,7 +342,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"3. Destination city from \" {position[3]} \" to \" {newDestination} \"");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -381,7 +376,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"and the destination city from \" {position[3]} \" to \" {newDestination} \"");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -413,7 +407,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the passenger's destination city from \" {position[3]} \" to \" {newDestination} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -445,7 +438,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the passenger's pickup location from \" {position[2]} \" to \" {newUserPickUp} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -480,7 +472,6 @@ namespace Fahrgemeinschaft
             Console.WriteLine($"\nYou have successfully changed the passenger's name from \" {position[1]} \" to \" {firstname + " " + lastname} \" !");
             Console.ResetColor();
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
 

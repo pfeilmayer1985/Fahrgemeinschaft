@@ -55,10 +55,10 @@ namespace Fahrgemeinschaft
                     userInput = inputToBeChecked.TrimEnd().TrimStart();
                 }
 
-                if (userInput == "exit".ToLower() || userInput == "back".ToLower())
-                {
-                    Program.MainScreen();
-                }
+                //if (userInput == "exit".ToLower() || userInput == "back".ToLower())
+                //{
+                //    Program.MainScreen();
+                //}
 
             } while (pressedRightKey);
             Console.Write("\n");

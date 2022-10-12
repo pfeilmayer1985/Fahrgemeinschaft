@@ -153,7 +153,6 @@ namespace Fahrgemeinschaft
 
 
                                                 Console.WriteLine($"You were added to the existing carpool created by driver {"DID#" + inputDriverID}.");
-                                                Console.ReadLine();
                                                 AddLoop = false;
 
                                             }
@@ -164,7 +163,6 @@ namespace Fahrgemeinschaft
 
                                                 //changing the free seats fo freeseats-1
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
-                                                Console.ReadLine();
                                                 AddLoop = false;
 
 
@@ -349,8 +347,7 @@ namespace Fahrgemeinschaft
                                                 //changing the free seats fo freeseats-1
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
 
-                                                Console.WriteLine($"You were added the the existing carpool created by driver {"DID#" + inputDriverID}.");
-                                                Console.ReadLine();
+                                                Console.WriteLine($"You were added to the existing carpool created by driver {"DID#" + inputDriverID}.");
                                                 AddLoop = false;
 
                                             }
@@ -361,7 +358,6 @@ namespace Fahrgemeinschaft
 
                                                 //changing the free seats fo freeseats-1
                                                 SMRemoveFreeSeat(inputDriverID, splittedLinesInDriversArray, numberOfFreeSeats);
-                                                Console.ReadLine();
                                                 AddLoop = false;
 
                                             }
@@ -384,7 +380,6 @@ namespace Fahrgemeinschaft
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("This Passenger ID does not exist.");
                         Console.ResetColor();
-                        Console.ReadLine();
                         AddLoop = true;
 
                     }
@@ -541,7 +536,6 @@ namespace Fahrgemeinschaft
             }
 
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -648,8 +642,6 @@ namespace Fahrgemeinschaft
 
             Program.PressEnterTxt();
 
-            Console.ReadLine();
-
         }
 
         /// <summary>
@@ -732,7 +724,6 @@ namespace Fahrgemeinschaft
             }
 
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -884,8 +875,7 @@ namespace Fahrgemeinschaft
             }
 
             Program.PressEnterTxt();
-            Console.ReadLine();
-
+          
 
 
         }
@@ -969,7 +959,6 @@ namespace Fahrgemeinschaft
             }
 
             Program.PressEnterTxt();
-            Console.ReadLine();
         }
 
 
