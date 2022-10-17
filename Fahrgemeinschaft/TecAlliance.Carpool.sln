@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fahrgemeinschaft", "Fahrgemeinschaft\Fahrgemeinschaft.csproj", "{B6B65227-47CC-4FC5-AB89-EBAFC9DFFE89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FahrgemeinschaftApi", "FahrgemeinschaftApi\FahrgemeinschaftApi.csproj", "{669321F4-D752-4F95-B3A9-EE064FC1C549}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B6B65227-47CC-4FC5-AB89-EBAFC9DFFE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B65227-47CC-4FC5-AB89-EBAFC9DFFE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6B65227-47CC-4FC5-AB89-EBAFC9DFFE89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
