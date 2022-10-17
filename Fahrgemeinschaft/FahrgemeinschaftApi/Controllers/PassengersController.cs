@@ -14,11 +14,12 @@ namespace TecAlliance.Carpool.Controllers
     };
 
         private readonly ILogger<PassengersController> _logger;
+        PassengerBusinessService passengerBusinessService;
 
         public PassengersController(ILogger<PassengersController> logger)
         {
             StringBuilder test = new StringBuilder();
-            
+            passengerBusinessService = new PassengerBusinessService();
 
             _logger = logger;
         }
@@ -26,6 +27,9 @@ namespace TecAlliance.Carpool.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public bool Get()
         {
+            //passengerBusinessService.get
+
+
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             //{
             //    Date = DateTime.Now.AddDays(index),

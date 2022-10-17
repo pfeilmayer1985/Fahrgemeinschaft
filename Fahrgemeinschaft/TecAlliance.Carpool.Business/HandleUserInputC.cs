@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -12,7 +13,7 @@ namespace TecAlliance.Carpool.Business
 
     public class HandleUserInputC
     {
-        
+
         public HandleUserInputC()
         { }
 
@@ -20,7 +21,7 @@ namespace TecAlliance.Carpool.Business
         /// Handeling the stings/text input from user, limiting or not the use of special characters
         /// </summary>
 
-        public string HandleUserTextInput(bool checkSpecialCharacter=false)
+        public string HandleUserTextInput(bool checkSpecialCharacter = false)
         {
             string userInput = "";
 
@@ -67,10 +68,11 @@ namespace TecAlliance.Carpool.Business
 
                 if (inputToBeChecked == null)
                 {
-                    Program.MainScreen();
+                    //Program.MainScreen();
+                    
                     continue;
                 }
-                
+
                 if (checkSpecialCharacter && !Regex.IsMatch(inputToBeChecked, @"^[a-zA-Z0-9_ -]*$"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -91,11 +93,6 @@ namespace TecAlliance.Carpool.Business
                     pressedRightKey = false;
                     userInput = inputToBeChecked.TrimEnd().TrimStart();
                 }
-
-                //if (userInput == "exit".ToLower() || userInput == "back".ToLower())
-                //{
-                //    Program.MainScreen();
-                //}
 
             } while (pressedRightKey);
             Console.Write("\n");
@@ -151,7 +148,7 @@ namespace TecAlliance.Carpool.Business
 
                 if (inputToBeChecked == null)
                 {
-                    Program.MainScreen();
+                    // Program.MainScreen();
                     continue;
                 }
 
@@ -159,7 +156,7 @@ namespace TecAlliance.Carpool.Business
 
                 if (inputToBeChecked.ToString() == "exit".ToLower())
                 {
-                    Program.MainScreen();
+                   // Program.MainScreen();
                 }
 
                 if (!int.TryParse(inputToBeChecked, out userInput))
@@ -183,8 +180,6 @@ namespace TecAlliance.Carpool.Business
                     itIsntANumber = true;
 
                 }
-
-               
 
             } while (itIsntANumber);
             return userInput;

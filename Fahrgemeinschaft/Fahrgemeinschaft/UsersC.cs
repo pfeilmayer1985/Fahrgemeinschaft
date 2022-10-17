@@ -18,7 +18,9 @@ namespace Fahrgemeinschaft
         
         public string ID { get; set; }
         public string Name { get; set; }
-        
+        public string StartingCity { get; set; }
+        public string Destination { get; set; }
+
         public List<UsersC> AllUserList { get; set; }
 
         /// <summary>

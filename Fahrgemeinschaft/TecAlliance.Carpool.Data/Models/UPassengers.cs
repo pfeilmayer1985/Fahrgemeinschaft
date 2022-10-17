@@ -7,10 +7,7 @@ namespace TecAlliance.Carpool.Data
 {
     public class UPassengers : UsersC
     {
-        public string StartingCity { get; set; }
-        public string Destination { get; set; }
-        public int HowManyPassengers { get; set; }
-
+     
         string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
 
         public List<UPassengers> PassengersList { get; set; }
@@ -23,7 +20,6 @@ namespace TecAlliance.Carpool.Data
             Name = name;
             StartingCity = startCity;
             Destination = destination;
-            HowManyPassengers = 1;
         }
 
         public UPassengers()

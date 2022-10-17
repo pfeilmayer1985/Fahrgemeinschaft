@@ -7,9 +7,7 @@ namespace Fahrgemeinschaft
 {
     public class UPassengers : UsersC
     {
-        public string StartingCity { get; set; }
-        public string Destination { get; set; }
-        public int HowManyPassengers { get; set; }
+           
 
         string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
 
@@ -23,7 +21,6 @@ namespace Fahrgemeinschaft
             Name = name;
             StartingCity = startCity;
             Destination = destination;
-            HowManyPassengers = 1;
         }
 
         public UPassengers()
