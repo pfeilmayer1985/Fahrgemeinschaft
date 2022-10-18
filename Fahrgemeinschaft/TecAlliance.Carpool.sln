@@ -5,7 +5,11 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fahrgemeinschaft", "Fahrgemeinschaft\Fahrgemeinschaft.csproj", "{B6B65227-47CC-4FC5-AB89-EBAFC9DFFE89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FahrgemeinschaftApi", "FahrgemeinschaftApi\FahrgemeinschaftApi.csproj", "{669321F4-D752-4F95-B3A9-EE064FC1C549}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TecAlliance.Carpool.Api", "FahrgemeinschaftApi\TecAlliance.Carpool.Api.csproj", "{669321F4-D752-4F95-B3A9-EE064FC1C549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TecAlliance.Carpool.Business", "TecAlliance.Carpool.Business\TecAlliance.Carpool.Business.csproj", "{9B4AD25D-EA82-4000-9C90-5F9FDB633023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TecAlliance.Carpool.Data", "TecAlliance.Carpool.Data\TecAlliance.Carpool.Data.csproj", "{945285A6-D442-40B8-8240-DABE2AFC2294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{669321F4-D752-4F95-B3A9-EE064FC1C549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4AD25D-EA82-4000-9C90-5F9FDB633023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4AD25D-EA82-4000-9C90-5F9FDB633023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4AD25D-EA82-4000-9C90-5F9FDB633023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4AD25D-EA82-4000-9C90-5F9FDB633023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{945285A6-D442-40B8-8240-DABE2AFC2294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{945285A6-D442-40B8-8240-DABE2AFC2294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{945285A6-D442-40B8-8240-DABE2AFC2294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{945285A6-D442-40B8-8240-DABE2AFC2294}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

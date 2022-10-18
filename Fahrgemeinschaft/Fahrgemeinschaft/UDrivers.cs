@@ -12,7 +12,6 @@ namespace Fahrgemeinschaft
         /// </summary>
 
         public string CarTypeMake { get; set; }
-        public float TimeStart { get; set; }
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
 
