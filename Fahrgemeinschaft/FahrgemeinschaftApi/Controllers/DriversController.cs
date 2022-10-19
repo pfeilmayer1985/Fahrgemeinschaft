@@ -20,9 +20,18 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet]
+        [Route("api/CarPoolApi/GetDrivers")]
         public async Task<ActionResult<IEnumerable<DriverModelDto>>> GetAllDrivers()
         {
             DriverModelDto[] items = driverBusinessService.ListAllDriverData();
+            return items;
+        }
+
+        [HttpGet]
+        [Route("api/CarPoolApi/GetDriverById/{id}")]
+        public async Task<ActionResult<DriverModelDto>> GetDriverById(string id)
+        {
+            DriverModelDto items = driverBusinessService.ListDriverById(id);
             return items;
         }
     }

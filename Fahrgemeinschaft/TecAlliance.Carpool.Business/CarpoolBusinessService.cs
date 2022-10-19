@@ -1,4 +1,5 @@
-﻿using TecAlliance.Carpool.Business.Models;
+﻿using System.Xml.Linq;
+using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data;
 
 namespace TecAlliance.Carpool.Business
@@ -17,12 +18,12 @@ namespace TecAlliance.Carpool.Business
         public CarpoolModelDto[] ListAllCarpoolsData()
         {
 
-            var result = carpoolDataService.ListAllCarpoolsService();
+            var carpools = carpoolDataService.ListAllCarpoolsService();
 
 
-            CarpoolModelDto[] resultNew = new CarpoolModelDto[result.Length];
+            CarpoolModelDto[] resultNew = new CarpoolModelDto[carpools.Length];
             int i = 0;
-            foreach (string element in result)
+            foreach (string element in carpools)
             {
                 CarpoolModelDto newCarpoolModelDto = new CarpoolModelDto();
                 newCarpoolModelDto.Passengers = new List<string>();
@@ -33,22 +34,33 @@ namespace TecAlliance.Carpool.Business
                 {
                     newCarpoolModelDto.Passengers.Add(subElement[j]);
                 }
-                
+
                 resultNew[i] = newCarpoolModelDto;
                 i++;
             }
             return resultNew;
         }
 
-        public CarpoolModelDto[] ListCarpoolsById(string id)
+        public CarpoolModelDto ListCarpoolById(string id)
         {
 
-            var result = carpoolDataService.ListAllCarpoolsService();
+            var carpool = carpoolDataService.ListAllCarpoolsService();
 
+            var findCarpool = carpool.First(e => e.Contains("DID#" + id));
+            //var findCarpool = result.Where(e => e.Contains("DID#" + id)).ToList();
+            CarpoolModelDto resultNew = new CarpoolModelDto();
+            var subElement = findCarpool.Split(',');
+            resultNew.Driver = subElement[0];
 
-            CarpoolModelDto[] resultNew = new CarpoolModelDto[result.Length];
-            int i = 0;
-            foreach (string element in result)
+            resultNew.Passengers = new List<string>();
+            for (int j = 1; j < subElement.Length; j++)
+            {
+
+                resultNew.Passengers.Add(subElement[j]);
+            }
+           
+            /*
+            foreach (string element in findCarpool)
             {
                 CarpoolModelDto newCarpoolModelDto = new CarpoolModelDto();
                 newCarpoolModelDto.Passengers = new List<string>();
@@ -60,12 +72,11 @@ namespace TecAlliance.Carpool.Business
                     newCarpoolModelDto.Passengers.Add(subElement[j]);
                 }
 
-                resultNew[i] = newCarpoolModelDto;
-                i++;
+                resultNew = newCarpoolModelDto;
             }
+            */
+           
             return resultNew;
-
-
 
         }
 

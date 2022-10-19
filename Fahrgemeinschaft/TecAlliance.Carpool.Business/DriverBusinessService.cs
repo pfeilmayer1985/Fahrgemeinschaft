@@ -17,14 +17,14 @@ namespace TecAlliance.Carpool.Business
         public DriverModelDto[] ListAllDriverData()
         {
 
-            var result = driverDataService.ListAllDriversService();
+            var drivers = driverDataService.ListAllDriversService();
 
             //var result = from x in passengerDataService.ListAllPassengersService()
             //             where x.Any()
             //             select x;
-            DriverModelDto[] resultNew = new DriverModelDto[result.Length];
+            DriverModelDto[] resultNew = new DriverModelDto[drivers.Length];
             int i = 0;
-            foreach (string element in result)
+            foreach (string element in drivers)
             {
                 DriverModelDto newDriverModelDto = new DriverModelDto();
                 var subElement = element.Split(',');
@@ -38,8 +38,24 @@ namespace TecAlliance.Carpool.Business
                 i++;
             }
             return resultNew;
+        }
 
+        public DriverModelDto ListDriverById(string id)
+        {
 
+            var drivers = driverDataService.ListAllDriversService();
+
+            var findDriver = drivers.First(e => e.Contains("DID#" + id));
+            DriverModelDto resultNew = new DriverModelDto();
+            var subElement = findDriver.Split(',');
+            resultNew.ID = subElement[0];
+            resultNew.FreePlaces = Convert.ToInt32(subElement[1]);
+            resultNew.Name = subElement[2];
+            resultNew.CarTypeMake = subElement[3];
+            resultNew.StartingCity = subElement[4];
+            resultNew.Destination = subElement[5];
+
+            return resultNew;
 
         }
     }

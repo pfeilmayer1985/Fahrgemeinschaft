@@ -20,10 +20,19 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet]
+        [Route("api/CarPoolApi/GetPassengers")]
         public async Task<ActionResult<IEnumerable<PassengerModelDto>>> GetAllPassengers()
         {
             PassengerModelDto[] items = passengerBusinessService.ListAllPassengersData();
             return items;
         }
+        [HttpGet]
+        [Route("api/CarPoolApi/GetPassenger/{id}")]
+        public async Task<ActionResult<PassengerModelDto>> GetPassengerById(string id)
+        {
+            PassengerModelDto item = passengerBusinessService.ListPassengerDataById(id);
+            return item;
+        }
+
     }
 }
