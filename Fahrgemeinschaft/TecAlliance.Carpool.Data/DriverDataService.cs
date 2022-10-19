@@ -1,4 +1,6 @@
-﻿namespace TecAlliance.Carpool.Data
+﻿using TecAlliance.Carpool.Data.Models;
+
+namespace TecAlliance.Carpool.Data
 {
     public class DriverDataService
     {
@@ -8,6 +10,11 @@
         {
             string[] showDriversList = File.ReadAllLines(pathFileDrivers);
             return showDriversList;
+        }
+
+        public void AddDriverDaService(Driver driverModelDto)
+        {
+            File.AppendAllText(pathFileDrivers, driverModelDto.ToString());
         }
     }
 }

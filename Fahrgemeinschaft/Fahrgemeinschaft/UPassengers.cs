@@ -91,7 +91,7 @@ namespace Fahrgemeinschaft
             string startCity = h.HandleUserTextInput(true);
             Console.Write("Destination City: ");
             string destination = h.HandleUserTextInput(true); ;
-            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + firstname + " " + lastname + "," + startCity + "," + destination));
+            File.AppendAllText(pathFilePassengers, ("\n" + id + "," + firstname + "," + lastname + "," + startCity + "," + destination));
             Console.WriteLine($"\nThe new user ID {id} for {firstname + " " + lastname} was successfully added to the list.\nYou can now look for a carpool ride.");
 
             Program.PressEnterTxt();

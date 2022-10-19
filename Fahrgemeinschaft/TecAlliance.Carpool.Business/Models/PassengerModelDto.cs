@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TecAlliance.Carpool.Business.Models
 {
-    public class PassengerModelDto : UserBase
+    public class PassengerModelDto : UserBaseDto
     {
 
     }

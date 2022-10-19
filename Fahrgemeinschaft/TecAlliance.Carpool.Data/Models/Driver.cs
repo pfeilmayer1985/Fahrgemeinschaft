@@ -11,11 +11,12 @@ namespace TecAlliance.Carpool.Data.Models
         public string CarTypeMake { get; set; }
         public int FreePlaces { get; set; }
 
-        public Driver(string iD, int freePlaces, string name, string carTypeMake, string startCity, string destination)
+        public Driver(string iD, int freePlaces, string firstName, string lastName, string carTypeMake, string startCity, string destination)
         {
             ID = iD;
             FreePlaces = freePlaces;
-            Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             CarTypeMake = carTypeMake;
             StartingCity = startCity;
             Destination = destination;
@@ -23,5 +24,13 @@ namespace TecAlliance.Carpool.Data.Models
 
         }
 
+        public Driver()
+        {
+        }
+
+        public string ToString()
+        {
+            return ($"\n{ID},{FreePlaces},{FirstName},{LastName},{CarTypeMake},{StartingCity},{Destination}");
+        }
     }
 }

@@ -6,7 +6,7 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Models
 {
-    public class Carpool
+    public class Carpool 
     {
         public string Driver { get; set; }
         public List<String> Passengers { get; set; }

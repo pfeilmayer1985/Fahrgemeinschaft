@@ -17,21 +17,22 @@ namespace TecAlliance.Carpool.Data.Models
         /// </summary>
 
         public string ID { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string StartingCity { get; set; }
         public string Destination { get; set; }
 
-        private List<UserBase> AllUserList { get; set; }
 
         /// <summary>
         /// user class constructor
         /// </summary>
 
 
-        public UserBase(string id, string name, string start, string dest)
+        public UserBase(string id, string firstName, string lastName, string start, string dest)
         {
             ID = id;
-            Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             StartingCity = start;
             Destination = dest;
 
@@ -39,7 +40,6 @@ namespace TecAlliance.Carpool.Data.Models
 
         public UserBase()
         {
-            AllUserList = new List<UserBase>();
 
         }
 

@@ -10,12 +10,21 @@ namespace TecAlliance.Carpool.Data.Models
     {
 
 
-        public Passenger(string iD, string name, string startCity, string destination)
+        public Passenger(string iD, string firstName, string lastName, string startCity, string destination)
         {
             ID = iD;
-            Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             StartingCity = startCity;
             Destination = destination;
+        }
+        public Passenger()
+        {
+
+        }
+        public string ToString()
+        {
+            return ($"\n{ID},{FirstName},{LastName},{StartingCity},{Destination}");
         }
 
     }

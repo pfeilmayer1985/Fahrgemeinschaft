@@ -10,13 +10,12 @@ namespace TecAlliance.Carpool.Business.Models
     /// Main class for users (drivers and passengers)
     /// </summary>
 
-    public abstract class UserBase
+    public abstract class UserBaseDto
     {
         /// <summary>
         /// user class properties
         /// </summary>
 
-        public string ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string StartingCity { get; set; }
@@ -28,7 +27,7 @@ namespace TecAlliance.Carpool.Business.Models
         /// </summary>
 
 
-        public UserBase()
+        public UserBaseDto()
         {
 
         }
