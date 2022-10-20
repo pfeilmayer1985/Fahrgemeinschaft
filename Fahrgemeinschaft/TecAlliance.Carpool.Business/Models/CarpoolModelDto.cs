@@ -10,7 +10,11 @@ namespace TecAlliance.Carpool.Business.Models
     public class CarpoolModelDto
     {
         public string Driver { get; set; }
-        public List<String> Passengers { get; set; }      
+        public List<String> Passengers { get; set; }
+
+        public Driver DriverDetails { get; set; }
+
+        public List<Passenger> PassengersDetails { get; set; }
 
     }
 
