@@ -20,18 +20,18 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet]
-        [Route("api/CarPoolApi/GetCarpools")]
+        // [Route("api/CarPoolApi/GetCarpools")]
         public async Task<ActionResult<IEnumerable<CarpoolModelDto>>> GetAllCarpools()
         {
             CarpoolModelDto[] items = carpoolBusinessService.ListAllCarpoolsData();
             return items;
         }
-        
-        [HttpGet]
-        [Route("api/CarPoolApi/GetCarpoolById/{id}")]
+
+        [HttpGet("{id}")]
+        // [Route("api/CarPoolApi/GetCarpoolById/{id}")]
         public async Task<ActionResult<CarpoolModelDto>> GetCarpoolById(string id)
         {
-            CarpoolModelDto items = carpoolBusinessService.ListCarpoolById(id);
+            CarpoolModelDto items = carpoolBusinessService.ListCarpoolById(id.ToUpper());
             return items;
         }
     }

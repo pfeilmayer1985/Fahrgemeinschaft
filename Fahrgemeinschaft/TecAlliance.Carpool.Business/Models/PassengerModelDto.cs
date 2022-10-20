@@ -8,6 +8,7 @@ namespace TecAlliance.Carpool.Business.Models
 {
     public class PassengerModelDto : UserBaseDto
     {
+        public string? ID { get; }
 
     }
 }

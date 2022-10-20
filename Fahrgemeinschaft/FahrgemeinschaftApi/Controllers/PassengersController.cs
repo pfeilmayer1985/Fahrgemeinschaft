@@ -22,27 +22,47 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet]
-        [Route("api/CarPoolApi/GetPassengers")]
+        //[Route("api/CarPoolApi/GetPassengers")]
         public async Task<ActionResult<IEnumerable<Passenger>>> GetAllPassengers()
         {
             Passenger[] items = passengerBusinessService.ListAllPassengersData();
             return items;
         }
-        [HttpGet]
-        [Route("api/CarPoolApi/GetPassenger/{id}")]
+        [HttpGet("{id}")]
+        //[Route("api/CarPoolApi/GetPassenger/{id}")]
         public async Task<ActionResult<Passenger>> GetPassengerById(string id)
         {
-            Passenger item = passengerBusinessService.ListPassengerDataById(id);
+            Passenger item = passengerBusinessService.ListPassengerDataById(id.ToUpper());
             return item;
         }
 
         [HttpPost]
-        [Route("api/CarPoolApi/AddPassenger")]
+        //[Route("api/CarPoolApi/AddPassenger")]
 
-        public async Task<ActionResult<Passenger>> AddPassenger(PassengerModelDto passengerModelDto)
+        public async Task<ActionResult<Passenger>> AddPassenger(PassengerModelDto passenger)
         {
-            Passenger item = passengerBusinessService.AddPassengerBuService(passengerModelDto);
+            Passenger item = passengerBusinessService.AddPassengerBuService(passenger);
             return item;
+        }
+
+        [HttpPut("{id}")]
+        //[Route("api/CarPoolApi/EditDriverById")]
+
+        public async Task<IActionResult> UpdatePassenger(string id, PassengerModelDto passenger)
+        {
+
+            passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
+            return NoContent();
+
+        }
+
+        [HttpDelete("{id}")]
+        //[Route("api/CarPoolApi/DeletePassengerById")]
+
+        public async Task<IActionResult> DeletePassenger(string id)
+        {
+            passengerBusinessService.DeletePassengerBuService(id.ToUpper());
+            return NoContent();
         }
 
     }

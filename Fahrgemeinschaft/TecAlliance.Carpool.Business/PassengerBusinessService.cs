@@ -61,7 +61,7 @@ namespace TecAlliance.Carpool.Business
             Passenger result = new Passenger()
             {
                 ID = "",
-                FirstName =passengerModelDto.FirstName,
+                FirstName = passengerModelDto.FirstName,
                 LastName = passengerModelDto.LastName,
                 StartingCity = passengerModelDto.StartingCity,
                 Destination = passengerModelDto.Destination
@@ -75,6 +75,75 @@ namespace TecAlliance.Carpool.Business
 
         }
 
+
+        public PassengerModelDto EditPassengerBuService(string id, PassengerModelDto dtoPassenger)
+        {
+
+            var passengers = passengerDataService.ListAllPassengersService();
+            var findPassenger = passengers.First(e => e.Contains("PID#" + id));
+            var subElement = findPassenger.Split(',');
+
+            Passenger result = new Passenger()
+            {
+                ID = subElement[0],
+                FirstName = dtoPassenger.FirstName,
+                LastName = dtoPassenger.LastName,
+                StartingCity = dtoPassenger.StartingCity,
+                Destination = dtoPassenger.Destination
+            };
+
+            passengerDataService.EditPassengerDaService(result);
+
+            return MapToModelDtoPassenger(result);
+        }
+
+        public Passenger DeletePassengerBuService(string id)
+        {
+
+            var passengers = passengerDataService.ListAllPassengersService();
+            var findPassenger = passengers.First(e => e.Contains("PID#" + id));
+
+            Passenger resultNew = new Passenger();
+            var subElement = findPassenger.Split(',');
+            resultNew.ID = subElement[0];
+
+            passengerDataService.DeletePassengerDaService(resultNew);
+
+            return resultNew;
+        }
+
+        private PassengerModelDto MapToModelDtoPassenger(Passenger passenger)
+        {
+            PassengerModelDto remappedPassenger = new PassengerModelDto()
+            {
+                FirstName = passenger.FirstName,
+                LastName = passenger.LastName,
+                StartingCity = passenger.StartingCity,
+                Destination = passenger.Destination
+            };
+
+            return remappedPassenger;
+
+        }
+
+
+        private Passenger MapToDriver(PassengerModelDto dtoPassenger)
+        {
+            Passenger remappedPassengerDto = new Passenger()
+            {
+                ID = dtoPassenger.ID,
+                FirstName = dtoPassenger.FirstName,
+                LastName = dtoPassenger.LastName,
+                StartingCity = dtoPassenger.StartingCity,
+                Destination = dtoPassenger.Destination
+
+            };
+
+            return remappedPassengerDto;
+
+        }
+
+
         public string CheckId(string id)
         {
             var passengerID = passengerDataService.ListAllPassengersService();
@@ -86,7 +155,7 @@ namespace TecAlliance.Carpool.Business
                 {
                     string partOne = id.Substring(0, 6);
                     string partTwo = id.Substring(7, 2);
-                    id =  partOne + GetaRandomChar() + partTwo + GetaRandomChar();
+                    id = partOne + GetaRandomChar() + partTwo + GetaRandomChar();
                     //id = id.Substring(0, 8) + GetaRandomChar() + GetaRandomChar();
                 }
             }
@@ -98,7 +167,7 @@ namespace TecAlliance.Carpool.Business
             string chars = "1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
             var splittedChars = chars.Split(',').ToArray();
             Random rand = new Random();
-            int num = rand.Next(0, splittedChars.Count()-1);
+            int num = rand.Next(0, splittedChars.Count() - 1);
             return splittedChars[num].ToString();
         }
     }

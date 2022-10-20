@@ -22,29 +22,55 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet]
-        [Route("api/CarPoolApi/GetDrivers")]
+        //[Route("api/CarPoolApi/GetDrivers")]
         public async Task<ActionResult<IEnumerable<Driver>>> GetAllDrivers()
         {
+
             Driver[] items = driverBusinessService.ListAllDriverData();
             return items;
         }
 
-        [HttpGet]
-        [Route("api/CarPoolApi/GetDriverById/{id}")]
+        [HttpGet("{id}")]
+        //[Route("api/CarPoolApi/GetDriverById/{id}")]
         public async Task<ActionResult<Driver>> GetDriverById(string id)
         {
-            Driver items = driverBusinessService.ListDriverById(id);
+            Driver items = driverBusinessService.ListDriverById(id.ToUpper());
             return items;
         }
 
 
         [HttpPost]
-        [Route("api/CarPoolApi/AddDriver")]
-                public async Task<ActionResult<Driver>> AddDriver(DriverModelDto driverModelDto)
+        //[Route("api/CarPoolApi/AddDriver")]
+        public async Task<ActionResult<Driver>> AddDriver(Driver driver)
         {
-            Driver item = driverBusinessService.AddDriverBuService(driverModelDto);
+            Driver item = driverBusinessService.AddDriverBuService(driver);
             return item;
         }
+
+
+        [HttpPut("{id}")]
+        //[Route("api/CarPoolApi/EditDriverById")]
+
+        public async Task<IActionResult> UpdateDriver(string id, DriverModelDto driver)
+        {
+            
+            driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
+            return NoContent();
+
+        }
+
+        
+        [HttpDelete("{id}")]
+        //[Route("api/CarPoolApi/DeleteDriverById")]
+
+        public async Task<IActionResult> DeleteDriver(string id)
+        {
+            driverBusinessService.DeleteDriverBuService(id.ToUpper());
+            return NoContent();
+        }
+
+        
+
 
 
     }

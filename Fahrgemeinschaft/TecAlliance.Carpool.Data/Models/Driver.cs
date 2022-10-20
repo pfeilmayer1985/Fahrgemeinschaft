@@ -8,12 +8,13 @@ namespace TecAlliance.Carpool.Data.Models
 {
     public class Driver : UserBase
     {
+        public string ID { get; set; }
         public string CarTypeMake { get; set; }
         public int FreePlaces { get; set; }
 
-        public Driver(string iD, int freePlaces, string firstName, string lastName, string carTypeMake, string startCity, string destination)
+        public Driver(string id, int freePlaces, string firstName, string lastName, string carTypeMake, string startCity, string destination)
         {
-            ID = iD;
+            ID = id;
             FreePlaces = freePlaces;
             FirstName = firstName;
             LastName = lastName;

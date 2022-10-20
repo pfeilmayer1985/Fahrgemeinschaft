@@ -63,19 +63,19 @@ namespace TecAlliance.Carpool.Business
         }
 
 
-        public Driver AddDriverBuService(DriverModelDto driverModelDto)
+        public Driver AddDriverBuService(Driver driver)
         {
             Driver result = new Driver()
             {
                 ID = "",
-                FreePlaces = driverModelDto.FreePlaces,
-                FirstName = driverModelDto.FirstName,
-                LastName = driverModelDto.LastName,
-                CarTypeMake = driverModelDto.CarTypeMake,
-                StartingCity = driverModelDto.StartingCity,
-                Destination = driverModelDto.Destination
+                FreePlaces = driver.FreePlaces,
+                FirstName = driver.FirstName,
+                LastName = driver.LastName,
+                CarTypeMake = driver.CarTypeMake,
+                StartingCity = driver.StartingCity,
+                Destination = driver.Destination
             };
-            result.ID = CheckId("DID#" + driverModelDto.FirstName.Substring(0, 3).ToUpper() + driverModelDto.LastName.Substring(0, 3).ToUpper());
+            result.ID = CheckIdByGenerateId("DID#" + driver.FirstName.Substring(0, 3).ToUpper() + driver.LastName.Substring(0, 3).ToUpper());
 
             driverDataService.AddDriverDaService(result);
 
@@ -84,7 +84,84 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-        public string CheckId(string id)
+
+        public DriverModelDto EditDriverBuService(string id, DriverModelDto driverModelDto)
+        {
+
+            var drivers = driverDataService.ListAllDriversService();
+            var findDriver = drivers.First(e => e.Contains("DID#" + id));
+            var subElement = findDriver.Split(',');
+
+            Driver result = new Driver()
+            {
+                ID = subElement[0],
+                FreePlaces = Convert.ToInt32(subElement[1]),
+                FirstName = driverModelDto.FirstName,
+                LastName = driverModelDto.LastName,
+                CarTypeMake = driverModelDto.CarTypeMake,
+                StartingCity = driverModelDto.StartingCity,
+                Destination = driverModelDto.Destination
+            };
+
+            driverDataService.EditDriverDaService(result);
+
+            return MapToModelDtoDriver(result);
+        }
+
+
+        public Driver DeleteDriverBuService(string id)
+        {
+
+            var drivers = driverDataService.ListAllDriversService();
+            var findDriver = drivers.First(e => e.Contains("DID#" + id));
+           
+            Driver resultNew = new Driver();
+            var subElement = findDriver.Split(',');
+            resultNew.ID = subElement[0];
+
+            driverDataService.DeleteDriverDaService(resultNew);
+
+            return resultNew;
+        }
+
+
+        private DriverModelDto MapToModelDtoDriver(Driver driver)
+        {
+            DriverModelDto remappedDriver = new DriverModelDto()
+            {
+                FirstName = driver.FirstName,
+                LastName = driver.LastName,
+                CarTypeMake = driver.CarTypeMake,
+                StartingCity = driver.StartingCity,
+                Destination = driver.Destination
+            };
+
+            return remappedDriver;
+
+        }
+
+
+        private Driver MapToDriver(DriverModelDto driverModelDto)
+        {
+            Driver remappedDriverDto = new Driver()
+            {
+                ID = driverModelDto.ID,
+                FreePlaces = Convert.ToInt32(driverModelDto.FreePlaces),
+                FirstName = driverModelDto.FirstName,
+                LastName = driverModelDto.LastName,
+                CarTypeMake = driverModelDto.CarTypeMake,
+                StartingCity = driverModelDto.StartingCity,
+                Destination = driverModelDto.Destination
+
+            };
+
+            return remappedDriverDto;
+
+        }
+
+
+
+        public string CheckIdByGenerateId(string id)
         {
             var driverID = driverDataService.ListAllDriversService();
 

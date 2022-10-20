@@ -12,9 +12,30 @@ namespace TecAlliance.Carpool.Data
             return showDriversList;
         }
 
-        public void AddDriverDaService(Driver driverModelDto)
+        public void AddDriverDaService(Driver driver)
         {
-            File.AppendAllText(pathFileDrivers, driverModelDto.ToString());
+            File.AppendAllText(pathFileDrivers, driver.ToString());
         }
+
+        public void EditDriverDaService(Driver driver)
+        {
+            string[] showDriversList = File.ReadAllLines(pathFileDrivers);
+            
+            string editedDriver = $"{driver.ID},{driver.FreePlaces},{driver.FirstName},{driver.LastName},{driver.CarTypeMake},{driver.StartingCity},{driver.Destination}";
+
+            List<string> addAllOtherEntriesBack = showDriversList.Where(e => !e.Contains(driver.ID)).ToList();
+            addAllOtherEntriesBack.Add(editedDriver);
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+            //File.AppendAllText(pathFileDrivers, driverModelDto.ToString());
+        }
+
+        public void DeleteDriverDaService(Driver driver)
+        {
+            string[] showDriversList = File.ReadAllLines(pathFileDrivers);
+
+            List<string> addAllOtherEntriesBack = showDriversList.Where(e => !e.Contains(driver.ID)).ToList();
+            File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
+        }
+
     }
 }
