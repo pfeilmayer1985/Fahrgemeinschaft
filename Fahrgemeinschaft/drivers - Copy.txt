@@ -1,5 +1,5 @@
-DID#ANDPFE,2,Andreea,Pfeilmayer,BMW X1,Schrozberg,End
-DID#HANGRO,3,Hans,Gross,Audi A6,Start,Niederstetten
 DID#PETMAX,4,Petre,Maxim,Volvo XC 60,Baia Mare,End
 DID#SECVIC,4,Second,Victim,Batmobil,string,string
-DID#SENVIV,3,Second,Victim,Old Rusty Bicycle,string,string
+DID#ANDPFE,2,Andreea,Pfeilmayer,BMW X1,Schrozberg,End
+DID#HANGRO,2,Hans,Gross,Audi A6,Start,Niederstetten
+DID#SENVIV,4,Second,Victim,Old Rusty Bicycle,string,string

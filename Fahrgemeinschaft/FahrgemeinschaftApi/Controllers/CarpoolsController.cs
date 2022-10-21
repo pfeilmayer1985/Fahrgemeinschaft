@@ -36,5 +36,24 @@ namespace TecAlliance.Carpool.Controllers
             CarpoolModelDto items = carpoolBusinessService.ListCarpoolById(id.ToUpper());
             return items;
         }
+
+        [HttpDelete("{idCarpool}")]
+        //[Route("api/CarPoolApi/DeleteCarpoolById")]
+
+        public async Task<IActionResult> DeleteCarpool(string idCarpool)
+        {
+            carpoolBusinessService.DeleteCarpoolByDriverId(idCarpool.ToUpper());
+            return NoContent();
+        }
+
+
+        [HttpDelete("{idDriver}/{idPassenger}")]
+        //[Route("api/CarPoolApi/DeletePassengerFromCarpool")]
+
+        public async Task<IActionResult> DeletePassengerFromCarpool(string idDriver, string idPassenger)
+        {
+            carpoolBusinessService.DeleteCarpoolByPassengerAndDriverId(idDriver.ToUpper(), idPassenger.ToUpper());
+            return NoContent();
+        }
     }
 }

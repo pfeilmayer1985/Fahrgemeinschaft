@@ -1,6 +1,4 @@
-﻿
-
-using TecAlliance.Carpool.Data.Models;
+﻿using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data
 

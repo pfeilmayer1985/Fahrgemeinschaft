@@ -16,7 +16,7 @@ namespace TecAlliance.Carpool.Business.Models
 
         public List<Passenger> PassengersDetails { get; set; }
 
+       
     }
-
-    
+        
 }
