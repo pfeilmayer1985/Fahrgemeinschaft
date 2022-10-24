@@ -27,7 +27,7 @@ namespace TecAlliance.Carpool.Data.Models
             string passengers = "";
             foreach (var passenger in Passengers)
             {
-                passengers = "," + passenger.ToString();
+                passengers += "," + passenger.ToString();
             }
 
             return ($"{Driver}{passengers}");

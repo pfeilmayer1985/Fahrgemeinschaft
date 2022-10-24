@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using TecAlliance.Carpool.Business;
 using TecAlliance.Carpool.Business.Models;
+using TecAlliance.Carpool.Data.Models;
+
 namespace TecAlliance.Carpool.Controllers
 {
     [ApiController]
@@ -54,6 +56,15 @@ namespace TecAlliance.Carpool.Controllers
         {
             carpoolBusinessService.DeleteCarpoolByPassengerAndDriverId(idDriver.ToUpper(), idPassenger.ToUpper());
             return NoContent();
+        }
+
+
+        [HttpPost]
+        //[Route("api/CarPoolApi/AddCarpool")]
+        public async Task<ActionResult<CarpoolModel>> AddCarpool(string idDriver, string idPassenger)
+        {
+            CarpoolModel item = carpoolBusinessService.AddCarpoolBuByPassengerAndDriverId(idDriver.ToUpper(), idPassenger.ToUpper());
+            return item;
         }
     }
 }

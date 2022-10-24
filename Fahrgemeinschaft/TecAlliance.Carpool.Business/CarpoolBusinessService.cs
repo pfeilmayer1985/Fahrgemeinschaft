@@ -125,6 +125,88 @@ namespace TecAlliance.Carpool.Business
 
         }
 
+        public CarpoolModel? AddCarpoolBuByPassengerAndDriverId(string inputDriverID, string inputPassengerID)
+        {
+            var carpool = carpoolDataService.ListAllCarpoolsDataService();
+            var passengerFile = passengerDataService.ListAllPassengersService();
+            var driversFile = driverDataService.ListAllDriversService();
+
+            var findPassengerInPassengers = passengerFile.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID));
+            var findDriverInDrivers = driversFile.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
+           
+
+            if (findPassengerInPassengers != null && findDriverInDrivers != null)
+            {
+
+                var findDriverInCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
+                var findExistingCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID) && e.Contains("PID#" + inputPassengerID));
+                //if the user is allready in the carpool throw error
+                if (findExistingCarpool != null)
+                {
+                    throw new Exception();
+                }
+                //check if the driver has a carpool, if yes, add user to carpool
+                else if (findDriverInCarpool != null)
+                {
+                    var elementsOfCurrentCarpool = findDriverInCarpool.Split(',');
+
+                    Driver currentDriverX = new Driver();
+                    CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
+                    CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
+                    var newListOfRemainingPassengers = new List<string>();
+
+                    toDeleteCarpoolEntry.Driver = elementsOfCurrentCarpool[0];
+                    toAddEditedCarpoolEntry.Driver = elementsOfCurrentCarpool[0];
+
+                    for (int i = 1; i < elementsOfCurrentCarpool.Length; i++)
+                    {
+                        // if (elementsOfCurrentCarpool[i] != "PID#" + inputPassengerID)
+                        newListOfRemainingPassengers.Add(elementsOfCurrentCarpool[i]);
+                    }
+                    newListOfRemainingPassengers.Add("PID#" + inputPassengerID);
+                    //var result = string.Join(",", newListOfRemainingPassengers.ToArray());
+                    toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
+
+                    //delete old string
+                    carpoolDataService.DeleteCarpoolDaService(MapToCarpool(toDeleteCarpoolEntry));
+
+                    // add new string
+                    carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
+
+                    //change free places for the driver erased from the carpool
+                    var subElementDriverX = findDriverInDrivers.Split(',');
+                    currentDriverX.ID = subElementDriverX[0];
+                    currentDriverX.FreePlaces = Convert.ToInt32(subElementDriverX[1]) - 1;
+                    currentDriverX.FirstName = subElementDriverX[2];
+                    currentDriverX.LastName = subElementDriverX[3];
+                    currentDriverX.CarTypeMake = subElementDriverX[4];
+                    currentDriverX.StartingCity = subElementDriverX[5];
+                    currentDriverX.Destination = subElementDriverX[6];
+                    driverDataService.EditDriverDaService(currentDriverX);
+                    return toAddEditedCarpoolEntry;
+                }
+                //if the driver is not in the carpool lists, make new carpool
+                else if (findDriverInCarpool == null)
+                {
+                    CarpoolModel newCarpool = new CarpoolModel();
+                    newCarpool.Driver = "\nDID#" + inputDriverID;
+                    var newListOPassengers = new List<string>();
+                    newListOPassengers.Add("PID#" + inputPassengerID);
+                    newCarpool.Passengers = newListOPassengers;
+                    carpoolDataService.AddCarpoolDaService(newCarpool);
+
+                    return newCarpool;
+                }
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+            return null;
+
+        }
+
 
         public CarpoolModelDto DeleteCarpoolByDriverId(string id)
         {
