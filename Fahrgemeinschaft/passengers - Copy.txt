@@ -8,3 +8,4 @@ PID#PETMAX,Petre,Maxim,Baia Mare,End
 PID#FIRVIC,First,Victim,Gotham,City
 PID#FIRVWE,First,Victim,string,string
 PID#FICVID,First,Victim,string,string
+PID#VICEGR,Victor,Egri,Weikersheim,End

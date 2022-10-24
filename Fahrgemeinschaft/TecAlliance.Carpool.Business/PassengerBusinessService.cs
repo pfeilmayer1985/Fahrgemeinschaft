@@ -8,6 +8,7 @@ namespace TecAlliance.Carpool.Business
     public class PassengerBusinessService
     {
         private PassengerDataService passengerDataService;
+        private CarpoolDataService carpoolDataService;
 
         public PassengerBusinessService()
         {
