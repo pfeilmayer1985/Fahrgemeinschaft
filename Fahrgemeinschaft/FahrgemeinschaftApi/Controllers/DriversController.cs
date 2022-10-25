@@ -35,7 +35,14 @@ namespace TecAlliance.Carpool.Controllers
         public async Task<ActionResult<Driver>> GetDriverById(string id)
         {
             Driver items = driverBusinessService.ListDriverById(id.ToUpper());
-            return items;
+            if (items == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return items;
+            }
         }
 
 
@@ -53,23 +60,41 @@ namespace TecAlliance.Carpool.Controllers
 
         public async Task<IActionResult> UpdateDriver(string id, DriverModelDto driver)
         {
-            
-            driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
-            return NoContent();
+
+            var items = driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
+            if (items == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
+                return NoContent();
+            }
 
         }
 
-        
+
         [HttpDelete("{id}")]
         //[Route("api/CarPoolApi/DeleteDriverById")]
 
         public async Task<IActionResult> DeleteDriver(string id)
         {
-            driverBusinessService.DeleteDriverBuService(id.ToUpper());
-            return NoContent();
+            var item = driverBusinessService.DeleteDriverBuService(id.ToUpper());
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                driverBusinessService.DeleteDriverBuService(id.ToUpper());
+                return NoContent();
+            }
+
+
         }
 
-        
+
 
 
 

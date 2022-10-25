@@ -49,18 +49,26 @@ namespace TecAlliance.Carpool.Business
 
             var drivers = driverDataService.ListAllDriversService();
 
-            var findDriver = drivers.First(e => e.Contains("DID#" + id));
-            Driver resultNew = new Driver();
-            var subElement = findDriver.Split(',');
-            resultNew.ID = subElement[0];
-            resultNew.FreePlaces = Convert.ToInt32(subElement[1]);
-            resultNew.FirstName = subElement[2];
-            resultNew.LastName = subElement[3];
-            resultNew.CarTypeMake = subElement[4];
-            resultNew.StartingCity = subElement[5];
-            resultNew.Destination = subElement[6];
+            var findDriver = drivers.FirstOrDefault(e => e.Contains("DID#" + id));
+            if (findDriver != null)
+            {
 
-            return resultNew;
+                Driver resultNew = new Driver();
+                var subElement = findDriver.Split(',');
+                resultNew.ID = subElement[0];
+                resultNew.FreePlaces = Convert.ToInt32(subElement[1]);
+                resultNew.FirstName = subElement[2];
+                resultNew.LastName = subElement[3];
+                resultNew.CarTypeMake = subElement[4];
+                resultNew.StartingCity = subElement[5];
+                resultNew.Destination = subElement[6];
+
+                return resultNew;
+            }
+            else
+            {
+                return null;
+            }
 
         }
 
@@ -91,23 +99,31 @@ namespace TecAlliance.Carpool.Business
         {
 
             var drivers = driverDataService.ListAllDriversService();
-            var findDriver = drivers.First(e => e.Contains("DID#" + id));
-            var subElement = findDriver.Split(',');
-
-            Driver result = new Driver()
+            var findDriver = drivers.FirstOrDefault(e => e.Contains("DID#" + id));
+            if (findDriver != null)
             {
-                ID = subElement[0],
-                FreePlaces = Convert.ToInt32(subElement[1]),
-                FirstName = driverModelDto.FirstName,
-                LastName = driverModelDto.LastName,
-                CarTypeMake = driverModelDto.CarTypeMake,
-                StartingCity = driverModelDto.StartingCity,
-                Destination = driverModelDto.Destination
-            };
 
-            driverDataService.EditDriverDaService(result);
+                var subElement = findDriver.Split(',');
 
-            return MapToModelDtoDriver(result);
+                Driver result = new Driver()
+                {
+                    ID = subElement[0],
+                    FreePlaces = Convert.ToInt32(subElement[1]),
+                    FirstName = driverModelDto.FirstName,
+                    LastName = driverModelDto.LastName,
+                    CarTypeMake = driverModelDto.CarTypeMake,
+                    StartingCity = driverModelDto.StartingCity,
+                    Destination = driverModelDto.Destination
+                };
+
+                driverDataService.EditDriverDaService(result);
+
+                return MapToModelDtoDriver(result);
+            }
+            else
+            {
+                return null;
+            }
         }
 
 
@@ -115,15 +131,22 @@ namespace TecAlliance.Carpool.Business
         {
 
             var drivers = driverDataService.ListAllDriversService();
-            var findDriver = drivers.First(e => e.Contains("DID#" + id));
-           
-            Driver resultNew = new Driver();
-            var subElement = findDriver.Split(',');
-            resultNew.ID = subElement[0];
+            var findDriver = drivers.FirstOrDefault(e => e.Contains("DID#" + id));
 
-            driverDataService.DeleteDriverDaService(resultNew);
+            if (findDriver != null)
+            {
+                Driver resultNew = new Driver();
+                var subElement = findDriver.Split(',');
+                resultNew.ID = subElement[0];
 
-            return resultNew;
+                driverDataService.DeleteDriverDaService(resultNew);
+
+                return resultNew;
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

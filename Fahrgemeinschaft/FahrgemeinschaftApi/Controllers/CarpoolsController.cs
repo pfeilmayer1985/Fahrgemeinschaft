@@ -12,8 +12,6 @@ namespace TecAlliance.Carpool.Controllers
     {
         private readonly ILogger<CarpoolsController> _logger;
         private CarpoolBusinessService carpoolBusinessService;
-       // private PassengerBusinessService passengerBusinessService;
-       // private DriverBusinessService driverBusinessService;
 
         public CarpoolsController(ILogger<CarpoolsController> logger)
         {
@@ -35,8 +33,16 @@ namespace TecAlliance.Carpool.Controllers
         // [Route("api/CarPoolApi/GetCarpoolById/{id}")]
         public async Task<ActionResult<CarpoolModelDto>> GetCarpoolById(string id)
         {
+
             CarpoolModelDto items = carpoolBusinessService.ListCarpoolById(id.ToUpper());
-            return items;
+            if (items == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return items;
+            }
         }
 
         [HttpDelete("{idCarpool}")]
@@ -44,8 +50,18 @@ namespace TecAlliance.Carpool.Controllers
 
         public async Task<IActionResult> DeleteCarpool(string idCarpool)
         {
-            carpoolBusinessService.DeleteCarpoolByDriverId(idCarpool.ToUpper());
-            return NoContent();
+            var item = carpoolBusinessService.DeleteCarpoolByDriverId(idCarpool.ToUpper());
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                carpoolBusinessService.DeleteCarpoolByDriverId(idCarpool.ToUpper());
+                return NoContent();
+            }
+
         }
 
 
@@ -54,8 +70,16 @@ namespace TecAlliance.Carpool.Controllers
 
         public async Task<IActionResult> DeletePassengerFromCarpool(string idDriver, string idPassenger)
         {
-            carpoolBusinessService.DeleteCarpoolByPassengerAndDriverId(idDriver.ToUpper(), idPassenger.ToUpper());
-            return NoContent();
+            var items = carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverId(idDriver.ToUpper(), idPassenger.ToUpper());
+            if (items == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverId(idDriver.ToUpper(), idPassenger.ToUpper());
+                return NoContent();
+            }
         }
 
 

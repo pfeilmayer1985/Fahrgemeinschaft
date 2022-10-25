@@ -46,15 +46,23 @@ namespace TecAlliance.Carpool.Business
         {
 
             var passenger = passengerDataService.ListAllPassengersService();
-            var findPassenger = passenger.First(e => e.Contains("PID#" + id));
-            Passenger result = new Passenger();
-            var subElementofPassenger = findPassenger.Split(',');
-            result.ID = subElementofPassenger[0];
-            result.FirstName = subElementofPassenger[1];
-            result.LastName = subElementofPassenger[2];
-            result.StartingCity = subElementofPassenger[3];
-            result.Destination = subElementofPassenger[4];
-            return result;
+            var findPassenger = passenger.FirstOrDefault(e => e.Contains("PID#" + id));
+
+            if (findPassenger != null)
+            {
+                Passenger result = new Passenger();
+                var subElementofPassenger = findPassenger.Split(',');
+                result.ID = subElementofPassenger[0];
+                result.FirstName = subElementofPassenger[1];
+                result.LastName = subElementofPassenger[2];
+                result.StartingCity = subElementofPassenger[3];
+                result.Destination = subElementofPassenger[4];
+                return result;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public Passenger AddPassengerBuService(PassengerModelDto passengerModelDto)
@@ -76,41 +84,55 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-
         public PassengerModelDto EditPassengerBuService(string id, PassengerModelDto dtoPassenger)
         {
 
             var passengers = passengerDataService.ListAllPassengersService();
-            var findPassenger = passengers.First(e => e.Contains("PID#" + id));
-            var subElement = findPassenger.Split(',');
+            var findPassenger = passengers.FirstOrDefault(e => e.Contains("PID#" + id));
 
-            Passenger result = new Passenger()
+            if (findPassenger != null)
             {
-                ID = subElement[0],
-                FirstName = dtoPassenger.FirstName,
-                LastName = dtoPassenger.LastName,
-                StartingCity = dtoPassenger.StartingCity,
-                Destination = dtoPassenger.Destination
-            };
+                var subElement = findPassenger.Split(',');
 
-            passengerDataService.EditPassengerDaService(result);
+                Passenger result = new Passenger()
+                {
+                    ID = subElement[0],
+                    FirstName = dtoPassenger.FirstName,
+                    LastName = dtoPassenger.LastName,
+                    StartingCity = dtoPassenger.StartingCity,
+                    Destination = dtoPassenger.Destination
+                };
 
-            return MapToModelDtoPassenger(result);
+                passengerDataService.EditPassengerDaService(result);
+
+                return MapToModelDtoPassenger(result);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public Passenger DeletePassengerBuService(string id)
         {
 
             var passengers = passengerDataService.ListAllPassengersService();
-            var findPassenger = passengers.First(e => e.Contains("PID#" + id));
+            var findPassenger = passengers.FirstOrDefault(e => e.Contains("PID#" + id));
 
-            Passenger resultNew = new Passenger();
-            var subElement = findPassenger.Split(',');
-            resultNew.ID = subElement[0];
+            if (findPassenger != null)
+            {
+                Passenger resultNew = new Passenger();
+                var subElement = findPassenger.Split(',');
+                resultNew.ID = subElement[0];
 
-            passengerDataService.DeletePassengerDaService(resultNew);
+                passengerDataService.DeletePassengerDaService(resultNew);
 
-            return resultNew;
+                return resultNew;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private PassengerModelDto MapToModelDtoPassenger(Passenger passenger)
@@ -127,7 +149,6 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-
         private Passenger MapToDriver(PassengerModelDto dtoPassenger)
         {
             Passenger remappedPassengerDto = new Passenger()
@@ -143,7 +164,6 @@ namespace TecAlliance.Carpool.Business
             return remappedPassengerDto;
 
         }
-
 
         public string CheckId(string id)
         {

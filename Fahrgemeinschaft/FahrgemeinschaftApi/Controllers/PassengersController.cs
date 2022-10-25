@@ -33,7 +33,15 @@ namespace TecAlliance.Carpool.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(string id)
         {
             Passenger item = passengerBusinessService.ListPassengerDataById(id.ToUpper());
-            return item;
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return item;
+            }
         }
 
         [HttpPost]
@@ -51,8 +59,16 @@ namespace TecAlliance.Carpool.Controllers
         public async Task<IActionResult> UpdatePassenger(string id, PassengerModelDto passenger)
         {
 
-            passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
-            return NoContent();
+            var item = passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
+                return NoContent();
+            }
 
         }
 
@@ -61,8 +77,16 @@ namespace TecAlliance.Carpool.Controllers
 
         public async Task<IActionResult> DeletePassenger(string id)
         {
-            passengerBusinessService.DeletePassengerBuService(id.ToUpper());
-            return NoContent();
+            var item = passengerBusinessService.DeletePassengerBuService(id.ToUpper());
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                passengerBusinessService.DeletePassengerBuService(id.ToUpper());
+                return NoContent();
+            }
         }
 
     }
