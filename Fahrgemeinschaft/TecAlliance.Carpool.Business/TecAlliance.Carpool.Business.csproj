@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TecAlliance.Carpool.Data\TecAlliance.Carpool.Data.csproj" />
   </ItemGroup>
 
