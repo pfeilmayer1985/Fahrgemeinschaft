@@ -16,6 +16,9 @@ namespace TecAlliance.Carpool.Business
 
         }
 
+        /// <summary>
+        /// This method will return a detailed list with the passenger IDs and infos
+        /// </summary>
         public Passenger[] ListAllPassengersData()
         {
 
@@ -42,6 +45,9 @@ namespace TecAlliance.Carpool.Business
             return resultNew;
         }
 
+        /// <summary>
+        /// This method will return one detailed passenger info based on a search after his IDs
+        /// </summary>
         public Passenger ListPassengerDataById(string id)
         {
 
@@ -65,6 +71,9 @@ namespace TecAlliance.Carpool.Business
             }
         }
 
+        /// <summary>
+        /// This method will add a new passenger in the file
+        /// </summary>
         public Passenger AddPassengerBuService(PassengerModelDto passengerModelDto)
         {
             Passenger result = new Passenger()
@@ -75,7 +84,7 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = passengerModelDto.StartingCity,
                 Destination = passengerModelDto.Destination
             };
-            result.ID = CheckId("PID#" + passengerModelDto.FirstName.Substring(0, 3).ToUpper() + passengerModelDto.LastName.Substring(0, 3).ToUpper());
+            result.ID = SMGenerateAndCheckPassenger("PID#" + passengerModelDto.FirstName.Substring(0, 3).ToUpper() + passengerModelDto.LastName.Substring(0, 3).ToUpper());
 
             passengerDataService.AddPassengerDaService(result);
 
@@ -84,6 +93,9 @@ namespace TecAlliance.Carpool.Business
 
         }
 
+        /// <summary>
+        /// This method will "edit" the infos of a passenger based on his ID
+        /// </summary>
         public PassengerModelDto EditPassengerBuService(string id, PassengerModelDto dtoPassenger)
         {
 
@@ -113,6 +125,9 @@ namespace TecAlliance.Carpool.Business
             }
         }
 
+        /// <summary>
+        /// This method will delete a passenger based on his ID
+        /// </summary>
         public Passenger DeletePassengerBuService(string id)
         {
 
@@ -135,6 +150,9 @@ namespace TecAlliance.Carpool.Business
             }
         }
 
+        /// <summary>
+        /// Remapping a Passenger obj to a DTO obj
+        /// </summary>
         private PassengerModelDto MapToModelDtoPassenger(Passenger passenger)
         {
             PassengerModelDto remappedPassenger = new PassengerModelDto()
@@ -149,23 +167,28 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-        private Passenger MapToDriver(PassengerModelDto dtoPassenger)
-        {
-            Passenger remappedPassengerDto = new Passenger()
-            {
-                ID = dtoPassenger.ID,
-                FirstName = dtoPassenger.FirstName,
-                LastName = dtoPassenger.LastName,
-                StartingCity = dtoPassenger.StartingCity,
-                Destination = dtoPassenger.Destination
+        /* private Passenger MapToDriver(PassengerModelDto dtoPassenger)
+         {
+             Passenger remappedPassengerDto = new Passenger()
+             {
+                 ID = dtoPassenger.ID,
+                 FirstName = dtoPassenger.FirstName,
+                 LastName = dtoPassenger.LastName,
+                 StartingCity = dtoPassenger.StartingCity,
+                 Destination = dtoPassenger.Destination
 
-            };
+             };
 
-            return remappedPassengerDto;
+             return remappedPassengerDto;
 
-        }
+         }  */
 
-        public string CheckId(string id)
+        /// <summary>
+        /// This submethod will generate a Passenger ID based on the first 3 letters in the First Name and first 3 letters in the Last Name
+        /// If the ID allready exists in the file, a new ID will be generated, where the last character of the first 3 letters both in First Name and Last Name
+        /// are replaced by a random character.
+        /// </summary>
+        public string SMGenerateAndCheckPassenger(string id)
         {
             var passengerID = passengerDataService.ListAllPassengersService();
 
@@ -176,14 +199,17 @@ namespace TecAlliance.Carpool.Business
                 {
                     string partOne = id.Substring(0, 6);
                     string partTwo = id.Substring(7, 2);
-                    id = partOne + GetaRandomChar() + partTwo + GetaRandomChar();
+                    id = partOne + SMGetaRandomChar() + partTwo + SMGetaRandomChar();
                     //id = id.Substring(0, 8) + GetaRandomChar() + GetaRandomChar();
                 }
             }
             return id;
         }
 
-        public static string GetaRandomChar()
+        /// <summary>
+        /// This submethod will return random character to be used in the ID generator
+        /// </summary>
+        public static string SMGetaRandomChar()
         {
             string chars = "1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
             var splittedChars = chars.Split(',').ToArray();

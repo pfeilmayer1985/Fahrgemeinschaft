@@ -18,7 +18,10 @@ namespace TecAlliance.Carpool.Business
             passengerDataService = new PassengerDataService();
         }
 
-        public CarpoolModelDto[] ListAllCarpoolsData()
+        /// <summary>
+        /// This method will return a detailed carpool list with drivers and passengers IDs and infos
+        /// </summary>
+        public CarpoolModelDto[] ListAllCarpoolsDataBu()
         {
 
             var carpools = carpoolDataService.ListAllCarpoolsDataService();
@@ -74,7 +77,10 @@ namespace TecAlliance.Carpool.Business
             return resultNew;
         }
 
-        public CarpoolModelDto ListCarpoolById(string id)
+        /// <summary>
+        /// This method will return one detailed carpool info based on a search after driver ID and passenger IDs
+        /// </summary>
+        public CarpoolModelDto ListCarpoolByIdBu(string id)
         {
 
             var carpool = carpoolDataService.ListAllCarpoolsDataService();
@@ -132,7 +138,10 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-        public CarpoolModel? AddCarpoolBuByPassengerAndDriverId(string inputDriverID, string inputPassengerID)
+        /// <summary>
+        /// This method will either build a new carpool based on Driver ID and Passenger ID or add to an existing Driver ID carpool the Passenger ID
+        /// </summary>
+        public CarpoolModel? AddCarpoolByPassengerAndDriverIdBu(string inputDriverID, string inputPassengerID)
         {
             var carpool = carpoolDataService.ListAllCarpoolsDataService();
             var passengerFile = passengerDataService.ListAllPassengersService();
@@ -173,7 +182,7 @@ namespace TecAlliance.Carpool.Business
                     toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
 
                     //delete old string
-                    carpoolDataService.DeleteCarpoolDaService(MapToCarpool(toDeleteCarpoolEntry));
+                    carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
 
                     // add new string
                     carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
@@ -207,6 +216,140 @@ namespace TecAlliance.Carpool.Business
 
         }
 
+        /// <summary>
+        /// This method will delete an existing carpool based on Driver ID
+        /// </summary>
+        public CarpoolModelDto DeleteCarpoolByDriverIdBu(string id)
+        {
+            //delete carpool based on driverID
+            var carpool = carpoolDataService.ListAllCarpoolsDataService();
+            var findCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + id));
+
+            if (findCarpool != null)
+            {
+                CarpoolModelDto resultNew = new CarpoolModelDto();
+                var subElement = findCarpool.Split(',');
+                var numberOfCarpoolPassengers = subElement.Length - 1; //take length of the carpool IDs and substract 1 that is the driver. the rest are passengers
+                resultNew.Driver = subElement[0];
+
+
+                carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(resultNew));
+
+                //change free places for the driver erased from the carpool
+                var driver = driverDataService.ListAllDriversService();
+                var findDriver = driver.First(e => e.Contains("DID#" + id));
+                Driver currentDriver = new Driver();
+                var subElementDriver = findDriver.Split(',');
+                currentDriver.ID = subElementDriver[0];
+                currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + numberOfCarpoolPassengers;
+                currentDriver.FirstName = subElementDriver[2];
+                currentDriver.LastName = subElementDriver[3];
+                currentDriver.CarTypeMake = subElementDriver[4];
+                currentDriver.StartingCity = subElementDriver[5];
+                currentDriver.Destination = subElementDriver[6];
+
+
+                driverDataService.EditDriverDaService(currentDriver);
+
+                return resultNew;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
+        /// This method will either remove an passenger from an existing carpool/Driver ID or if he is the only passenger 
+        /// then will dissolve/delete the existing carpool based on Driver ID
+        /// </summary>
+        public CarpoolModelDto RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(string inputDriverID, string inputPassengerID)
+        {
+            var carpool = carpoolDataService.ListAllCarpoolsDataService();
+            var driverX = driverDataService.ListAllDriversService();
+            var passengerX = passengerDataService.ListAllPassengersService();
+            var foundDriverX = driverX.FirstOrDefault(e => e.Contains("DID#" + inputDriverID.ToUpper()));
+            var foundPassengerX = passengerX.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID.ToUpper()));
+            var bothDriverAndPassengerAreInACarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID) && e.Contains("PID#" + inputPassengerID));
+
+            if (foundDriverX != null && foundPassengerX != null && bothDriverAndPassengerAreInACarpool != null)
+            {
+
+                var elementsOfCurrentCarpool = bothDriverAndPassengerAreInACarpool.Split(',');
+                var newListOfRemainingPassengers = new List<string>();
+
+                Driver currentDriverX = new Driver();
+
+                CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
+                CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
+
+                var subElement = bothDriverAndPassengerAreInACarpool.Split(',');
+                toDeleteCarpoolEntry.Driver = subElement[0];
+                toAddEditedCarpoolEntry.Driver = subElement[0];
+
+                //delete old string
+                carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
+
+                if (elementsOfCurrentCarpool.Length != 2)
+                {
+                    for (int i = 1; i < elementsOfCurrentCarpool.Length; i++)
+                    {
+                        if (elementsOfCurrentCarpool[i] != "PID#" + inputPassengerID)
+                            newListOfRemainingPassengers.Add(elementsOfCurrentCarpool[i]);
+                    }
+                    var result = string.Join(",", newListOfRemainingPassengers.ToArray());
+                    toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
+                    // add new string
+                    carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
+
+                }
+
+
+                //change free places for the driver erased from the carpool
+                SMRecoverOneFreePlace(foundDriverX, currentDriverX);
+
+                driverDataService.EditDriverDaService(currentDriverX);
+                return toDeleteCarpoolEntry;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /* private CarpoolModelDto MapToModelDtoCarpool(CarpoolModel carpool)
+         {
+             CarpoolModelDto remappedCarpool = new CarpoolModelDto()
+             {
+                 Driver = carpool.Driver,
+                 Passengers = carpool.Passengers,
+
+             };
+
+             return remappedCarpool;
+
+         }*/
+
+        /// <summary>
+        /// This method is remapping a Carpool model to a Carpool model DTO
+        /// </summary>
+        private CarpoolModel MapToCarpoolBu(CarpoolModelDto dtoCarpool)
+        {
+            CarpoolModel remappedCarpoolDto = new CarpoolModel()
+            {
+                Driver = dtoCarpool.Driver,
+                Passengers = dtoCarpool.Passengers,
+
+            };
+
+            return remappedCarpoolDto;
+
+        }
+
+        /// <summary>
+        /// Submethod that reduces the number of free places of a driver with 1
+        /// </summary>
         private void SMReduceFreePlacesWithOne(string? findDriverInDrivers, Driver currentDriverX)
         {
             var subElementDriverX = findDriverInDrivers.Split(',');
@@ -220,113 +363,9 @@ namespace TecAlliance.Carpool.Business
             driverDataService.EditDriverDaService(currentDriverX);
         }
 
-        public CarpoolModelDto DeleteCarpoolByDriverId(string id)
-        {
-            //delete carpool based on driverID
-            var carpool = carpoolDataService.ListAllCarpoolsDataService();
-            var findCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + id));
-            
-            if(findCarpool != null) { 
-            CarpoolModelDto resultNew = new CarpoolModelDto();
-            var subElement = findCarpool.Split(',');
-            var numberOfCarpoolPassengers = subElement.Length - 1; //take length of the carpool IDs and substract 1 that is the driver. the rest are passengers
-            resultNew.Driver = subElement[0];
-
-
-            carpoolDataService.DeleteCarpoolDaService(MapToCarpool(resultNew));
-
-            //change free places for the driver erased from the carpool
-            var driver = driverDataService.ListAllDriversService();
-            var findDriver = driver.First(e => e.Contains("DID#" + id));
-            Driver currentDriver = new Driver();
-            var subElementDriver = findDriver.Split(',');
-            currentDriver.ID = subElementDriver[0];
-            currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + numberOfCarpoolPassengers;
-            currentDriver.FirstName = subElementDriver[2];
-            currentDriver.LastName = subElementDriver[3];
-            currentDriver.CarTypeMake = subElementDriver[4];
-            currentDriver.StartingCity = subElementDriver[5];
-            currentDriver.Destination = subElementDriver[6];
-
-
-            driverDataService.EditDriverDaService(currentDriver);
-
-            return resultNew;
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-       
         /// <summary>
-        /// 
+        /// Submethod that adds back one free place to the current number of free places of a driver
         /// </summary>
-        /// <param name="inputDriverID"></param>
-        /// <param name="inputPassengerID"></param>
-        /// <returns></returns>
-        public CarpoolModelDto RemovePassengerFromCarpoolByPassengerIdAndDriverId(string inputDriverID, string inputPassengerID)
-        {
-            var carpool = carpoolDataService.ListAllCarpoolsDataService();
-            var userX = driverDataService.ListAllDriversService();
-            var findDriverX = userX.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
-            var findPassengerX = userX.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID));
-
-            if (findDriverX != null && findPassengerX != null)
-            { 
-            var findDriverInCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID) && e.Contains("PID#" + inputPassengerID));
-            var elementsOfCurrentCarpool = findDriverInCarpool.Split(',');
-            var newListOfRemainingPassengers = new List<string>();
-
-            Driver currentDriverX = new Driver();
-
-            CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
-            CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
-
-            var subElement = findDriverInCarpool.Split(',');
-            toDeleteCarpoolEntry.Driver = subElement[0];
-            toAddEditedCarpoolEntry.Driver = subElement[0];
-
-            if (elementsOfCurrentCarpool.Length != 2)
-            {
-                for (int i = 1; i < elementsOfCurrentCarpool.Length; i++)
-                {
-                    if (elementsOfCurrentCarpool[i] != "PID#" + inputPassengerID)
-                        newListOfRemainingPassengers.Add(elementsOfCurrentCarpool[i]);
-                }
-                var result = string.Join(",", newListOfRemainingPassengers.ToArray());
-                toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
-
-                //delete old string
-                carpoolDataService.DeleteCarpoolDaService(MapToCarpool(toDeleteCarpoolEntry));
-
-                // add new string
-                carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
-
-                //change free places for the driver erased from the carpool
-                SMRecoverOneFreePlace(findDriverX, currentDriverX);
-
-                driverDataService.EditDriverDaService(currentDriverX);
-            }
-            else
-            {
-                //delete old string
-                carpoolDataService.DeleteCarpoolDaService(MapToCarpool(toDeleteCarpoolEntry));
-
-                //change free places for the driver erased from the carpool
-                SMRecoverOneFreePlace(findDriverX, currentDriverX);
-
-                driverDataService.EditDriverDaService(currentDriverX);
-            }
-            return toDeleteCarpoolEntry;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         private static void SMRecoverOneFreePlace(string findDriverX, Driver currentDriverX)
         {
             var subElementDriverX = findDriverX.Split(',');
@@ -337,32 +376,6 @@ namespace TecAlliance.Carpool.Business
             currentDriverX.CarTypeMake = subElementDriverX[4];
             currentDriverX.StartingCity = subElementDriverX[5];
             currentDriverX.Destination = subElementDriverX[6];
-        }
-
-        private CarpoolModelDto MapToModelDtoCarpool(CarpoolModel carpool)
-        {
-            CarpoolModelDto remappedCarpool = new CarpoolModelDto()
-            {
-                Driver = carpool.Driver,
-                Passengers = carpool.Passengers,
-
-            };
-
-            return remappedCarpool;
-
-        }
-
-        private CarpoolModel MapToCarpool(CarpoolModelDto dtoCarpool)
-        {
-            CarpoolModel remappedCarpoolDto = new CarpoolModel()
-            {
-                Driver = dtoCarpool.Driver,
-                Passengers = dtoCarpool.Passengers,
-
-            };
-
-            return remappedCarpoolDto;
-
         }
 
 

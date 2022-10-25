@@ -17,6 +17,9 @@ namespace TecAlliance.Carpool.Business
 
         }
 
+        /// <summary>
+        /// This method will return a detailed list with the driver IDs and infos
+        /// </summary>
         public Driver[] ListAllDriverData()
         {
 
@@ -44,6 +47,9 @@ namespace TecAlliance.Carpool.Business
             return resultNew;
         }
 
+        /// <summary>
+        /// This method will return one detailed driver info based on a search after his IDs
+        /// </summary>
         public Driver ListDriverById(string id)
         {
 
@@ -72,7 +78,9 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-
+        /// <summary>
+        /// This method will add a new driver in the file
+        /// </summary>
         public Driver AddDriverBuService(Driver driver)
         {
             Driver result = new Driver()
@@ -85,7 +93,7 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = driver.StartingCity,
                 Destination = driver.Destination
             };
-            result.ID = CheckIdByGenerateId("DID#" + driver.FirstName.Substring(0, 3).ToUpper() + driver.LastName.Substring(0, 3).ToUpper());
+            result.ID = SMGenerateAndCheckDriver("DID#" + driver.FirstName.Substring(0, 3).ToUpper() + driver.LastName.Substring(0, 3).ToUpper());
 
             driverDataService.AddDriverDaService(result);
 
@@ -94,7 +102,9 @@ namespace TecAlliance.Carpool.Business
 
         }
 
-
+        /// <summary>
+        /// This method will "edit" the infos of a driver based on his ID. ID and Free places are not going to be edited
+        /// </summary>
         public DriverModelDto EditDriverBuService(string id, DriverModelDto driverModelDto)
         {
 
@@ -126,7 +136,9 @@ namespace TecAlliance.Carpool.Business
             }
         }
 
-
+        /// <summary>
+        /// This method will delete a driver based on his ID
+        /// </summary>
         public Driver DeleteDriverBuService(string id)
         {
 
@@ -149,7 +161,9 @@ namespace TecAlliance.Carpool.Business
             }
         }
 
-
+        /// <summary>
+        /// Remapping a driver obj. to a DTO obj.
+        /// </summary>
         private DriverModelDto MapToModelDtoDriver(Driver driver)
         {
             DriverModelDto remappedDriver = new DriverModelDto()
@@ -166,27 +180,31 @@ namespace TecAlliance.Carpool.Business
         }
 
 
-        private Driver MapToDriver(DriverModelDto driverModelDto)
-        {
-            Driver remappedDriverDto = new Driver()
-            {
-                ID = driverModelDto.ID,
-                FreePlaces = Convert.ToInt32(driverModelDto.FreePlaces),
-                FirstName = driverModelDto.FirstName,
-                LastName = driverModelDto.LastName,
-                CarTypeMake = driverModelDto.CarTypeMake,
-                StartingCity = driverModelDto.StartingCity,
-                Destination = driverModelDto.Destination
+        /*     private Driver MapToDriver(DriverModelDto driverModelDto)
+             {
+                 Driver remappedDriverDto = new Driver()
+                 {
+                     ID = driverModelDto.ID,
+                     FreePlaces = Convert.ToInt32(driverModelDto.FreePlaces),
+                     FirstName = driverModelDto.FirstName,
+                     LastName = driverModelDto.LastName,
+                     CarTypeMake = driverModelDto.CarTypeMake,
+                     StartingCity = driverModelDto.StartingCity,
+                     Destination = driverModelDto.Destination
 
-            };
+                 };
 
-            return remappedDriverDto;
+                 return remappedDriverDto;
 
-        }
+             }
+             */
 
-
-
-        public string CheckIdByGenerateId(string id)
+        /// <summary>
+        /// This submethod will generate a driver ID based on the first 3 letters in the First Name and first 3 letters in the Last Name
+        /// If the ID allready exists in the file, a new ID will be generated, where the last character of the first 3 letters both in First Name and Last Name
+        /// are replaced by a random character.
+        /// </summary>
+        public string SMGenerateAndCheckDriver(string id)
         {
             var driverID = driverDataService.ListAllDriversService();
 
@@ -197,13 +215,16 @@ namespace TecAlliance.Carpool.Business
                 {
                     string partOne = id.Substring(0, 6);
                     string partTwo = id.Substring(7, 2);
-                    id = partOne + GetaRandomChar() + partTwo + GetaRandomChar();
+                    id = partOne + SMGetaRandomChar() + partTwo + SMGetaRandomChar();
                 }
             }
             return id;
         }
 
-        public static string GetaRandomChar()
+        /// <summary>
+        /// This submethod will return random character to be used in the ID generator
+        /// </summary>
+        public static string SMGetaRandomChar()
         {
             string chars = "1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
             var splittedChars = chars.Split(',').ToArray();

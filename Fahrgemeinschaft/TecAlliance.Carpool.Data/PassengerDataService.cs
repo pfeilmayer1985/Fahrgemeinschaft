@@ -6,7 +6,6 @@ namespace TecAlliance.Carpool.Data
 {
     public class PassengerDataService
     {
-       // string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
         string path = PassengersTxtPath();
 
         public string[] ListAllPassengersService()

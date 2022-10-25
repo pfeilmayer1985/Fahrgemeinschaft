@@ -5,7 +5,6 @@ namespace TecAlliance.Carpool.Data
 {
     public class DriverDataService
     {
-        // string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
         string path = DriversTxtPath();
 
 
