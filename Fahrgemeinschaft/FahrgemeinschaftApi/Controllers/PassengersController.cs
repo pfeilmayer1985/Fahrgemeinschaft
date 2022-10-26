@@ -11,12 +11,12 @@ namespace TecAlliance.Carpool.Api.Controllers
     public class PassengersController : ControllerBase
     {
         private readonly ILogger<PassengersController> _logger;
-        private PassengerBusinessService passengerBusinessService;
+        private IPassengerBusinessService _passengerBusinessService;
 
-        public PassengersController(ILogger<PassengersController> logger)
+        public PassengersController(ILogger<PassengersController> logger, IPassengerBusinessService passengerBusinessService)
         {
             StringBuilder test = new StringBuilder();
-            passengerBusinessService = new PassengerBusinessService();
+            _passengerBusinessService = passengerBusinessService;
 
             _logger = logger;
         }
@@ -25,7 +25,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/GetPassengers")]
         public async Task<ActionResult<IEnumerable<Passenger>>> GetAllPassengers()
         {
-            Passenger[] items = passengerBusinessService.ListAllPassengersData();
+            Passenger[] items = _passengerBusinessService.ListAllPassengersData();
             return items;
         }
         
@@ -35,7 +35,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/GetPassenger/{id}")]
         public async Task<ActionResult<Passenger>> GetPassengerById(string id)
         {
-            Passenger item = passengerBusinessService.ListPassengerDataById(id.ToUpper());
+            Passenger item = _passengerBusinessService.ListPassengerDataById(id.ToUpper());
 
             if (item == null)
             {
@@ -51,7 +51,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/AddPassenger")]
         public async Task<ActionResult<Passenger>> AddPassenger(PassengerModelDto passenger)
         {
-            Passenger item = passengerBusinessService.AddPassengerBuService(passenger);
+            Passenger item = _passengerBusinessService.AddPassengerBuService(passenger);
             return item;
         }
 
@@ -62,14 +62,14 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/EditDriverById")]
         public async Task<IActionResult> UpdatePassenger(string id, PassengerModelDto passenger)
         {
-            var item = passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
+            var item = _passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
+                _passengerBusinessService.EditPassengerBuService(id.ToUpper(), passenger);
                 return NoContent();
             }
         }
@@ -81,14 +81,14 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/DeletePassengerById")]
         public async Task<IActionResult> DeletePassenger(string id)
         {
-            var item = passengerBusinessService.DeletePassengerBuService(id.ToUpper());
+            var item = _passengerBusinessService.DeletePassengerBuService(id.ToUpper());
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                passengerBusinessService.DeletePassengerBuService(id.ToUpper());
+                _passengerBusinessService.DeletePassengerBuService(id.ToUpper());
                 return NoContent();
             }
         }

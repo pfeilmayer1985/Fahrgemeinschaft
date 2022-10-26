@@ -1,9 +1,18 @@
 using Swashbuckle.AspNetCore.Filters;
+using TecAlliance.Carpool.Business;
 using TecAlliance.Carpool.Business.Providers;
+using TecAlliance.Carpool.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddSingleton<IPassengerBusinessService, PassengerBusinessService>();
+builder.Services.AddSingleton<IDriverBusinessService, DriverBusinessService>();
+builder.Services.AddSingleton<ICarpoolBusinessService, CarpoolBusinessService>();
+builder.Services.AddSingleton<IPassengerDataService, PassengerDataService>();
+builder.Services.AddSingleton<IDriverDataService, DriverDataService>();
+builder.Services.AddSingleton<ICarpoolDataService, CarpoolDataService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

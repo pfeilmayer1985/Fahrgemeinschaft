@@ -5,16 +5,15 @@ using TecAlliance.Carpool.Data.Models;
 namespace TecAlliance.Carpool.Business
 {
 
-    public class DriverBusinessService
+    public class DriverBusinessService : IDriverBusinessService
     {
-        private DriverDataService driverDataService;
-        private CarpoolDataService carpoolDataService;
+        private IDriverDataService _driverDataService;
         const string driverID = "DID#";
         string[] driver;
-        public DriverBusinessService()
+        public DriverBusinessService(IDriverDataService driverDataService)
         {
-            driverDataService = new DriverDataService();
-            driver = driverDataService.ListAllDriversService();
+            _driverDataService = driverDataService;
+            driver = _driverDataService.ListAllDriversService();
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace TecAlliance.Carpool.Business
                 Destination = driver.Destination
             };
             result.ID = SMGenerateAndCheckDriver(driverID + driver.FirstName.Substring(0, 3).ToUpper() + driver.LastName.Substring(0, 3).ToUpper());
-            driverDataService.AddDriverDaService(result);
+            _driverDataService.AddDriverDaService(result);
             return result;
         }
 
@@ -106,7 +105,7 @@ namespace TecAlliance.Carpool.Business
                     StartingCity = driverModelDto.StartingCity,
                     Destination = driverModelDto.Destination
                 };
-                this.driverDataService.EditDriverDaService(result);
+                this._driverDataService.EditDriverDaService(result);
                 return MapToModelDtoDriver(result);
             }
             else
@@ -126,7 +125,7 @@ namespace TecAlliance.Carpool.Business
                 Driver resultNew = new Driver();
                 var subElement = findDriver.Split(',');
                 resultNew.ID = subElement[0];
-                driverDataService.DeleteDriverDaService(resultNew);
+                _driverDataService.DeleteDriverDaService(resultNew);
                 return resultNew;
             }
             else

@@ -11,12 +11,12 @@ namespace TecAlliance.Carpool.Api.Controllers
     public class CarpoolsController : ControllerBase
     {
         private readonly ILogger<CarpoolsController> _logger;
-        private CarpoolBusinessService carpoolBusinessService;
+        private ICarpoolBusinessService _carpoolBusinessService;
 
-        public CarpoolsController(ILogger<CarpoolsController> logger)
+        public CarpoolsController(ILogger<CarpoolsController> logger, ICarpoolBusinessService carpoolBusinessService)
         {
             StringBuilder test = new StringBuilder();
-            carpoolBusinessService = new CarpoolBusinessService();
+            _carpoolBusinessService = carpoolBusinessService;
 
             _logger = logger;
         }
@@ -26,7 +26,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         // [Route("api/CarPoolApi/GetCarpools")]
         public async Task<ActionResult<IEnumerable<CarpoolModelDto>>> GetAllCarpools()
         {
-            CarpoolModelDto[] items = carpoolBusinessService.ListAllCarpoolsDataBu();
+            CarpoolModelDto[] items = _carpoolBusinessService.ListAllCarpoolsDataBu();
             return items;
         }
 
@@ -36,7 +36,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         // [Route("api/CarPoolApi/GetCarpoolById/{id}")]
         public async Task<ActionResult<CarpoolModelDto>> GetCarpoolById(string id)
         {
-            CarpoolModelDto items = carpoolBusinessService.ListCarpoolByIdBu(id.ToUpper());
+            CarpoolModelDto items = _carpoolBusinessService.ListCarpoolByIdBu(id.ToUpper());
             if (items == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/DeleteCarpoolById")]
         public async Task<IActionResult> DeleteCarpool(string idCarpool)
         {
-            var item = carpoolBusinessService.DeleteCarpoolByDriverIdBu(idCarpool.ToUpper());
+            var item = _carpoolBusinessService.DeleteCarpoolByDriverIdBu(idCarpool.ToUpper());
 
             if (item == null)
             {
@@ -62,7 +62,7 @@ namespace TecAlliance.Carpool.Api.Controllers
             }
             else
             {
-                carpoolBusinessService.DeleteCarpoolByDriverIdBu(idCarpool.ToUpper());
+                _carpoolBusinessService.DeleteCarpoolByDriverIdBu(idCarpool.ToUpper());
                 return NoContent();
             }
         }
@@ -74,14 +74,14 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/DeletePassengerFromCarpool")]
         public async Task<IActionResult> DeletePassengerFromCarpool(string idDriver, string idPassenger)
         {
-            var items = carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
+            var items = _carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
             if (items == null)
             {
                 return NotFound();
             }
             else
             {
-                carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
+                _carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
                 return NoContent();
             }
         }
@@ -90,7 +90,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/AddCarpool")]
         public async Task<ActionResult<CarpoolModel>> AddCarpool(string idDriver, string idPassenger)
         {
-            CarpoolModel item = carpoolBusinessService.AddCarpoolByPassengerAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
+            CarpoolModel item = _carpoolBusinessService.AddCarpoolByPassengerAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
             return item;
         }
     }

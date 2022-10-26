@@ -4,17 +4,15 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Business
 {
-    public class PassengerBusinessService
+    public class PassengerBusinessService : IPassengerBusinessService
     {
-        private PassengerDataService passengerDataService;
-        private CarpoolDataService carpoolDataService;
+        private IPassengerDataService _passengerDataService;
         const string passengerID = "PID#";
         string[] passenger;
-        public PassengerBusinessService()
+        public PassengerBusinessService(IPassengerDataService passengerDataService)
         {
-            passengerDataService = new PassengerDataService();
-            passenger = passengerDataService.ListAllPassengersService();
-
+            _passengerDataService = passengerDataService;
+            passenger = _passengerDataService.ListAllPassengersService();
         }
 
         /// <summary>
@@ -76,7 +74,7 @@ namespace TecAlliance.Carpool.Business
                 Destination = passengerModelDto.Destination
             };
             result.ID = SMGenerateAndCheckPassenger(passengerID + passengerModelDto.FirstName.Substring(0, 3).ToUpper() + passengerModelDto.LastName.Substring(0, 3).ToUpper());
-            this.passengerDataService.AddPassengerDaService(result);
+            this._passengerDataService.AddPassengerDaService(result);
             return result;
         }
 
@@ -97,7 +95,7 @@ namespace TecAlliance.Carpool.Business
                     StartingCity = dtoPassenger.StartingCity,
                     Destination = dtoPassenger.Destination
                 };
-                this.passengerDataService.EditPassengerDaService(result);
+                this._passengerDataService.EditPassengerDaService(result);
                 return MapToModelDtoPassenger(result);
             }
             else
@@ -117,7 +115,7 @@ namespace TecAlliance.Carpool.Business
                 Passenger resultNew = new Passenger();
                 var subElement = findPassenger.Split(',');
                 resultNew.ID = subElement[0];
-                this.passengerDataService.DeletePassengerDaService(resultNew);
+                this._passengerDataService.DeletePassengerDaService(resultNew);
                 return resultNew;
             }
             else
@@ -129,7 +127,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Remapping a Passenger obj to a DTO obj
         /// </summary>
-        private PassengerModelDto MapToModelDtoPassenger(Passenger passenger)
+        public PassengerModelDto MapToModelDtoPassenger(Passenger passenger)
         {
             PassengerModelDto remappedPassenger = new PassengerModelDto()
             {

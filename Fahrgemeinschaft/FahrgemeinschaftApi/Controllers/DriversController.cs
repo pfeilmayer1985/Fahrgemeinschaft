@@ -11,11 +11,11 @@ namespace TecAlliance.Carpool.Api.Controllers
     public class DriversController : ControllerBase
     {
         private readonly ILogger<DriversController> _logger;
-        private DriverBusinessService driverBusinessService;
-        public DriversController(ILogger<DriversController> logger)
+        private IDriverBusinessService _driverBusinessService;
+        public DriversController(ILogger<DriversController> logger, IDriverBusinessService driverBusinessService)
         {
             StringBuilder test = new StringBuilder();
-            driverBusinessService = new DriverBusinessService();
+            _driverBusinessService = driverBusinessService;
 
             _logger = logger;
         }
@@ -25,7 +25,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         public async Task<ActionResult<IEnumerable<Driver>>> GetAllDrivers()
         {
 
-            Driver[] items = driverBusinessService.ListAllDriverData();
+            Driver[] items = _driverBusinessService.ListAllDriverData();
             return items;
         }
 
@@ -35,7 +35,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/GetDriverById/{id}")]
         public async Task<ActionResult<Driver>> GetDriverById(string id)
         {
-            Driver items = driverBusinessService.ListDriverById(id.ToUpper());
+            Driver items = _driverBusinessService.ListDriverById(id.ToUpper());
             if (items == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/AddDriver")]
         public async Task<ActionResult<Driver>> AddDriver(Driver driver)
         {
-            Driver item = driverBusinessService.AddDriverBuService(driver);
+            Driver item = _driverBusinessService.AddDriverBuService(driver);
             return item;
         }
 
@@ -61,14 +61,14 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/EditDriverById")]
         public async Task<IActionResult> UpdateDriver(string id, DriverModelDto driver)
         {
-            var items = driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
+            var items = _driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
             if (items == null)
             {
                 return NotFound();
             }
             else
             {
-                driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
+                _driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
                 return NoContent();
             }
         }
@@ -80,14 +80,14 @@ namespace TecAlliance.Carpool.Api.Controllers
         //[Route("api/CarPoolApi/DeleteDriverById")]
         public async Task<IActionResult> DeleteDriver(string id)
         {
-            var item = driverBusinessService.DeleteDriverBuService(id.ToUpper());
+            var item = _driverBusinessService.DeleteDriverBuService(id.ToUpper());
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                driverBusinessService.DeleteDriverBuService(id.ToUpper());
+                _driverBusinessService.DeleteDriverBuService(id.ToUpper());
                 return NoContent();
             }
         }

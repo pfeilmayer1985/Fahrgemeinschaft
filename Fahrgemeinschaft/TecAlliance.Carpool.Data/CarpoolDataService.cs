@@ -4,7 +4,7 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data
 {
-    public class CarpoolDataService
+    public class CarpoolDataService : ICarpoolDataService
     {
         // string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
         string path = CarpoolTxtPath();

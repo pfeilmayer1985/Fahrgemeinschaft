@@ -3,7 +3,7 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data
 {
-    public class DriverDataService
+    public class DriverDataService : IDriverDataService
     {
         string path = DriversTxtPath();
 

@@ -6,24 +6,24 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Business
 {
-    public class CarpoolBusinessService
+    public class CarpoolBusinessService : ICarpoolBusinessService
     {
-        private CarpoolDataService carpoolDataService;
-        private DriverDataService driverDataService;
-        private PassengerDataService passengerDataService;
+        private ICarpoolDataService _carpoolDataService;
+        private IDriverDataService _driverDataService;
+        private IPassengerDataService _passengerDataService;
         const string driverID = "DID#";
         const string passengerID = "PID#";
         string[] carpools;
         string[] passenger;
         string[] driver;
-        public CarpoolBusinessService()
+        public CarpoolBusinessService(ICarpoolDataService carpoolDataService, IDriverDataService driverDataService, IPassengerDataService passengerDataService)
         {
-            carpoolDataService = new CarpoolDataService();
-            driverDataService = new DriverDataService();
-            passengerDataService = new PassengerDataService();
-            carpools = carpoolDataService.ListAllCarpoolsDataService();
-            passenger = passengerDataService.ListAllPassengersService();
-            driver = driverDataService.ListAllDriversService();
+            _carpoolDataService = carpoolDataService;
+            _driverDataService = driverDataService;
+            _passengerDataService = passengerDataService;
+            carpools = _carpoolDataService.ListAllCarpoolsDataService();
+            passenger = _passengerDataService.ListAllPassengersService();
+            driver = _driverDataService.ListAllDriversService();
         }
 
         /// <summary>
@@ -153,9 +153,9 @@ namespace TecAlliance.Carpool.Business
                     newListOfRemainingPassengers.Add(passengerID + inputPassengerID);
                     toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
                     //delete old string
-                    this.carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
+                    this._carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
                     // add new string
-                    this.carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
+                    this._carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
                     //reduce the amount of free places from the current driver with 1
                     SMReduceFreePlacesWithOne(findDriverInDrivers, currentDriver);
                     return toAddEditedCarpoolEntry;
@@ -166,7 +166,7 @@ namespace TecAlliance.Carpool.Business
                     toAddEditedCarpoolEntry.Driver = "\n" + driverID + inputDriverID;
                     newListOfRemainingPassengers.Add(passengerID + inputPassengerID);
                     toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
-                    this.carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
+                    this._carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
                     //reduce the amount of free places from the current driver with 1
                     SMReduceFreePlacesWithOne(findDriverInDrivers, currentDriver);
                     return toAddEditedCarpoolEntry;
@@ -193,12 +193,12 @@ namespace TecAlliance.Carpool.Business
                 var subElement = findCarpool.Split(',');
                 var numberOfCarpoolPassengers = subElement.Length - 1; //take length of the carpool IDs and substract 1 that is the driver. the rest are passengers
                 resultNew.Driver = subElement[0];
-                this.carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(resultNew));
+                this._carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(resultNew));
                 //change free places for the driver erased from the carpool
                 var findDriver = driver.First(e => e.Contains(driverID + id));
                 Driver currentDriver = new Driver();
                 SMRecoverAllFreePlacesFromPassengers(numberOfCarpoolPassengers, findDriver, currentDriver);
-                driverDataService.EditDriverDaService(currentDriver);
+                _driverDataService.EditDriverDaService(currentDriver);
                 return resultNew;
             }
             else
@@ -227,7 +227,7 @@ namespace TecAlliance.Carpool.Business
                 toDeleteCarpoolEntry.Driver = subElement[0];
                 toAddEditedCarpoolEntry.Driver = subElement[0];
                 //delete old string
-                this.carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
+                this._carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
                 if (elementsOfCurrentCarpool.Length != 2)
                 {
                     for (int i = 1; i < elementsOfCurrentCarpool.Length; i++)
@@ -238,11 +238,11 @@ namespace TecAlliance.Carpool.Business
                     var result = string.Join(",", newListOfRemainingPassengers.ToArray());
                     toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
                     // add new string
-                    this.carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
+                    this._carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
                 }
                 //change free places for the driver erased from the carpool
                 SMRecoverOneFreePlace(foundDriver, currentDriver);
-                driverDataService.EditDriverDaService(currentDriver);
+                _driverDataService.EditDriverDaService(currentDriver);
                 return toDeleteCarpoolEntry;
             }
             else
@@ -272,7 +272,7 @@ namespace TecAlliance.Carpool.Business
             var subElementDriver = findDriverInDrivers.Split(',');
             currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) - 1;
             SMCurrentDriver(currentDriver, subElementDriver);
-            driverDataService.EditDriverDaService(currentDriver);
+            _driverDataService.EditDriverDaService(currentDriver);
         }
 
         private static void SMCurrentDriver(Driver currentDriver, string[] subElementDriver)

@@ -4,7 +4,7 @@ using TecAlliance.Carpool.Data.Models;
 namespace TecAlliance.Carpool.Data
 
 {
-    public class PassengerDataService
+    public class PassengerDataService : IPassengerDataService
     {
         string path = PassengersTxtPath();
 
