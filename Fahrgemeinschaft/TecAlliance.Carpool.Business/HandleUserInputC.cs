@@ -10,7 +10,6 @@ namespace TecAlliance.Carpool.Business
     /// <summary>
     /// handeling user input class. checking the user input and setting the borders for characters allowed
     /// </summary>
-
     public class HandleUserInputC
     {
 
@@ -20,7 +19,6 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Handeling the stings/text input from user, limiting or not the use of special characters
         /// </summary>
-
         public string HandleUserTextInput(bool checkSpecialCharacter = false)
         {
             string userInput = "";
@@ -28,9 +26,7 @@ namespace TecAlliance.Carpool.Business
             bool pressedRightKey = true;
             do
             {
-
                 string inputToBeChecked = null;
-
                 StringBuilder buffer = new StringBuilder();
 
                 //The key is read passing true for the intercept argument to prevent
@@ -38,7 +34,6 @@ namespace TecAlliance.Carpool.Business
                 ConsoleKeyInfo info = Console.ReadKey(true);
                 while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
                 {
-
                     if (info.Key == ConsoleKey.Backspace)
                     {
                         if (buffer.Length > 0)
@@ -48,15 +43,12 @@ namespace TecAlliance.Carpool.Business
                         }
                         info = Console.ReadKey(true);
                         continue;
-
-
                     }
                     else
                     {
                         Console.Write(info.KeyChar);
                         buffer.Append(info.KeyChar);
                         info = Console.ReadKey(true);
-
                     }
                 }
 
@@ -65,11 +57,8 @@ namespace TecAlliance.Carpool.Business
                     inputToBeChecked = buffer.ToString();
                 }
 
-
                 if (inputToBeChecked == null)
                 {
-                    //Program.MainScreen();
-                    
                     continue;
                 }
 
@@ -79,7 +68,6 @@ namespace TecAlliance.Carpool.Business
                     Console.Write("\nYou need help, mate! Are you for real?\nHow about you take your pills and try once again: ");
                     Console.ResetColor();
                     continue;
-
                 }
 
                 if (string.IsNullOrWhiteSpace(inputToBeChecked))
@@ -102,16 +90,13 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Handeling the numbers/ints input from user
         /// </summary>
-
         public int HandleUserNumbersInput()
         {
             int userInput = 0;
-
             bool itIsntANumber = true;
             do
             {
                 string inputToBeChecked = null;
-
                 StringBuilder buffer = new StringBuilder();
 
                 //The key is read passing true for the intercept argument to prevent
@@ -119,7 +104,6 @@ namespace TecAlliance.Carpool.Business
                 ConsoleKeyInfo info = Console.ReadKey(true);
                 while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
                 {
-
                     if (info.Key == ConsoleKey.Backspace)
                     {
                         if (buffer.Length > 0)
@@ -129,15 +113,12 @@ namespace TecAlliance.Carpool.Business
                         }
                         info = Console.ReadKey(true);
                         continue;
-
-
                     }
                     else
                     {
                         Console.Write(info.KeyChar);
                         buffer.Append(info.KeyChar);
                         info = Console.ReadKey(true);
-
                     }
                 }
 
@@ -148,16 +129,10 @@ namespace TecAlliance.Carpool.Business
 
                 if (inputToBeChecked == null)
                 {
-                    // Program.MainScreen();
                     continue;
                 }
 
                 inputToBeChecked = inputToBeChecked.TrimEnd().TrimStart();
-
-                if (inputToBeChecked.ToString() == "exit".ToLower())
-                {
-                   // Program.MainScreen();
-                }
 
                 if (!int.TryParse(inputToBeChecked, out userInput))
                 {
@@ -178,13 +153,9 @@ namespace TecAlliance.Carpool.Business
                     Console.Write("\nThis a Carpool App, not social media. Try again: ");
                     Console.ResetColor();
                     itIsntANumber = true;
-
                 }
-
             } while (itIsntANumber);
             return userInput;
         }
     }
-
-
 }

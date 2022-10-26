@@ -4,7 +4,7 @@ using TecAlliance.Carpool.Business;
 using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data.Models;
 
-namespace TecAlliance.Carpool.Controllers
+namespace TecAlliance.Carpool.Api.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
@@ -12,7 +12,6 @@ namespace TecAlliance.Carpool.Controllers
     {
         private readonly ILogger<DriversController> _logger;
         private DriverBusinessService driverBusinessService;
-
         public DriversController(ILogger<DriversController> logger)
         {
             StringBuilder test = new StringBuilder();
@@ -31,6 +30,8 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/GetDriverById/{id}")]
         public async Task<ActionResult<Driver>> GetDriverById(string id)
         {
@@ -45,7 +46,6 @@ namespace TecAlliance.Carpool.Controllers
             }
         }
 
-
         [HttpPost]
         //[Route("api/CarPoolApi/AddDriver")]
         public async Task<ActionResult<Driver>> AddDriver(Driver driver)
@@ -54,13 +54,13 @@ namespace TecAlliance.Carpool.Controllers
             return item;
         }
 
-
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/EditDriverById")]
-
         public async Task<IActionResult> UpdateDriver(string id, DriverModelDto driver)
         {
-
             var items = driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
             if (items == null)
             {
@@ -71,13 +71,13 @@ namespace TecAlliance.Carpool.Controllers
                 driverBusinessService.EditDriverBuService(id.ToUpper(), driver);
                 return NoContent();
             }
-
         }
 
-
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/DeleteDriverById")]
-
         public async Task<IActionResult> DeleteDriver(string id)
         {
             var item = driverBusinessService.DeleteDriverBuService(id.ToUpper());
@@ -90,13 +90,6 @@ namespace TecAlliance.Carpool.Controllers
                 driverBusinessService.DeleteDriverBuService(id.ToUpper());
                 return NoContent();
             }
-
-
         }
-
-
-
-
-
     }
 }

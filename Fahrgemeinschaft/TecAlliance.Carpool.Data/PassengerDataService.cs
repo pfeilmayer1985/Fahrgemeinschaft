@@ -19,7 +19,6 @@ namespace TecAlliance.Carpool.Data
             File.AppendAllText(path, passenger.ToString());
         }
 
-
         public void EditPassengerDaService(Passenger passenger)
         {
             string[] showPassengersList = File.ReadAllLines(path);
@@ -45,6 +44,5 @@ namespace TecAlliance.Carpool.Data
             path = path + "/../../../../../" + "passengers.txt";
             return path;
         }
-
     }
 }

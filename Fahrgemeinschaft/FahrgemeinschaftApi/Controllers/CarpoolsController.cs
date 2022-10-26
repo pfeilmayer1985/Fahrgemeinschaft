@@ -4,7 +4,7 @@ using TecAlliance.Carpool.Business;
 using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data.Models;
 
-namespace TecAlliance.Carpool.Controllers
+namespace TecAlliance.Carpool.Api.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
@@ -22,6 +22,7 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet]
+
         // [Route("api/CarPoolApi/GetCarpools")]
         public async Task<ActionResult<IEnumerable<CarpoolModelDto>>> GetAllCarpools()
         {
@@ -30,10 +31,11 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         // [Route("api/CarPoolApi/GetCarpoolById/{id}")]
         public async Task<ActionResult<CarpoolModelDto>> GetCarpoolById(string id)
         {
-
             CarpoolModelDto items = carpoolBusinessService.ListCarpoolByIdBu(id.ToUpper());
             if (items == null)
             {
@@ -46,8 +48,10 @@ namespace TecAlliance.Carpool.Controllers
         }
 
         [HttpDelete("{idCarpool}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/DeleteCarpoolById")]
-
         public async Task<IActionResult> DeleteCarpool(string idCarpool)
         {
             var item = carpoolBusinessService.DeleteCarpoolByDriverIdBu(idCarpool.ToUpper());
@@ -61,13 +65,13 @@ namespace TecAlliance.Carpool.Controllers
                 carpoolBusinessService.DeleteCarpoolByDriverIdBu(idCarpool.ToUpper());
                 return NoContent();
             }
-
         }
 
-
         [HttpDelete("{idDriver}/{idPassenger}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/DeletePassengerFromCarpool")]
-
         public async Task<IActionResult> DeletePassengerFromCarpool(string idDriver, string idPassenger)
         {
             var items = carpoolBusinessService.RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
@@ -81,7 +85,6 @@ namespace TecAlliance.Carpool.Controllers
                 return NoContent();
             }
         }
-
 
         [HttpPost]
         //[Route("api/CarPoolApi/AddCarpool")]

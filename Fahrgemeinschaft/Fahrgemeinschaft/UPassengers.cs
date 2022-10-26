@@ -7,14 +7,9 @@ namespace Fahrgemeinschaft
 {
     public class UPassengers : UsersC
     {
-           
-
         string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
-
         public List<UPassengers> PassengersList { get; set; }
-
         HandleUserInputC h = new HandleUserInputC();
-
         public UPassengers(string iD, string name, string startCity, string destination)
         {
             ID = iD;
@@ -32,37 +27,29 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This method saves a passenger account to the passenger.txt file
         /// </summary>
-
         public void AddPassenger()
         {
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("╔═══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine("║ You are now registering as a Passenger and adding a Carpool request to the market ║");
             Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
-
             //if this file does not exist in the specified path
             if (!File.Exists(pathFilePassengers))
             {
                 //the file will be created in the specified path
                 File.Create(pathFilePassengers);
             }
-
-
             Console.Write("\nWhat's your first name?: ");
             string firstname = h.HandleUserTextInput(true);
             Console.Write("What's your last name?: ");
             string lastname = h.HandleUserTextInput(true);
-
             bool userInUse = false;
             string id;
             id = "PID#" + firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper();
-
             do
             {
-
                 bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains(id));
                 if (ckeckInputPassengerID || id.Length != 10)
                 {
@@ -73,7 +60,6 @@ namespace Fahrgemeinschaft
                         $"Enter your ID now (6 characters long): ");
                     Console.ResetColor();
                     id = "PID#" + Console.ReadLine().ToUpper();
-
                     userInUse = true;
                 }
                 else
@@ -85,39 +71,31 @@ namespace Fahrgemeinschaft
                 }
 
             } while (userInUse == true);
-
-
             Console.Write("Where do you want to be picked up (Departure City): ");
             string startCity = h.HandleUserTextInput(true);
             Console.Write("Destination City: ");
             string destination = h.HandleUserTextInput(true); ;
             File.AppendAllText(pathFilePassengers, ("\n" + id + "," + firstname + "," + lastname + "," + startCity + "," + destination));
             Console.WriteLine($"\nThe new user ID {id} for {firstname + " " + lastname} was successfully added to the list.\nYou can now look for a carpool ride.");
-
             Program.PressEnterTxt();
         }
 
         /// <summary>
         /// This method shows a passenger account details from the passenger.txt file, searching for passenger by passenger ID
         /// </summary>
-
         public void SeePassenger()
         {
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("╔═══════════════════════════════════╗");
             Console.WriteLine("║ See your passenger acount details ║");
             Console.WriteLine("╚═══════════════════════════════════╝");
             Console.ResetColor();
-
             //asking for the passenger ID
             Console.Write("\nEnter passenger ID (PID#): ");
             string inputPassengerID = Console.ReadLine().ToUpper();
-
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
             var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
-
             bool exists = false;
             foreach (var passenger in thePassengersList)
             {
@@ -142,13 +120,11 @@ namespace Fahrgemeinschaft
                         Console.WriteLine($"║ The following user informations are registered with your account ║");
                         Console.WriteLine($"╚══════════════════════════════════════════════════════════════════╝");
                         Console.ResetColor();
-
                         Console.WriteLine($"\nPassenger ID#: \t\t\t\t{position[0]}");
                         Console.WriteLine($"Passenger name: \t\t\t{position[1]}");
                         Console.WriteLine($"Current pick-up location: \t\t{position[2]}");
                         Console.WriteLine($"Current registered destination: \t{position[3]}");
                         Program.PressEnterTxt();
-
                     }
                 }
             }
@@ -159,33 +135,25 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
                 Program.PressEnterTxt();
             }
-
-
-
         }
 
         /// <summary>
         /// This is the main method of the manage passenger account, where all the choices of the menu are shown
         /// </summary>
-
         public void ManagePassengerAccount()
         {
             bool userClassBool = true;
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("╔══════════════════════════════╗");
             Console.WriteLine("║ Manage your passenger acount ║");
             Console.WriteLine("╚══════════════════════════════╝");
             Console.ResetColor();
-
             //asking for the passenger ID
             Console.Write("\nEnter passenger ID (PID#): ");
             string inputPassengerID = Console.ReadLine().ToUpper();
-
             List<string> thePassengersList = File.ReadAllLines(pathFilePassengers).ToList();
             var findPassengerInPassengers = thePassengersList.Where(e => e.Contains("PID#" + inputPassengerID)).ToList();
-
             bool exists = false;
             foreach (var passenger in thePassengersList)
             {
@@ -204,7 +172,6 @@ namespace Fahrgemeinschaft
                     string[] position = passenger.Split(',');
                     if (position[0] == ("PID#" + inputPassengerID))
                     {
-
                         do
                         {
                             Console.Clear();
@@ -222,11 +189,9 @@ namespace Fahrgemeinschaft
                             Console.WriteLine($"( 3 )\tCurrent destination: {position[3]}");
                             Console.WriteLine($"( 4 )\tBoth pick-up location and destination");
                             Console.WriteLine($"( 5 )\tAll fields above (name, pickup & destination)");
-
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine($"\n( 9 )\tDon't perform any changes, return to previous menu");
                             Console.ResetColor();
-
                             int userChoice;
                             bool pressedRightKey = false;
                             do
@@ -234,12 +199,8 @@ namespace Fahrgemeinschaft
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.Write("\nChoose one of the options above: ");
                                 Console.ResetColor();
-
-                                //string userInput = Console.ReadLine();
-
                                 ConsoleKeyInfo userInputKey = Console.ReadKey();
                                 string userInput = Convert.ToString(userInputKey.KeyChar);
-
                                 if (!int.TryParse(userInput, out userChoice))
                                 {
                                     Console.ForegroundColor = ConsoleColor.Red;
@@ -279,7 +240,6 @@ namespace Fahrgemeinschaft
                                     EditPassengerAllData(inputPassengerID, thePassengersList, position, out editedPassenger, out addAllOtherEntriesBack);
                                     userClassBool = false;
                                     continue;
-
                                 case 9:
                                     userClassBool = false;
                                     break;
@@ -303,7 +263,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage passenger account method, where all of the passenger fields are editable, except ID
         /// </summary>
-
         private void EditPassengerAllData(string inputPassengerID, List<string> thePassengersList, string[] position, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit all fields
@@ -316,7 +275,6 @@ namespace Fahrgemeinschaft
             Console.ResetColor();
             Console.Write("\nWhat's your new first name?: ");
             string firstname = h.HandleUserTextInput(true);
-            
             Console.Write("What's your new last name?: ");
             string lastname = h.HandleUserTextInput(true);
             Console.Write($"Your new city as pickup location: ");
@@ -344,7 +302,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage passenger account method, where only the passenger origin and destination fields are editable
         /// </summary>
-
         private void EditPassengerPickupDestination(string inputPassengerID, List<string> thePassengersList, string[] position, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit pickup and destination
@@ -378,7 +335,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage passenger account method, where only the passenger destination field is editable
         /// </summary>
-
         private void EditPassengerDestination(string inputPassengerID, List<string> thePassengersList, string[] position, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit destination
@@ -409,7 +365,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage passenger account method, where only the origin of passenger field is editable
         /// </summary>
-
         private void EditPassengerPickup(string inputPassengerID, List<string> thePassengersList, string[] position)
         {
             //edit pickup location
@@ -440,7 +395,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage passenger account method, where only the passenger name field is editable
         /// </summary>
-
         private void EditPassengerName(string inputPassengerID, List<string> thePassengersList, string[] position, out string newUserName, out string editedPassenger, out List<string> addAllOtherEntriesBack)
         {
             //edit passenger name
@@ -471,11 +425,9 @@ namespace Fahrgemeinschaft
             Program.PressEnterTxt();
         }
 
-
         /// <summary>
         /// This method lists all the drivers saved in the drivers.txt
         /// </summary>
-
         public void ListAllPassengers()
         {
             Console.Clear();
@@ -484,9 +436,7 @@ namespace Fahrgemeinschaft
             Console.WriteLine("║ The available carpool requests are ║");
             Console.WriteLine("╚════════════════════════════════════╝");
             Console.ResetColor();
-
             string[] showPassengerList = File.ReadAllLines(pathFilePassengers);
-
             int counter = 1;
             foreach (string passenger in showPassengerList)
             {
@@ -496,11 +446,8 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\tPassenger ID: {splittetPassengerArray[0]}");
                 Console.ResetColor();
-
                 counter++;
-
             }
-
             Program.PressEnterTxt();
         }
     }

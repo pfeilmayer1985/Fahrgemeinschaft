@@ -2,7 +2,7 @@
 using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data.Models;
 
-namespace TecAlliance.Carpool.Business
+namespace TecAlliance.Carpool.Business.Providers
 {
     public class DriverDtoProvider : IExamplesProvider<DriverModelDto>
     {
@@ -16,12 +16,7 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = "Stuttgart",
                 Destination = "Schrozberg"
             };
-
         }
-
-
-
-
     }
 }
 

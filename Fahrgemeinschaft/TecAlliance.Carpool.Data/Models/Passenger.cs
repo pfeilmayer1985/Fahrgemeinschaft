@@ -8,8 +8,6 @@ namespace TecAlliance.Carpool.Data.Models
 {
     public class Passenger : UserBase
     {
-
-
         public Passenger(string iD, string firstName, string lastName, string startCity, string destination)
         {
             ID = iD;
@@ -20,12 +18,10 @@ namespace TecAlliance.Carpool.Data.Models
         }
         public Passenger()
         {
-
         }
         public string ToString()
         {
             return ($"\n{ID},{FirstName},{LastName},{StartingCity},{Destination}");
         }
-
     }
 }

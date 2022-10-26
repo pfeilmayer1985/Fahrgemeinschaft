@@ -6,11 +6,10 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Models
 {
-    public class CarpoolModel 
+    public class CarpoolModel
     {
         public string Driver { get; set; }
         public List<String> Passengers { get; set; }
-     
         public CarpoolModel(string driver, List<String> passenger)
         {
             Driver = driver;
@@ -19,7 +18,6 @@ namespace TecAlliance.Carpool.Data.Models
 
         public CarpoolModel()
         {
-            
         }
 
         public string ToString()
@@ -32,6 +30,5 @@ namespace TecAlliance.Carpool.Data.Models
 
             return ($"{Driver}{passengers}");
         }
-
     }
 }

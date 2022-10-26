@@ -9,12 +9,12 @@ namespace TecAlliance.Carpool.Business
     {
         private DriverDataService driverDataService;
         private CarpoolDataService carpoolDataService;
-
-
+        const string driverID = "DID#";
+        string[] driver;
         public DriverBusinessService()
         {
             driverDataService = new DriverDataService();
-
+            driver = driverDataService.ListAllDriversService();
         }
 
         /// <summary>
@@ -22,15 +22,9 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public Driver[] ListAllDriverData()
         {
-
-            var drivers = driverDataService.ListAllDriversService();
-
-            //var result = from x in passengerDataService.ListAllPassengersService()
-            //             where x.Any()
-            //             select x;
-            Driver[] resultNew = new Driver[drivers.Length];
+            Driver[] resultNew = new Driver[driver.Length];
             int i = 0;
-            foreach (string element in drivers)
+            foreach (string element in driver)
             {
                 Driver newDriverModelDto = new Driver();
                 var subElement = element.Split(',');
@@ -52,13 +46,9 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public Driver ListDriverById(string id)
         {
-
-            var drivers = driverDataService.ListAllDriversService();
-
-            var findDriver = drivers.FirstOrDefault(e => e.Contains("DID#" + id));
+            var findDriver = driver.FirstOrDefault(e => e.Contains(driverID + id));
             if (findDriver != null)
             {
-
                 Driver resultNew = new Driver();
                 var subElement = findDriver.Split(',');
                 resultNew.ID = subElement[0];
@@ -68,7 +58,6 @@ namespace TecAlliance.Carpool.Business
                 resultNew.CarTypeMake = subElement[4];
                 resultNew.StartingCity = subElement[5];
                 resultNew.Destination = subElement[6];
-
                 return resultNew;
             }
             else
@@ -93,13 +82,9 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = driver.StartingCity,
                 Destination = driver.Destination
             };
-            result.ID = SMGenerateAndCheckDriver("DID#" + driver.FirstName.Substring(0, 3).ToUpper() + driver.LastName.Substring(0, 3).ToUpper());
-
+            result.ID = SMGenerateAndCheckDriver(driverID + driver.FirstName.Substring(0, 3).ToUpper() + driver.LastName.Substring(0, 3).ToUpper());
             driverDataService.AddDriverDaService(result);
-
             return result;
-
-
         }
 
         /// <summary>
@@ -107,14 +92,10 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public DriverModelDto EditDriverBuService(string id, DriverModelDto driverModelDto)
         {
-
-            var drivers = driverDataService.ListAllDriversService();
-            var findDriver = drivers.FirstOrDefault(e => e.Contains("DID#" + id));
+            var findDriver = driver.FirstOrDefault(e => e.Contains(driverID + id));
             if (findDriver != null)
             {
-
                 var subElement = findDriver.Split(',');
-
                 Driver result = new Driver()
                 {
                     ID = subElement[0],
@@ -125,9 +106,7 @@ namespace TecAlliance.Carpool.Business
                     StartingCity = driverModelDto.StartingCity,
                     Destination = driverModelDto.Destination
                 };
-
-                driverDataService.EditDriverDaService(result);
-
+                this.driverDataService.EditDriverDaService(result);
                 return MapToModelDtoDriver(result);
             }
             else
@@ -141,18 +120,13 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public Driver DeleteDriverBuService(string id)
         {
-
-            var drivers = driverDataService.ListAllDriversService();
-            var findDriver = drivers.FirstOrDefault(e => e.Contains("DID#" + id));
-
+            var findDriver = driver.FirstOrDefault(e => e.Contains(driverID + id));
             if (findDriver != null)
             {
                 Driver resultNew = new Driver();
                 var subElement = findDriver.Split(',');
                 resultNew.ID = subElement[0];
-
                 driverDataService.DeleteDriverDaService(resultNew);
-
                 return resultNew;
             }
             else
@@ -174,30 +148,8 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = driver.StartingCity,
                 Destination = driver.Destination
             };
-
             return remappedDriver;
-
         }
-
-
-        /*     private Driver MapToDriver(DriverModelDto driverModelDto)
-             {
-                 Driver remappedDriverDto = new Driver()
-                 {
-                     ID = driverModelDto.ID,
-                     FreePlaces = Convert.ToInt32(driverModelDto.FreePlaces),
-                     FirstName = driverModelDto.FirstName,
-                     LastName = driverModelDto.LastName,
-                     CarTypeMake = driverModelDto.CarTypeMake,
-                     StartingCity = driverModelDto.StartingCity,
-                     Destination = driverModelDto.Destination
-
-                 };
-
-                 return remappedDriverDto;
-
-             }
-             */
 
         /// <summary>
         /// This submethod will generate a driver ID based on the first 3 letters in the First Name and first 3 letters in the Last Name
@@ -206,9 +158,7 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public string SMGenerateAndCheckDriver(string id)
         {
-            var driverID = driverDataService.ListAllDriversService();
-
-            foreach (var driver in driverID)
+            foreach (var driver in driver)
             {
                 var splittedDriver = driver.Split(',');
                 if (splittedDriver[0] == id)
@@ -232,6 +182,5 @@ namespace TecAlliance.Carpool.Business
             int num = rand.Next(0, splittedChars.Count() - 1);
             return splittedChars[num].ToString();
         }
-
     }
 }

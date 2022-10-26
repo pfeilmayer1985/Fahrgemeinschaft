@@ -21,8 +21,6 @@ namespace TecAlliance.Carpool.Data.Models
             CarTypeMake = carTypeMake;
             StartingCity = startCity;
             Destination = destination;
-
-
         }
 
         public Driver()

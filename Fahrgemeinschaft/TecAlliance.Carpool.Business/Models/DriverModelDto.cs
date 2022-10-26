@@ -15,8 +15,5 @@ namespace TecAlliance.Carpool.Business.Models
         public string CarTypeMake { get; set; }
         public string StartingCity { get; set; }
         public string Destination { get; set; }
-
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Reflection.Metadata;
+using System.Xml.Linq;
 using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data;
 using TecAlliance.Carpool.Data.Models;
@@ -10,12 +11,19 @@ namespace TecAlliance.Carpool.Business
         private CarpoolDataService carpoolDataService;
         private DriverDataService driverDataService;
         private PassengerDataService passengerDataService;
-
+        const string driverID = "DID#";
+        const string passengerID = "PID#";
+        string[] carpools;
+        string[] passenger;
+        string[] driver;
         public CarpoolBusinessService()
         {
             carpoolDataService = new CarpoolDataService();
             driverDataService = new DriverDataService();
             passengerDataService = new PassengerDataService();
+            carpools = carpoolDataService.ListAllCarpoolsDataService();
+            passenger = passengerDataService.ListAllPassengersService();
+            driver = driverDataService.ListAllDriversService();
         }
 
         /// <summary>
@@ -23,14 +31,7 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public CarpoolModelDto[] ListAllCarpoolsDataBu()
         {
-
-            var carpools = carpoolDataService.ListAllCarpoolsDataService();
-            var passenger = passengerDataService.ListAllPassengersService();
-            var driverX = driverDataService.ListAllDriversService();
-
             CarpoolModelDto[] resultNew = new CarpoolModelDto[carpools.Length];
-            //List<string> carpoolDetailed = new List<string>();
-
             int i = 0;
             foreach (string element in carpools)
             {
@@ -39,8 +40,7 @@ namespace TecAlliance.Carpool.Business
                 var subElement = element.Split(',');
                 newCarpoolModelDto.Driver = subElement[0];
 
-
-                var findDriver = driverX.First(e => e.Contains(subElement[0]));
+                var findDriver = driver.First(e => e.Contains(subElement[0]));
                 Driver resultedDriver = new Driver();
                 var subElementofDriver = findDriver.Split(',');
                 resultedDriver.ID = subElementofDriver[0];
@@ -51,7 +51,6 @@ namespace TecAlliance.Carpool.Business
                 resultedDriver.StartingCity = subElementofDriver[5];
                 resultedDriver.Destination = subElementofDriver[6];
                 newCarpoolModelDto.DriverDetails = resultedDriver;
-
 
                 Passenger resultedPassenger = new Passenger();
                 newCarpoolModelDto.PassengersDetails = new List<Passenger>();
@@ -68,9 +67,7 @@ namespace TecAlliance.Carpool.Business
                     resultedPassenger.StartingCity = subElementofPassenger[3];
                     resultedPassenger.Destination = subElementofPassenger[4];
                     newCarpoolModelDto.PassengersDetails.Add(resultedPassenger);
-
                 }
-
                 resultNew[i] = newCarpoolModelDto;
                 i++;
             }
@@ -82,20 +79,13 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public CarpoolModelDto ListCarpoolByIdBu(string id)
         {
-
-            var carpool = carpoolDataService.ListAllCarpoolsDataService();
-            var passenger = passengerDataService.ListAllPassengersService();
-            var driverX = driverDataService.ListAllDriversService();
-
-            var findCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + id));
-
+            var findCarpool = carpools.FirstOrDefault(e => e.Contains(driverID + id));
             if (findCarpool != null)
             {
                 CarpoolModelDto resultNew = new CarpoolModelDto();
                 var subElement = findCarpool.Split(',');
                 resultNew.Driver = subElement[0];
-
-                var findDriver = driverX.First(e => e.Contains(subElement[0]));
+                var findDriver = driver.First(e => e.Contains(subElement[0]));
                 Driver resultedDriver = new Driver();
                 var subElementofDriver = findDriver.Split(',');
                 resultedDriver.ID = subElementofDriver[0];
@@ -106,18 +96,12 @@ namespace TecAlliance.Carpool.Business
                 resultedDriver.StartingCity = subElementofDriver[5];
                 resultedDriver.Destination = subElementofDriver[6];
                 resultNew.DriverDetails = resultedDriver;
-
                 Passenger resultedPassenger = new Passenger();
                 resultNew.PassengersDetails = new List<Passenger>();
-
-
                 resultNew.Passengers = new List<string>();
                 for (int j = 1; j < subElement.Length; j++)
                 {
-
                     resultNew.Passengers.Add(subElement[j]);
-
-
                     var findPassenger = passenger.First(e => e.Contains(subElement[j]));
                     var subElementofPassenger = findPassenger.Split(',');
                     resultedPassenger.ID = subElementofPassenger[0];
@@ -126,16 +110,13 @@ namespace TecAlliance.Carpool.Business
                     resultedPassenger.StartingCity = subElementofPassenger[3];
                     resultedPassenger.Destination = subElementofPassenger[4];
                     resultNew.PassengersDetails.Add(resultedPassenger);
-
                 }
-
                 return resultNew;
             }
             else
             {
                 return null;
             }
-
         }
 
         /// <summary>
@@ -143,19 +124,17 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public CarpoolModel? AddCarpoolByPassengerAndDriverIdBu(string inputDriverID, string inputPassengerID)
         {
-            var carpool = carpoolDataService.ListAllCarpoolsDataService();
-            var passengerFile = passengerDataService.ListAllPassengersService();
-            var driversFile = driverDataService.ListAllDriversService();
-
-            var findPassengerInPassengers = passengerFile.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID));
-            var findDriverInDrivers = driversFile.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
-
+            var findPassengerInPassengers = passenger.FirstOrDefault(e => e.Contains(passengerID + inputPassengerID));
+            var findDriverInDrivers = driver.FirstOrDefault(e => e.Contains(driverID + inputDriverID));
             if (findPassengerInPassengers != null && findDriverInDrivers != null)
             {
-                var findDriverInCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
-                var findExistingCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID) && e.Contains("PID#" + inputPassengerID));
+                var findDriverInCarpool = carpools.FirstOrDefault(e => e.Contains(driverID + inputDriverID));
+                var findExistingCarpool = carpools.FirstOrDefault(e => e.Contains(driverID + inputDriverID) && e.Contains(passengerID + inputPassengerID));
                 //if the driver and passenger is allready in the carpool throw error
-                Driver currentDriverX = new Driver();
+                Driver currentDriver = new Driver();
+                CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
+                CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
+                var newListOfRemainingPassengers = new List<string>();
 
                 if (findExistingCarpool != null)
                 {
@@ -165,46 +144,32 @@ namespace TecAlliance.Carpool.Business
                 else if (findDriverInCarpool != null)
                 {
                     var elementsOfCurrentCarpool = findDriverInCarpool.Split(',');
-
-                    CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
-                    CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
-                    var newListOfRemainingPassengers = new List<string>();
-
                     toDeleteCarpoolEntry.Driver = elementsOfCurrentCarpool[0];
                     toAddEditedCarpoolEntry.Driver = elementsOfCurrentCarpool[0];
-
                     for (int i = 1; i < elementsOfCurrentCarpool.Length; i++)
                     {
-                        // if (elementsOfCurrentCarpool[i] != "PID#" + inputPassengerID)
                         newListOfRemainingPassengers.Add(elementsOfCurrentCarpool[i]);
                     }
-                    newListOfRemainingPassengers.Add("PID#" + inputPassengerID);
+                    newListOfRemainingPassengers.Add(passengerID + inputPassengerID);
                     toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
-
                     //delete old string
-                    carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
-
+                    this.carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
                     // add new string
-                    carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
-
+                    this.carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
                     //reduce the amount of free places from the current driver with 1
-                    SMReduceFreePlacesWithOne(findDriverInDrivers, currentDriverX);
+                    SMReduceFreePlacesWithOne(findDriverInDrivers, currentDriver);
                     return toAddEditedCarpoolEntry;
                 }
                 //if the driver is not in the carpool lists, make new carpool
                 else if (findDriverInCarpool == null)
                 {
-                    CarpoolModel newCarpool = new CarpoolModel();
-                    newCarpool.Driver = "\nDID#" + inputDriverID;
-                    var newListOPassengers = new List<string>();
-                    newListOPassengers.Add("PID#" + inputPassengerID);
-                    newCarpool.Passengers = newListOPassengers;
-                    carpoolDataService.AddCarpoolDaService(newCarpool);
-
+                    toAddEditedCarpoolEntry.Driver = "\n" + driverID + inputDriverID;
+                    newListOfRemainingPassengers.Add(passengerID + inputPassengerID);
+                    toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
+                    this.carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
                     //reduce the amount of free places from the current driver with 1
-                    SMReduceFreePlacesWithOne(findDriverInDrivers, currentDriverX);
-
-                    return newCarpool;
+                    SMReduceFreePlacesWithOne(findDriverInDrivers, currentDriver);
+                    return toAddEditedCarpoolEntry;
                 }
             }
             else
@@ -213,7 +178,6 @@ namespace TecAlliance.Carpool.Business
             }
 
             return null;
-
         }
 
         /// <summary>
@@ -222,42 +186,25 @@ namespace TecAlliance.Carpool.Business
         public CarpoolModelDto DeleteCarpoolByDriverIdBu(string id)
         {
             //delete carpool based on driverID
-            var carpool = carpoolDataService.ListAllCarpoolsDataService();
-            var findCarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + id));
-
+            var findCarpool = carpools.FirstOrDefault(e => e.Contains(driverID + id));
             if (findCarpool != null)
             {
                 CarpoolModelDto resultNew = new CarpoolModelDto();
                 var subElement = findCarpool.Split(',');
                 var numberOfCarpoolPassengers = subElement.Length - 1; //take length of the carpool IDs and substract 1 that is the driver. the rest are passengers
                 resultNew.Driver = subElement[0];
-
-
-                carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(resultNew));
-
+                this.carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(resultNew));
                 //change free places for the driver erased from the carpool
-                var driver = driverDataService.ListAllDriversService();
-                var findDriver = driver.First(e => e.Contains("DID#" + id));
+                var findDriver = driver.First(e => e.Contains(driverID + id));
                 Driver currentDriver = new Driver();
-                var subElementDriver = findDriver.Split(',');
-                currentDriver.ID = subElementDriver[0];
-                currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + numberOfCarpoolPassengers;
-                currentDriver.FirstName = subElementDriver[2];
-                currentDriver.LastName = subElementDriver[3];
-                currentDriver.CarTypeMake = subElementDriver[4];
-                currentDriver.StartingCity = subElementDriver[5];
-                currentDriver.Destination = subElementDriver[6];
-
-
+                SMRecoverAllFreePlacesFromPassengers(numberOfCarpoolPassengers, findDriver, currentDriver);
                 driverDataService.EditDriverDaService(currentDriver);
-
                 return resultNew;
             }
             else
             {
                 return null;
             }
-
         }
 
         /// <summary>
@@ -266,50 +213,36 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public CarpoolModelDto RemovePassengerFromCarpoolByPassengerIdAndDriverIdBu(string inputDriverID, string inputPassengerID)
         {
-            var carpool = carpoolDataService.ListAllCarpoolsDataService();
-            var driverX = driverDataService.ListAllDriversService();
-            var passengerX = passengerDataService.ListAllPassengersService();
-            var foundDriverX = driverX.FirstOrDefault(e => e.Contains("DID#" + inputDriverID.ToUpper()));
-            var foundPassengerX = passengerX.FirstOrDefault(e => e.Contains("PID#" + inputPassengerID.ToUpper()));
-            var bothDriverAndPassengerAreInACarpool = carpool.FirstOrDefault(e => e.Contains("DID#" + inputDriverID) && e.Contains("PID#" + inputPassengerID));
-
-            if (foundDriverX != null && foundPassengerX != null && bothDriverAndPassengerAreInACarpool != null)
+            var foundDriver = driver.FirstOrDefault(e => e.Contains(driverID + inputDriverID.ToUpper()));
+            var foundPassenger = passenger.FirstOrDefault(e => e.Contains(passengerID + inputPassengerID.ToUpper()));
+            var bothDriverAndPassengerAreInACarpool = carpools.FirstOrDefault(e => e.Contains(driverID + inputDriverID) && e.Contains(passengerID + inputPassengerID));
+            if (foundDriver != null && foundPassenger != null && bothDriverAndPassengerAreInACarpool != null)
             {
-
                 var elementsOfCurrentCarpool = bothDriverAndPassengerAreInACarpool.Split(',');
                 var newListOfRemainingPassengers = new List<string>();
-
-                Driver currentDriverX = new Driver();
-
+                Driver currentDriver = new Driver();
                 CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
                 CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
-
                 var subElement = bothDriverAndPassengerAreInACarpool.Split(',');
                 toDeleteCarpoolEntry.Driver = subElement[0];
                 toAddEditedCarpoolEntry.Driver = subElement[0];
-
                 //delete old string
-                carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
-
+                this.carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(toDeleteCarpoolEntry));
                 if (elementsOfCurrentCarpool.Length != 2)
                 {
                     for (int i = 1; i < elementsOfCurrentCarpool.Length; i++)
                     {
-                        if (elementsOfCurrentCarpool[i] != "PID#" + inputPassengerID)
+                        if (elementsOfCurrentCarpool[i] != passengerID + inputPassengerID)
                             newListOfRemainingPassengers.Add(elementsOfCurrentCarpool[i]);
                     }
                     var result = string.Join(",", newListOfRemainingPassengers.ToArray());
                     toAddEditedCarpoolEntry.Passengers = newListOfRemainingPassengers;
                     // add new string
-                    carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
-
+                    this.carpoolDataService.AddCarpoolDaService(toAddEditedCarpoolEntry);
                 }
-
-
                 //change free places for the driver erased from the carpool
-                SMRecoverOneFreePlace(foundDriverX, currentDriverX);
-
-                driverDataService.EditDriverDaService(currentDriverX);
+                SMRecoverOneFreePlace(foundDriver, currentDriver);
+                driverDataService.EditDriverDaService(currentDriver);
                 return toDeleteCarpoolEntry;
             }
             else
@@ -317,19 +250,6 @@ namespace TecAlliance.Carpool.Business
                 return null;
             }
         }
-
-        /* private CarpoolModelDto MapToModelDtoCarpool(CarpoolModel carpool)
-         {
-             CarpoolModelDto remappedCarpool = new CarpoolModelDto()
-             {
-                 Driver = carpool.Driver,
-                 Passengers = carpool.Passengers,
-
-             };
-
-             return remappedCarpool;
-
-         }*/
 
         /// <summary>
         /// This method is remapping a Carpool model to a Carpool model DTO
@@ -340,44 +260,49 @@ namespace TecAlliance.Carpool.Business
             {
                 Driver = dtoCarpool.Driver,
                 Passengers = dtoCarpool.Passengers,
-
             };
-
             return remappedCarpoolDto;
-
         }
 
         /// <summary>
         /// Submethod that reduces the number of free places of a driver with 1
         /// </summary>
-        private void SMReduceFreePlacesWithOne(string? findDriverInDrivers, Driver currentDriverX)
+        private void SMReduceFreePlacesWithOne(string? findDriverInDrivers, Driver currentDriver)
         {
-            var subElementDriverX = findDriverInDrivers.Split(',');
-            currentDriverX.ID = subElementDriverX[0];
-            currentDriverX.FreePlaces = Convert.ToInt32(subElementDriverX[1]) - 1;
-            currentDriverX.FirstName = subElementDriverX[2];
-            currentDriverX.LastName = subElementDriverX[3];
-            currentDriverX.CarTypeMake = subElementDriverX[4];
-            currentDriverX.StartingCity = subElementDriverX[5];
-            currentDriverX.Destination = subElementDriverX[6];
-            driverDataService.EditDriverDaService(currentDriverX);
+            var subElementDriver = findDriverInDrivers.Split(',');
+            currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) - 1;
+            SMCurrentDriver(currentDriver, subElementDriver);
+            driverDataService.EditDriverDaService(currentDriver);
+        }
+
+        private static void SMCurrentDriver(Driver currentDriver, string[] subElementDriver)
+        {
+            currentDriver.ID = subElementDriver[0];
+            currentDriver.FirstName = subElementDriver[2];
+            currentDriver.LastName = subElementDriver[3];
+            currentDriver.CarTypeMake = subElementDriver[4];
+            currentDriver.StartingCity = subElementDriver[5];
+            currentDriver.Destination = subElementDriver[6];
         }
 
         /// <summary>
         /// Submethod that adds back one free place to the current number of free places of a driver
         /// </summary>
-        private static void SMRecoverOneFreePlace(string findDriverX, Driver currentDriverX)
+        private void SMRecoverOneFreePlace(string findDriver, Driver currentDriver)
         {
-            var subElementDriverX = findDriverX.Split(',');
-            currentDriverX.ID = subElementDriverX[0];
-            currentDriverX.FreePlaces = Convert.ToInt32(subElementDriverX[1]) + 1;
-            currentDriverX.FirstName = subElementDriverX[2];
-            currentDriverX.LastName = subElementDriverX[3];
-            currentDriverX.CarTypeMake = subElementDriverX[4];
-            currentDriverX.StartingCity = subElementDriverX[5];
-            currentDriverX.Destination = subElementDriverX[6];
+            var subElementDriver = findDriver.Split(',');
+            currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + 1;
+            SMCurrentDriver(currentDriver, subElementDriver);
         }
 
-
+        /// <summary>
+        /// Submethod that adds back all the free places (occupied by passengers) to the driver after removing all passengers
+        /// </summary>
+        private void SMRecoverAllFreePlacesFromPassengers(int numberOfCarpoolPassengers, string findDriver, Driver currentDriver)
+        {
+            var subElementDriver = findDriver.Split(',');
+            currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + numberOfCarpoolPassengers;
+            SMCurrentDriver(currentDriver, subElementDriver);
+        }
     }
 }

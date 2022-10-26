@@ -11,7 +11,6 @@ namespace TecAlliance.Carpool.Data
 
         public string[] ListAllCarpoolsDataService()
         {
-
             string[] showCarpoolList = File.ReadAllLines(path);
             return showCarpoolList;
         }
@@ -25,7 +24,6 @@ namespace TecAlliance.Carpool.Data
 
         public void AddCarpoolDaService(CarpoolModel carpool)
         {
-
             File.AppendAllText(path, carpool.ToString());
         }
 

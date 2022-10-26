@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Filters;
 using TecAlliance.Carpool.Business.Models;
 
-namespace TecAlliance.Carpool.Business
+namespace TecAlliance.Carpool.Business.Providers
 {
     public class PassengerDtoProvider : IExamplesProvider<PassengerModelDto>
     {

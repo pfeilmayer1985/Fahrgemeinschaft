@@ -7,7 +7,6 @@ namespace TecAlliance.Carpool.Data
     {
         string path = DriversTxtPath();
 
-
         public string[] ListAllDriversService()
         {
             string[] showDriversList = File.ReadAllLines(path);
@@ -22,13 +21,12 @@ namespace TecAlliance.Carpool.Data
         public void EditDriverDaService(Driver driver)
         {
             string[] showDriversList = File.ReadAllLines(path);
-            
+
             string editedDriver = $"{driver.ID},{driver.FreePlaces},{driver.FirstName},{driver.LastName},{driver.CarTypeMake},{driver.StartingCity},{driver.Destination}";
 
             List<string> addAllOtherEntriesBack = showDriversList.Where(e => !e.Contains(driver.ID)).ToList();
             addAllOtherEntriesBack.Add(editedDriver);
             File.WriteAllLines(path, addAllOtherEntriesBack);
-            //File.AppendAllText(pathFileDrivers, driverModelDto.ToString());
         }
 
         private static string DriversTxtPath()
@@ -45,6 +43,5 @@ namespace TecAlliance.Carpool.Data
             List<string> addAllOtherEntriesBack = showDriversList.Where(e => !e.Contains(driver.ID)).ToList();
             File.WriteAllLines(path, addAllOtherEntriesBack);
         }
-
     }
 }

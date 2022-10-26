@@ -4,15 +4,16 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Business
 {
-
     public class PassengerBusinessService
     {
         private PassengerDataService passengerDataService;
         private CarpoolDataService carpoolDataService;
-
+        const string passengerID = "PID#";
+        string[] passenger;
         public PassengerBusinessService()
         {
             passengerDataService = new PassengerDataService();
+            passenger = passengerDataService.ListAllPassengersService();
 
         }
 
@@ -21,25 +22,18 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public Passenger[] ListAllPassengersData()
         {
-
-            var passengers = passengerDataService.ListAllPassengersService();
-
-            //var result = from x in passengerDataService.ListAllPassengersService()
-            //             where x.Any()
-            //             select x;
-            Passenger[] resultNew = new Passenger[passengers.Length];
+            Passenger[] resultNew = new Passenger[passenger.Length];
             int i = 0;
-            foreach (string element in passengers)
+            foreach (string element in passenger)
             {
-                Passenger newPassengerModelDto = new Passenger();
-                // Element is like: PID#FELFAR,Felician,Farcas,Schrozberg,Wien
+                Passenger result = new Passenger();
                 var subElement = element.Split(',');
-                newPassengerModelDto.ID = subElement[0];
-                newPassengerModelDto.FirstName = subElement[1];
-                newPassengerModelDto.LastName = subElement[2];
-                newPassengerModelDto.StartingCity = subElement[3];
-                newPassengerModelDto.Destination = subElement[4];
-                resultNew[i] = newPassengerModelDto;
+                result.ID = subElement[0];
+                result.FirstName = subElement[1];
+                result.LastName = subElement[2];
+                result.StartingCity = subElement[3];
+                result.Destination = subElement[4];
+                resultNew[i] = result;
                 i++;
             }
             return resultNew;
@@ -50,19 +44,16 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public Passenger ListPassengerDataById(string id)
         {
-
-            var passenger = passengerDataService.ListAllPassengersService();
-            var findPassenger = passenger.FirstOrDefault(e => e.Contains("PID#" + id));
-
+            var findPassenger = passenger.FirstOrDefault(e => e.Contains(passengerID + id));
             if (findPassenger != null)
             {
                 Passenger result = new Passenger();
-                var subElementofPassenger = findPassenger.Split(',');
-                result.ID = subElementofPassenger[0];
-                result.FirstName = subElementofPassenger[1];
-                result.LastName = subElementofPassenger[2];
-                result.StartingCity = subElementofPassenger[3];
-                result.Destination = subElementofPassenger[4];
+                var subElement = findPassenger.Split(',');
+                result.ID = subElement[0];
+                result.FirstName = subElement[1];
+                result.LastName = subElement[2];
+                result.StartingCity = subElement[3];
+                result.Destination = subElement[4];
                 return result;
             }
             else
@@ -84,13 +75,9 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = passengerModelDto.StartingCity,
                 Destination = passengerModelDto.Destination
             };
-            result.ID = SMGenerateAndCheckPassenger("PID#" + passengerModelDto.FirstName.Substring(0, 3).ToUpper() + passengerModelDto.LastName.Substring(0, 3).ToUpper());
-
-            passengerDataService.AddPassengerDaService(result);
-
+            result.ID = SMGenerateAndCheckPassenger(passengerID + passengerModelDto.FirstName.Substring(0, 3).ToUpper() + passengerModelDto.LastName.Substring(0, 3).ToUpper());
+            this.passengerDataService.AddPassengerDaService(result);
             return result;
-
-
         }
 
         /// <summary>
@@ -98,14 +85,10 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public PassengerModelDto EditPassengerBuService(string id, PassengerModelDto dtoPassenger)
         {
-
-            var passengers = passengerDataService.ListAllPassengersService();
-            var findPassenger = passengers.FirstOrDefault(e => e.Contains("PID#" + id));
-
+            var findPassenger = passenger.FirstOrDefault(e => e.Contains(passengerID + id));
             if (findPassenger != null)
             {
                 var subElement = findPassenger.Split(',');
-
                 Passenger result = new Passenger()
                 {
                     ID = subElement[0],
@@ -114,9 +97,7 @@ namespace TecAlliance.Carpool.Business
                     StartingCity = dtoPassenger.StartingCity,
                     Destination = dtoPassenger.Destination
                 };
-
-                passengerDataService.EditPassengerDaService(result);
-
+                this.passengerDataService.EditPassengerDaService(result);
                 return MapToModelDtoPassenger(result);
             }
             else
@@ -130,18 +111,13 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public Passenger DeletePassengerBuService(string id)
         {
-
-            var passengers = passengerDataService.ListAllPassengersService();
-            var findPassenger = passengers.FirstOrDefault(e => e.Contains("PID#" + id));
-
+            var findPassenger = passenger.FirstOrDefault(e => e.Contains(passengerID + id));
             if (findPassenger != null)
             {
                 Passenger resultNew = new Passenger();
                 var subElement = findPassenger.Split(',');
                 resultNew.ID = subElement[0];
-
-                passengerDataService.DeletePassengerDaService(resultNew);
-
+                this.passengerDataService.DeletePassengerDaService(resultNew);
                 return resultNew;
             }
             else
@@ -162,26 +138,8 @@ namespace TecAlliance.Carpool.Business
                 StartingCity = passenger.StartingCity,
                 Destination = passenger.Destination
             };
-
             return remappedPassenger;
-
         }
-
-        /* private Passenger MapToDriver(PassengerModelDto dtoPassenger)
-         {
-             Passenger remappedPassengerDto = new Passenger()
-             {
-                 ID = dtoPassenger.ID,
-                 FirstName = dtoPassenger.FirstName,
-                 LastName = dtoPassenger.LastName,
-                 StartingCity = dtoPassenger.StartingCity,
-                 Destination = dtoPassenger.Destination
-
-             };
-
-             return remappedPassengerDto;
-
-         }  */
 
         /// <summary>
         /// This submethod will generate a Passenger ID based on the first 3 letters in the First Name and first 3 letters in the Last Name
@@ -190,9 +148,7 @@ namespace TecAlliance.Carpool.Business
         /// </summary>
         public string SMGenerateAndCheckPassenger(string id)
         {
-            var passengerID = passengerDataService.ListAllPassengersService();
-
-            foreach (var passenger in passengerID)
+            foreach (var passenger in passenger)
             {
                 var splittedPassenger = passenger.Split(',');
                 if (splittedPassenger[0] == id)
@@ -209,7 +165,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This submethod will return random character to be used in the ID generator
         /// </summary>
-        public static string SMGetaRandomChar()
+        public string SMGetaRandomChar()
         {
             string chars = "1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
             var splittedChars = chars.Split(',').ToArray();

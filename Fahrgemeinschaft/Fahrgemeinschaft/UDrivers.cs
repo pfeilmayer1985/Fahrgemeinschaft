@@ -10,21 +10,17 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// class properties
         /// </summary>
-
         public string CarTypeMake { get; set; }
         public int FreePlaces { get; set; }
         public List<UDrivers> DriversList { get; set; }
-
         string pathFileDrivers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\drivers.txt";
         string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
         string pathFilePassengers = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\passengers.txt";
-
         HandleUserInputC h = new HandleUserInputC();
 
         /// <summary>
         /// class constructor
         /// </summary>
-
         public UDrivers(string iD, string name, string startCity, string destination, string carTypeMake, int freePlaces)
         {
             ID = iD;
@@ -33,55 +29,45 @@ namespace Fahrgemeinschaft
             Destination = destination;
             CarTypeMake = carTypeMake;
             FreePlaces = freePlaces;
-
         }
 
         public UDrivers()
         {
             DriversList = new List<UDrivers>();
-
         }
 
         /// <summary>
         /// This method saves a driver account to the drivers.txt file
         /// </summary>
-
         public void AddDriver()
         {
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("╔══════════════════════════════════════╗");
             Console.WriteLine("║ You are now  registering as a driver ║");
             Console.WriteLine("╚══════════════════════════════════════╝");
             Console.ResetColor();
-
             //if this file does not exist in the specified path
             if (!File.Exists(pathFileDrivers))
             {
                 //the file will be created in the specified path
                 File.Create(pathFileDrivers);
             }
-
             //if this file does not exist in the specified path
             if (!File.Exists(pathFileCarpools))
             {
                 //the file will be created in the specified path
                 File.Create(pathFileCarpools);
             }
-
             Console.Write("\nWhat's your first name?: ");
             string firstname = h.HandleUserTextInput(true);
             Console.Write("What's your last name?: ");
             string lastname = h.HandleUserTextInput(true);
-
             bool userInUse = false;
             string idDriver;
             idDriver = "DID#" + firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper();
-
             do
             {
-
                 bool ckeckInputDriverID = File.ReadLines(pathFileDrivers).Any(line => line.Contains(idDriver));
                 if (ckeckInputDriverID || idDriver.Length != 10)
                 {
@@ -103,8 +89,6 @@ namespace Fahrgemeinschaft
                 }
 
             } while (userInUse == true);
-
-
             Console.Write("What is the make of the car: ");
             string carMake = h.HandleUserTextInput();
             Console.Write("What is the model of the car: ");
@@ -115,34 +99,23 @@ namespace Fahrgemeinschaft
             string startCity = h.HandleUserTextInput(true);
             Console.Write("Destination City: ");
             string destination = h.HandleUserTextInput(true);
-
-
             File.AppendAllText(pathFileDrivers, ("\n" + idDriver + "," + freePlaces + "," + firstname + " " + lastname + "," + carMake + " " + carModel + "," + startCity + "," + destination));
-
             Console.WriteLine($"\nThe new user ID {idDriver} for {firstname + " " + lastname} was successfully added to the list.\nYou can now receive passengers.");
-
-
             bool pressedTheRightKey = true;
             do
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\n\nWould you like to register a passenger account with the same data as well (y/n)?");
                 Console.ResetColor();
-
                 ConsoleKeyInfo userInputKey = Console.ReadKey();
                 string userInput = Convert.ToString(userInputKey.KeyChar);
-
-
                 if (userInput == "y")
                 {
-
                     bool userPassInUse = false;
                     string idPassenger;
                     idPassenger = "PID#" + firstname.Substring(0, 3).ToUpper() + lastname.Substring(0, 3).ToUpper();
-
                     do
                     {
-
                         bool ckeckInputPassengerID = File.ReadLines(pathFilePassengers).Any(line => line.Contains(idPassenger));
                         if (ckeckInputPassengerID || idPassenger.Length != 10)
                         {
@@ -165,13 +138,10 @@ namespace Fahrgemeinschaft
                             userPassInUse = false;
                         }
 
-
                     } while (userPassInUse == true);
-
                     File.AppendAllText(pathFilePassengers, ("\n" + idPassenger + "," + firstname + " " + lastname + "," + startCity + "," + destination));
                     Console.WriteLine($"\nThe new user ID {idPassenger} for {firstname + " " + lastname} was successfully added to the list.\nYou can now look for a carpool ride.");
                 }
-
                 else if (userInput == "n")
                 {
                     pressedTheRightKey = false;
@@ -181,32 +151,25 @@ namespace Fahrgemeinschaft
                     continue;
                 }
             } while (pressedTheRightKey);
-
             Program.PressEnterTxt();
-
         }
 
         /// <summary>
         /// This method shows a driver account details from the drivers.txt file, searching for driver by driver ID
         /// </summary>
-
         public void SeeDriver()
         {
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("╔════════════════════════════════╗");
             Console.WriteLine("║ See your driver acount details ║");
             Console.WriteLine("╚════════════════════════════════╝");
             Console.ResetColor();
-
             //asking for the passenger ID
             Console.Write("\nEnter driver ID (DID#): ");
             string inputDriverID = Console.ReadLine().ToUpper();
-
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
             var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID#" + inputDriverID)).ToList();
-
             bool exists = false;
             foreach (var driver in theDriversList)
             {
@@ -231,7 +194,6 @@ namespace Fahrgemeinschaft
                         Console.WriteLine($"║ The following user informations are registered with your account ║");
                         Console.WriteLine($"╚══════════════════════════════════════════════════════════════════╝");
                         Console.ResetColor();
-
                         Console.WriteLine($"\nDriver ID: \t\t\t\t{position[0]}");
                         Console.WriteLine($"Driver's name: \t\t\t\t{position[2]}");
                         Console.WriteLine($"Registered vehicle: \t\t\t{position[3]}");
@@ -239,7 +201,6 @@ namespace Fahrgemeinschaft
                         Console.WriteLine($"Driving from location: \t\t\t{position[4]}");
                         Console.WriteLine($"Current registered destination: \t{position[5]}");
                         Program.PressEnterTxt();
-
                     }
                 }
             }
@@ -250,33 +211,25 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
                 Program.PressEnterTxt();
             }
-
-
-
         }
 
         /// <summary>
         /// This main method manages a driver account details from the drivers.txt file, being able to "edit"/replace all drivers infos without ID and free places
         /// </summary>
-
         public void ManageDriverAccount()
         {
             bool userClassBool = true;
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("╔═══════════════════════════╗");
             Console.WriteLine("║ Manage your driver acount ║");
             Console.WriteLine("╚═══════════════════════════╝");
             Console.ResetColor();
-
             //asking for the passenger ID
             Console.Write("\nEnter driver ID (DID#): ");
             string inputDriverID = Console.ReadLine().ToUpper();
-
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
             var findDriverInDrivers = theDriversList.Where(e => e.Contains("DID#" + inputDriverID)).ToList();
-
             bool exists = false;
             foreach (var driver in theDriversList)
             {
@@ -295,7 +248,6 @@ namespace Fahrgemeinschaft
                     string[] position = driver.Split(',');
                     if (position[0] == ("DID#" + inputDriverID))
                     {
-
                         do
                         {
                             Console.Clear();
@@ -315,11 +267,9 @@ namespace Fahrgemeinschaft
                             Console.WriteLine($"( 4 )\tCurrent destination: {position[5]}");
                             Console.WriteLine($"( 5 )\tBoth origin and destination");
                             Console.WriteLine($"( 6 )\tAll fields above (name, car, pickup & destination)");
-
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine($"\n( 9 )\tDon't perform any changes, return to previous menu");
                             Console.ResetColor();
-
                             int userChoice;
                             bool pressedRightKey = false;
                             do
@@ -327,12 +277,8 @@ namespace Fahrgemeinschaft
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.Write("\nChoose one of the options above: ");
                                 Console.ResetColor();
-
-                                //string userInput = Console.ReadLine();
-
                                 ConsoleKeyInfo userInputKey = Console.ReadKey();
                                 string userInput = Convert.ToString(userInputKey.KeyChar);
-
                                 if (!int.TryParse(userInput, out userChoice))
                                 {
                                     Console.ForegroundColor = ConsoleColor.Red;
@@ -350,36 +296,29 @@ namespace Fahrgemeinschaft
                             switch (userChoice)
                             {
                                 case 1:
-
                                     EditDriverName(inputDriverID, theDriversList, position);
                                     userClassBool = false;
                                     continue;
                                 case 2:
-
                                     EditDriverCarMakeModel(inputDriverID, theDriversList, position);
                                     userClassBool = false;
                                     continue;
                                 case 3:
-
                                     EditDriverOrigin(inputDriverID, theDriversList, position);
                                     userClassBool = false;
                                     continue;
                                 case 4:
-
                                     EditDriverDestination(inputDriverID, theDriversList, position);
                                     userClassBool = false;
                                     continue;
                                 case 5:
-
                                     EditDriverOriginAndDestination(inputDriverID, theDriversList, position);
                                     userClassBool = false;
                                     continue;
                                 case 6:
-
                                     EditDriverAll(inputDriverID, theDriversList, position);
                                     userClassBool = false;
                                     continue;
-
                                 case 9:
                                     userClassBool = false;
                                     break;
@@ -396,7 +335,6 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The driver DID# does not exist, account can't be edited.");
                 Console.ResetColor();
-
                 Program.PressEnterTxt();
             }
         }
@@ -404,7 +342,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage driver account method, where all fields are editable
         /// </summary>
-
         private void EditDriverAll(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit all driver data
@@ -450,10 +387,8 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage driver account method, where only origin and destination fields are editable
         /// </summary>
-
         private void EditDriverOriginAndDestination(string inputDriverID, List<string> theDriversList, string[] position)
         {
-
             //edit driving origin and destination
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -486,7 +421,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage driver account method, where only the destination field is editable
         /// </summary>
-
         private void EditDriverDestination(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit driving destination
@@ -517,7 +451,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage driver account method, where only the origin field is editable
         /// </summary>
-
         private void EditDriverOrigin(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit driving from location
@@ -548,7 +481,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage driver account method, where only the car/make field is editable
         /// </summary>
-
         private void EditDriverCarMakeModel(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit car make and model
@@ -579,7 +511,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This is a sub method of the manage driver account method, where only the driver name field is editable
         /// </summary>
-
         private void EditDriverName(string inputDriverID, List<string> theDriversList, string[] position)
         {
             //edit driver name
@@ -613,7 +544,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// This method lists all the drivers saved in the drivers.txt
         /// </summary>
-
         public void ListAllDrivers()
         {
             Console.Clear();
@@ -636,17 +566,13 @@ namespace Fahrgemeinschaft
                     Console.WriteLine($"\tHis driver ID is: {splittetDriverArray[0]}");
                     Console.ResetColor();
                     counterAvailable++;
-
                 }
-
             }
-
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\n\n╔══════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine("║ The following carpools are for the moment full and can't take any passengers ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
-
             foreach (string driver in showDriversList)
             {
                 string[] splittetDriverArray = driver.Split(',');
@@ -655,18 +581,13 @@ namespace Fahrgemeinschaft
                     Console.WriteLine($"\n{counterUnavailable}.\t{splittetDriverArray[2]} is driving a {splittetDriverArray[3]} from {splittetDriverArray[4]} to {splittetDriverArray[5]}. Unfortunately he does not have any free seats available.");
                     counterUnavailable++;
                 }
-
-
-
             }
             Program.PressEnterTxt();
-
         }
 
         /// <summary>
         /// Main method to delete a drivers account. Taking input from user and calling the sub method
         /// </summary>
-
         public void RemoveDriverAccount()
         {
             Console.Clear();
@@ -675,30 +596,22 @@ namespace Fahrgemeinschaft
             Console.WriteLine("║ Remove a driver acount from both drivers and carpool lists ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
             Console.ResetColor();
-
             //asking for the driver ID
             Console.Write("Enter driver ID (DID#): ");
             string inputDriverID = Console.ReadLine().ToUpper();
             SMRemoveDriverAccountByDriverID(inputDriverID);
-
-
         }
 
         /// <summary>
         /// Sub method to delete a drivers account, looking for a driver after driver ID taken from user input
         /// </summary>
-
         public void SMRemoveDriverAccountByDriverID(string inputDriverID)
         {
-
             //removing a driver from the drivers list
             List<string> theDriversList = File.ReadAllLines(pathFileDrivers).ToList();
-
             var findDriverInDrivers = theDriversList.FirstOrDefault(e => e.Contains("DID#" + inputDriverID));
-
             bool exists = false;
             bool existsInCarpool = false;
-
             foreach (var driver in theDriversList)
             {
                 string[] strings = driver.Split(',');
@@ -707,20 +620,15 @@ namespace Fahrgemeinschaft
                     exists = true;
                 }
             }
-
-
             if (exists)
             {
-
                 var addAllOtherEntriesBack = theDriversList.Where(e => !e.Contains("DID#" + inputDriverID)).ToList();
                 File.WriteAllLines(pathFileDrivers, addAllOtherEntriesBack);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Driver DID# {inputDriverID} was removed from the registered drivers list.");
                 Console.ResetColor();
-
                 //removing a driver from the carpool list
                 List<string> theCarpoolList = File.ReadAllLines(pathFileCarpools).ToList();
-
                 foreach (var driver in theCarpoolList)
                 {
                     string[] strings = driver.Split(',');
@@ -754,12 +662,7 @@ namespace Fahrgemeinschaft
                 Console.WriteLine("The driver DID# does not exist, account can't be deleted.");
                 Console.ResetColor();
             }
-
             Program.PressEnterTxt();
-
-
-
         }
-
     }
 }

@@ -7,19 +7,15 @@ namespace Fahrgemeinschaft
     {
         static void Main(string[] args)
         {
-
             MainScreen();
-
         }
 
         /// <summary>
         /// The MainScreen method is the main menu of the carpool app, where the user chooses it's class (driver/passenger)
         /// </summary>
-
         public static void MainScreen()
         {
             bool userClassBool = true;
-
             do
             {
                 //Clearing console and showing the main menu in a loop. User can choose tthe drivers or passengers menu, list all the carpools or exit
@@ -37,17 +33,13 @@ namespace Fahrgemeinschaft
                 Console.ResetColor();
                 int userClass;
                 CarpoolC carpools = new CarpoolC();
-
                 //if user chooses a non-existing menu item stays in loop until he enters a existing value
                 bool pressedRightKey = false;
                 do
                 {
                     ChoseOptionAbvTxt();
-
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
                     string userInput = Convert.ToString(userInputKey.KeyChar);
-
-
                     if (!int.TryParse(userInput, out userClass))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -81,30 +73,23 @@ namespace Fahrgemeinschaft
                         userClassBool = false;
                         break;
                     default:
-
                         userClassBool = true;
                         continue;
                 }
             } while (userClassBool);
-
-
         }
 
         /// <summary>
         /// This is the main menu for the Drivers class, managing account, taking a passenger (making a carpool), kick passenger, see the passengers, drivers and carpool lists
         /// </summary>
-
         public static void DriverMenu()
         {
             bool userDriverBool = true;
-
             do
             {
-
                 UDrivers driversClass = new UDrivers();
                 UPassengers passengersClass = new UPassengers();
                 CarpoolC carpoolsClass = new CarpoolC();
-
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 CwL("╔═════════════════════════════════╗\n" +
@@ -121,21 +106,15 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the main menu");
                 Console.ResetColor();
-
                 //if user chooses a non-existing menu item stays in loop until he enters a existing value
-
                 int driverMenu;
                 bool pressedRightKey = false;
                 do
                 {
                     ChoseOptionAbvTxt();
-
                     //string userInput = Console.ReadLine();
-
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
                     string userInput = Convert.ToString(userInputKey.KeyChar);
-
-
                     if (!int.TryParse(userInput, out driverMenu))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -156,7 +135,6 @@ namespace Fahrgemeinschaft
                         DriverAccountMenu();
                         userDriverBool = true;
                         continue;
-
                     case 2:
                         carpoolsClass.OfferCarpoolToPassenger();
                         userDriverBool = true;
@@ -181,34 +159,27 @@ namespace Fahrgemeinschaft
                         carpoolsClass.ListAllCarpools();
                         userDriverBool = true;
                         continue;
-
                     case 9:
                         userDriverBool = false;
                         break;
                     default:
-
                         userDriverBool = true;
                         continue;
                 }
             } while (userDriverBool);
-
         }
 
         /// <summary>
         /// This is the account management for the drivers class, register, edit, delete account
         /// </summary>
-
         public static void DriverAccountMenu()
         {
             bool userDriverBool = true;
-
             do
             {
-
                 UDrivers driversClass = new UDrivers();
                 UPassengers passengersClass = new UPassengers();
                 CarpoolC carpoolsClass = new CarpoolC();
-
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 CwL("╔═════════════════════════════════╗\n" +
@@ -222,20 +193,15 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the drivers menu");
                 Console.ResetColor();
-
                 //if user chooses a non-existing menu item stays in loop until he enters a existing value
-
                 int driverMenu;
                 bool pressedRightKey = false;
                 do
                 {
                     ChoseOptionAbvTxt();
-
                     //string userInput = Console.ReadLine();
-
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
                     string userInput = Convert.ToString(userInputKey.KeyChar);
-
                     if (!int.TryParse(userInput, out driverMenu))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -256,7 +222,6 @@ namespace Fahrgemeinschaft
                         driversClass.AddDriver();
                         userDriverBool = true;
                         continue;
-
                     case 2:
                         driversClass.SeeDriver();
                         continue;
@@ -272,30 +237,23 @@ namespace Fahrgemeinschaft
                         userDriverBool = false;
                         break;
                     default:
-
                         userDriverBool = true;
                         continue;
                 }
             } while (userDriverBool);
-
         }
 
         /// <summary>
         /// This is the main menu for the Passengers class, managing account, joining a carpool, cancelling a carpool, see the passengers, drivers and carpool lists 
         /// </summary>
-
         public static void PassengerMenu()
         {
-
             bool userPassengerBool = true;
-
             do
             {
-
                 UPassengers passengersClass = new UPassengers();
                 UDrivers driversClass = new UDrivers();
                 CarpoolC carpoolsClass = new CarpoolC();
-
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 CwL("╔═════════════════════════════════╗\n" +
@@ -312,21 +270,15 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the main menu");
                 Console.ResetColor();
-
                 //if user chooses a non-existing menu item stays in loop until he enters a existing value
-
                 int passengerMenu;
                 bool pressedRightKey = false;
                 do
                 {
                     ChoseOptionAbvTxt();
-
-
                     //string userInput = Console.ReadLine();
-
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
                     string userInput = Convert.ToString(userInputKey.KeyChar);
-
                     if (!int.TryParse(userInput, out passengerMenu))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -340,7 +292,6 @@ namespace Fahrgemeinschaft
                         continue;
                     }
                 } while (pressedRightKey);
-
 
                 switch (passengerMenu)
                 {
@@ -372,7 +323,6 @@ namespace Fahrgemeinschaft
                         carpoolsClass.ListAllCarpools();
                         userPassengerBool = true;
                         continue;
-
                     case 9:
                         userPassengerBool = false;
                         break;
@@ -382,25 +332,19 @@ namespace Fahrgemeinschaft
                         continue;
                 }
             } while (userPassengerBool);
-
         }
 
         /// <summary>
         /// This is the account management for the passengers class, register, edit, delete account
         /// </summary>
-
         public static void PassengerAccountMenu()
         {
-
             bool userPassengerBool = true;
-
             do
             {
-
                 UPassengers passengersClass = new UPassengers();
                 UDrivers driversClass = new UDrivers();
                 CarpoolC carpoolsClass = new CarpoolC();
-
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 CwL("╔═════════════════════════════════╗\n" +
@@ -414,21 +358,14 @@ namespace Fahrgemeinschaft
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n( 9 )\tBack to the passengers menu");
                 Console.ResetColor();
-
                 //if user chooses a non-existing menu item stays in loop until he enters a existing value
-
                 int passengerMenu;
                 bool pressedRightKey = false;
                 do
                 {
                     ChoseOptionAbvTxt();
-
-
-                    //string userInput = Console.ReadLine();
-
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
                     string userInput = Convert.ToString(userInputKey.KeyChar);
-
                     if (!int.TryParse(userInput, out passengerMenu))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -442,8 +379,6 @@ namespace Fahrgemeinschaft
                         continue;
                     }
                 } while (pressedRightKey);
-
-
                 switch (passengerMenu)
                 {
                     case 1:
@@ -466,18 +401,15 @@ namespace Fahrgemeinschaft
                         userPassengerBool = false;
                         break;
                     default:
-
                         userPassengerBool = true;
                         continue;
                 }
             } while (userPassengerBool);
-
         }
 
         /// <summary>
         /// Quick ConsoleWriteLine
         /// </summary>
-
         public static void CwL(params string[] words)
         {
             foreach (string word in words)
@@ -489,7 +421,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// Standard text for choose an option
         /// </summary>
-
         public static void ChoseOptionAbvTxt()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -503,7 +434,6 @@ namespace Fahrgemeinschaft
         /// <summary>
         /// Standard text for choose an option
         /// </summary>
-
         public static void PressEnterTxt()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -517,15 +447,12 @@ namespace Fahrgemeinschaft
         public static string readLineWithCancel()
         {
             string result = null;
-
             StringBuilder buffer = new StringBuilder();
-
             //The key is read passing true for the intercept argument to prevent
             //any characters from displaying when the Escape key is pressed.
             ConsoleKeyInfo info = Console.ReadKey(true);
             while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
             {
-
                 if (info.Key == ConsoleKey.Backspace)
                 {
                     if (buffer.Length > 0)
@@ -535,25 +462,19 @@ namespace Fahrgemeinschaft
                     }
                     info = Console.ReadKey(true);
                     continue;
-
-
                 }
                 else
                 {
                     Console.Write(info.KeyChar);
                     buffer.Append(info.KeyChar);
                     info = Console.ReadKey(true);
-
                 }
             }
-
             if (info.Key == ConsoleKey.Enter)
             {
                 result = buffer.ToString();
             }
-
             return result;
         }
-
     }
 }

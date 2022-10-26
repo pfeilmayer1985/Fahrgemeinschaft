@@ -1,5 +1,5 @@
 using Swashbuckle.AspNetCore.Filters;
-using TecAlliance.Carpool.Business;
+using TecAlliance.Carpool.Business.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +16,6 @@ builder.Services.AddSingleton<DriverDtoProvider>();
 builder.Services.AddSwaggerExamplesFromAssemblyOf<DriverDtoProvider>();
 
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

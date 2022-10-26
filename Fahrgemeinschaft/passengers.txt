@@ -9,3 +9,4 @@ PID#FIRVIC,First,Victim,Gotham,City
 PID#FIRVWE,First,Victim,string,string
 PID#FICVID,First,Victim,string,string
 PID#VICEGR,Victor,Egri,Weikersheim,End
+PID#MAXMUS,Max,Mustermann,Schrozberg,Berlin
