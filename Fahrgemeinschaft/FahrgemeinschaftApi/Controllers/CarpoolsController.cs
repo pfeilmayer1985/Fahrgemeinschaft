@@ -15,9 +15,7 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         public CarpoolsController(ILogger<CarpoolsController> logger, ICarpoolBusinessService carpoolBusinessService)
         {
-            StringBuilder test = new StringBuilder();
             _carpoolBusinessService = carpoolBusinessService;
-
             _logger = logger;
         }
 

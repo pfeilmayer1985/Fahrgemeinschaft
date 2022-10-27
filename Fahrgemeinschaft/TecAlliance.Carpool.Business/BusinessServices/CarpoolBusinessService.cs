@@ -51,14 +51,12 @@ namespace TecAlliance.Carpool.Business
                 resultedDriver.StartingCity = subElementofDriver[5];
                 resultedDriver.Destination = subElementofDriver[6];
                 newCarpoolModelDto.DriverDetails = resultedDriver;
-
-                Passenger resultedPassenger = new Passenger();
                 newCarpoolModelDto.PassengersDetails = new List<Passenger>();
 
                 for (int j = 1; j < subElement.Length; j++)
                 {
+                    Passenger resultedPassenger = new Passenger();
                     newCarpoolModelDto.Passengers.Add(subElement[j]);
-
                     var findPassenger = passenger.First(e => e.Contains(subElement[j]));
                     var subElementofPassenger = findPassenger.Split(',');
                     resultedPassenger.ID = subElementofPassenger[0];
@@ -66,6 +64,7 @@ namespace TecAlliance.Carpool.Business
                     resultedPassenger.LastName = subElementofPassenger[2];
                     resultedPassenger.StartingCity = subElementofPassenger[3];
                     resultedPassenger.Destination = subElementofPassenger[4];
+                    
                     newCarpoolModelDto.PassengersDetails.Add(resultedPassenger);
                 }
                 resultNew[i] = newCarpoolModelDto;
@@ -74,7 +73,7 @@ namespace TecAlliance.Carpool.Business
             return resultNew;
         }
 
-        /// <summary>
+         /// <summary>
         /// This method will return one detailed carpool info based on a search after driver ID and passenger IDs
         /// </summary>
         public CarpoolModelDto ListCarpoolByIdBu(string id)
@@ -96,11 +95,12 @@ namespace TecAlliance.Carpool.Business
                 resultedDriver.StartingCity = subElementofDriver[5];
                 resultedDriver.Destination = subElementofDriver[6];
                 resultNew.DriverDetails = resultedDriver;
-                Passenger resultedPassenger = new Passenger();
+
                 resultNew.PassengersDetails = new List<Passenger>();
                 resultNew.Passengers = new List<string>();
                 for (int j = 1; j < subElement.Length; j++)
                 {
+                    Passenger resultedPassenger = new Passenger();
                     resultNew.Passengers.Add(subElement[j]);
                     var findPassenger = passenger.First(e => e.Contains(subElement[j]));
                     var subElementofPassenger = findPassenger.Split(',');
