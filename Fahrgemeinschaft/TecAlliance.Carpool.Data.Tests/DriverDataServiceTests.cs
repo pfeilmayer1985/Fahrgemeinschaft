@@ -10,7 +10,7 @@ namespace TecAlliance.Carpool.Data.Tests
         DriverDataService _driverDataService = new DriverDataService();
 
         [TestMethod]
-        public void CheckDriverInFile()
+        public void ListAllDriversService_ShouldHaveTheTestDriverInTheFile()
         {
             // Arrange
 
@@ -26,8 +26,9 @@ namespace TecAlliance.Carpool.Data.Tests
         }
 
         [TestMethod]
-        public void AddNewDriverToFileTest()
+        public void AddDriverDaService_ShouldAddTheTestDriverToFile()
         {
+            
             // Arrange
             _driverDataService.Path = "C:\\010 Projects\\006 Fahrgemeinschaft\\Fahrgemeinschaft\\testdrivers.txt";
             Driver testDriver = new Driver()
