@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TecAlliance.Carpool.Busines
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TecAlliance.Carpool.Data", "TecAlliance.Carpool.Data\TecAlliance.Carpool.Data.csproj", "{945285A6-D442-40B8-8240-DABE2AFC2294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TecAlliance.Carpool.Data.Tests", "TecAlliance.Carpool.Data.Tests\TecAlliance.Carpool.Data.Tests.csproj", "{88B02C6C-8014-4C2C-8B34-E9D7C4C0FA3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TecAlliance.Carpool.Data.Tests", "TecAlliance.Carpool.Data.Tests\TecAlliance.Carpool.Data.Tests.csproj", "{88B02C6C-8014-4C2C-8B34-E9D7C4C0FA3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TecAlliance.Carpool.Business.Tests", "TecAlliance.Carpool.Business.Tests\TecAlliance.Carpool.Business.Tests.csproj", "{06B80C3B-0397-4235-86FD-E49904FC72B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{88B02C6C-8014-4C2C-8B34-E9D7C4C0FA3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88B02C6C-8014-4C2C-8B34-E9D7C4C0FA3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88B02C6C-8014-4C2C-8B34-E9D7C4C0FA3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B80C3B-0397-4235-86FD-E49904FC72B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B80C3B-0397-4235-86FD-E49904FC72B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B80C3B-0397-4235-86FD-E49904FC72B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B80C3B-0397-4235-86FD-E49904FC72B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

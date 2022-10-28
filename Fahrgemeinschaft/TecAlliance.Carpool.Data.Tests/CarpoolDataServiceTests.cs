@@ -12,8 +12,8 @@ namespace TecAlliance.Carpool.Data.Tests
         public void CheckCarpoolInFile()
         {
             // Arrange
-           
-            
+            _carpoolDataService.Path = "C:\\010 Projects\\006 Fahrgemeinschaft\\Fahrgemeinschaft\\testcarpools.txt";
+
             // Act
             string[] result = _carpoolDataService.ListAllCarpoolsDataService();
 

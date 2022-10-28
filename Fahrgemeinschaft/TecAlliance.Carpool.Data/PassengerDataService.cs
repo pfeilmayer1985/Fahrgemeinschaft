@@ -44,5 +44,18 @@ namespace TecAlliance.Carpool.Data
             path = path + "/../../../../../" + "passengers.txt";
             return path;
         }
+
+        public string Path
+        {
+            get
+            {
+                return this.path;
+
+            }
+            set
+            {
+                this.path = value;
+            }
+        }
     }
 }

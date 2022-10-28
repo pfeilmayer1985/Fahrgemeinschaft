@@ -26,6 +26,11 @@ namespace TecAlliance.Carpool.Business
             driver = _driverDataService.ListAllDriversService();
         }
 
+        public CarpoolBusinessService()
+        {
+
+        }
+
         /// <summary>
         /// This method will return a detailed carpool list with drivers and passengers IDs and infos
         /// </summary>

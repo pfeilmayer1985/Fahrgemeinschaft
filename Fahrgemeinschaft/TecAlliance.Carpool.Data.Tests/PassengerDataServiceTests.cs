@@ -1,4 +1,5 @@
-using TecAlliance.Carpool.Data;
+
+
 using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Tests
@@ -9,9 +10,10 @@ namespace TecAlliance.Carpool.Data.Tests
         PassengerDataService _passengerDataService = new PassengerDataService();
 
         [TestMethod]
-        public void CheckPassengerInFile()
+        public void CheckPassengerInFileTest()
         {
             // Arrange
+            _passengerDataService.Path = "C:\\010 Projects\\006 Fahrgemeinschaft\\Fahrgemeinschaft\\testpassengers.txt";
 
 
             // Act
@@ -20,6 +22,29 @@ namespace TecAlliance.Carpool.Data.Tests
             // Assert
             var testArray = new string[] { "PID#NICSAN,Nicusor,Sandu,Start,End" };
             Assert.AreEqual(testArray[0], result[0]);
+
+        }
+
+        [TestMethod]
+        public void AddNewPassengerToFileTest()
+        {
+            // Arrange
+            _passengerDataService.Path = "C:\\010 Projects\\006 Fahrgemeinschaft\\Fahrgemeinschaft\\testpassengers.txt";
+            Passenger testPassenger = new Passenger()
+            {
+                ID = "PID#JOHDOE",
+                FirstName = "John",
+                LastName = "Doe",
+                StartingCity = "Kansas",
+                Destination = "Narnia"
+            };
+
+            // Act
+            _passengerDataService.AddPassengerDaService(testPassenger);
+            string resultString = _passengerDataService.ListAllPassengersService().First(result => result.Contains(testPassenger.ID));
+            var result = resultString.Split(',');
+            // Assert
+            Assert.AreEqual(testPassenger.ID, result[0]);
 
         }
     }

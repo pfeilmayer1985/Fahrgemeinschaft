@@ -34,5 +34,18 @@ namespace TecAlliance.Carpool.Data
             List<string> addAllOtherEntriesBack = showCarpoolsList.Where(e => !e.Contains(carpool.Driver)).ToList();
             File.WriteAllLines(path, addAllOtherEntriesBack);
         }
+
+        public string Path
+        {
+            get
+            {
+                return this.path;
+
+            }
+            set
+            {
+                this.path = value;
+            }
+        }
     }
 }

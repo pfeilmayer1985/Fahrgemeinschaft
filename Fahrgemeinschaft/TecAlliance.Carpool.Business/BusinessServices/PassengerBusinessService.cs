@@ -15,6 +15,11 @@ namespace TecAlliance.Carpool.Business
             passenger = _passengerDataService.ListAllPassengersService();
         }
 
+        public PassengerBusinessService()
+        {
+
+        }
+
         /// <summary>
         /// This method will return a detailed list with the passenger IDs and infos
         /// </summary>

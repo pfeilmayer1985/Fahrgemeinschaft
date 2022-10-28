@@ -5,6 +5,8 @@ namespace TecAlliance.Carpool.Data
 {
     public class DriverDataService : IDriverDataService
     {
+
+
         string path = DriversTxtPath();
 
         public string[] ListAllDriversService()
@@ -35,6 +37,21 @@ namespace TecAlliance.Carpool.Data
             path = path + "/../../../../../" + "drivers.txt";
             return path;
         }
+
+
+        public string Path
+        {
+            get
+            {
+                return this.path;
+
+            }
+            set
+            {
+                this.path = value;
+            }
+        }
+
 
         public void DeleteDriverDaService(Driver driver)
         {
