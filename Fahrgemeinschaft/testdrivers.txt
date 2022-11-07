@@ -6,3 +6,4 @@ DID#SENVIV,4,Second,Victim,Old Rusty Bicycle,string,string
 DID#EMISOM,4,Emil,Somkereki,BMW X5,Start,Schrozberg
 DID#DORHOR,4,Doru,Horincar,Hyundai Tucson,Schrozberg,End
 DID#MAXMUS,4,Max,Mustemann,Peugeot 507,Stuttgart,Schrozberg
+DID#JOHDOE,5,John,Doe,Some Car,Kansas,Narnia

@@ -9,12 +9,18 @@ namespace TecAlliance.Carpool.Data
         // string pathFileCarpools = @"C:\010 Projects\006 Fahrgemeinschaft\Fahrgemeinschaft\carpools.txt";
         string path = CarpoolTxtPath();
 
+        /// <summary>
+        /// This method lists all the carpools/lines from the carpools file
+        /// </summary>
         public string[] ListAllCarpoolsDataService()
         {
             string[] showCarpoolList = File.ReadAllLines(path);
             return showCarpoolList;
         }
 
+        /// <summary>
+        /// This method defines the path to the carpools file
+        /// </summary>
         private static string CarpoolTxtPath()
         {
             var path = Assembly.GetEntryAssembly().Location;
@@ -22,11 +28,17 @@ namespace TecAlliance.Carpool.Data
             return path;
         }
 
+        /// <summary>
+        /// This method appends a new carpool to the carpools file
+        /// </summary>
         public void AddCarpoolDaService(CarpoolModel carpool)
         {
             File.AppendAllText(path, carpool.ToString());
         }
 
+        /// <summary>
+        /// This method deletes/removes an existing carpool from the carpools file
+        /// </summary>
         public void DeleteCarpoolDaService(CarpoolModel carpool)
         {
             string[] showCarpoolsList = File.ReadAllLines(path);
