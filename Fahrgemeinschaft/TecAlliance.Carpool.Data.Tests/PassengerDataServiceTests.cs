@@ -32,7 +32,7 @@ namespace TecAlliance.Carpool.Data.Tests
         {
             // Arrange
             _passengerDataService.Path = "C:\\010 Projects\\006 Fahrgemeinschaft\\Fahrgemeinschaft\\testpassengers.txt";
-            Passenger testPassenger = new Passenger()
+            PassengerModelData testPassenger = new PassengerModelData()
             {
                 ID = "PID#JOHDOE",
                 FirstName = "John",

@@ -22,10 +22,10 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         [HttpGet]
         //[Route("api/CarPoolApi/GetDrivers")]
-        public async Task<ActionResult<IEnumerable<Driver>>> GetAllDrivers()
+        public async Task<ActionResult<IEnumerable<DriverModelData>>> GetAllDrivers()
         {
 
-            Driver[] items = _driverBusinessService.ListAllDriverData();
+            DriverModelData[] items = _driverBusinessService.ListAllDriverData();
             return items;
         }
 
@@ -33,9 +33,9 @@ namespace TecAlliance.Carpool.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/GetDriverById/{id}")]
-        public async Task<ActionResult<Driver>> GetDriverById(string id)
+        public async Task<ActionResult<DriverModelData>> GetDriverById(string id)
         {
-            Driver items = _driverBusinessService.ListDriverById(id.ToUpper());
+            DriverModelData items = _driverBusinessService.ListDriverById(id.ToUpper());
             if (items == null)
             {
                 return NotFound();
@@ -48,9 +48,9 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         [HttpPost]
         //[Route("api/CarPoolApi/AddDriver")]
-        public async Task<ActionResult<Driver>> AddDriver(Driver driver)
+        public async Task<ActionResult<DriverModelData>> AddDriver(DriverModelData driver)
         {
-            Driver item = _driverBusinessService.AddDriverBuService(driver);
+            DriverModelData item = _driverBusinessService.AddDriverBuService(driver);
             return item;
         }
 

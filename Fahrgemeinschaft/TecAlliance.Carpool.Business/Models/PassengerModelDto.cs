@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TecAlliance.Carpool.Business.Models
 {
-    public class PassengerModelDto : UserBaseDto
+    public class PassengerModelDto : UserBaseModelDto
     {
         public string? ID { get; }
     }

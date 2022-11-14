@@ -8,12 +8,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will add a new passenger in the file
         /// </summary>
-        Passenger AddPassengerBuService(PassengerModelDto passengerModelDto);
+        PassengerModelData AddPassengerBuService(PassengerModelDto passengerModelDto);
 
         /// <summary>
         /// This method will delete a passenger based on his ID
         /// </summary>
-        Passenger DeletePassengerBuService(string id);
+        PassengerModelData DeletePassengerBuService(string id);
 
         /// <summary>
         /// This method will "edit" the infos of a passenger based on his ID
@@ -23,17 +23,17 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will return a detailed list with the passenger IDs and infos
         /// </summary>
-        Passenger[] ListAllPassengersData();
+        PassengerModelData[] ListAllPassengersData();
 
         /// <summary>
         /// This method will return one detailed passenger info based on a search after his IDs
         /// </summary>
-        Passenger ListPassengerDataById(string id);
+        PassengerModelData ListPassengerDataById(string id);
 
         /// <summary>
         /// Remapping a Passenger obj to a DTO obj
         /// </summary>
-        PassengerModelDto MapToModelDtoPassenger(Passenger passenger);
+        PassengerModelDto MapToModelDtoPassenger(PassengerModelData passenger);
 
         /// <summary>
         /// This submethod will generate a Passenger ID based on the first 3 letters in the First Name and first 3 letters in the Last Name

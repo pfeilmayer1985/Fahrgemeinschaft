@@ -6,13 +6,13 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Models
 {
-    public class Driver : UserBase
+    public class DriverModelData : UserBaseModelData
     {
         public string ID { get; set; }
         public string CarTypeMake { get; set; }
         public int FreePlaces { get; set; }
 
-        public Driver(string id, int freePlaces, string firstName, string lastName, string carTypeMake, string startCity, string destination)
+        public DriverModelData(string id, int freePlaces, string firstName, string lastName, string carTypeMake, string startCity, string destination)
         {
             ID = id;
             FreePlaces = freePlaces;
@@ -23,7 +23,7 @@ namespace TecAlliance.Carpool.Data.Models
             Destination = destination;
         }
 
-        public Driver()
+        public DriverModelData()
         {
         }
 

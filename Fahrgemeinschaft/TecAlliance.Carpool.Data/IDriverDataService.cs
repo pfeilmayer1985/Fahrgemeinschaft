@@ -7,17 +7,17 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method appends a new driver to the drivers file
         /// </summary>
-        void AddDriverDaService(Driver driver);
+        void AddDriverDaService(DriverModelData driver);
 
         /// <summary>
         /// This method deletes/removes an existing driver from the drivers file
         /// </summary>
-        void DeleteDriverDaService(Driver driver);
+        void DeleteDriverDaService(DriverModelData driver);
 
         /// <summary>
         /// This method replaces saved infos with new infos for a defined Driver ID
         /// </summary>
-        void EditDriverDaService(Driver driver);
+        void EditDriverDaService(DriverModelData driver);
 
         /// <summary>
         /// This method lists all the drivers/lines from the drivers file

@@ -11,7 +11,7 @@ namespace TecAlliance.Carpool.Business.Models
     {
         public string Driver { get; set; }
         public List<String> Passengers { get; set; }
-        public Driver DriverDetails { get; set; }
-        public List<Passenger> PassengersDetails { get; set; }
+        public DriverModelData DriverDetails { get; set; }
+        public List<PassengerModelData> PassengersDetails { get; set; }
     }
 }

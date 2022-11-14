@@ -8,11 +8,11 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace TecAlliance.Carpool.Business.Providers
 {
-    public class PassengerProvider : IExamplesProvider<Passenger>
+    public class PassengerProvider : IExamplesProvider<PassengerModelData>
     {
-        public Passenger GetExamples()
+        public PassengerModelData GetExamples()
         {
-            return new Passenger()
+            return new PassengerModelData()
             {
                 ID = "MAXMUS",
                 FirstName = "Max",

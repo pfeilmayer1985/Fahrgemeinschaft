@@ -24,13 +24,13 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will return a detailed list with the passenger IDs and infos
         /// </summary>
-        public Passenger[] ListAllPassengersData()
+        public PassengerModelData[] ListAllPassengersData()
         {
-            Passenger[] resultNew = new Passenger[passenger.Length];
+            PassengerModelData[] resultNew = new PassengerModelData[passenger.Length];
             int i = 0;
             foreach (string element in passenger)
             {
-                Passenger result = new Passenger();
+                PassengerModelData result = new PassengerModelData();
                 var subElement = element.Split(',');
                 result.ID = subElement[0];
                 result.FirstName = subElement[1];
@@ -46,12 +46,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will return one detailed passenger info based on a search after his IDs
         /// </summary>
-        public Passenger ListPassengerDataById(string id)
+        public PassengerModelData ListPassengerDataById(string id)
         {
             var findPassenger = passenger.FirstOrDefault(e => e.Contains(passengerID + id));
             if (findPassenger != null)
             {
-                Passenger result = new Passenger();
+                PassengerModelData result = new PassengerModelData();
                 var subElement = findPassenger.Split(',');
                 result.ID = subElement[0];
                 result.FirstName = subElement[1];
@@ -69,9 +69,9 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will add a new passenger in the file
         /// </summary>
-        public Passenger AddPassengerBuService(PassengerModelDto passengerModelDto)
+        public PassengerModelData AddPassengerBuService(PassengerModelDto passengerModelDto)
         {
-            Passenger result = new Passenger()
+            PassengerModelData result = new PassengerModelData()
             {
                 ID = "",
                 FirstName = passengerModelDto.FirstName,
@@ -93,7 +93,7 @@ namespace TecAlliance.Carpool.Business
             if (findPassenger != null)
             {
                 var subElement = findPassenger.Split(',');
-                Passenger result = new Passenger()
+                PassengerModelData result = new PassengerModelData()
                 {
                     ID = subElement[0],
                     FirstName = dtoPassenger.FirstName,
@@ -113,12 +113,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will delete a passenger based on his ID
         /// </summary>
-        public Passenger DeletePassengerBuService(string id)
+        public PassengerModelData DeletePassengerBuService(string id)
         {
             var findPassenger = passenger.FirstOrDefault(e => e.Contains(passengerID + id));
             if (findPassenger != null)
             {
-                Passenger resultNew = new Passenger();
+                PassengerModelData resultNew = new PassengerModelData();
                 var subElement = findPassenger.Split(',');
                 resultNew.ID = subElement[0];
                 this._passengerDataService.DeletePassengerDaService(resultNew);
@@ -133,7 +133,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Remapping a Passenger obj to a DTO obj
         /// </summary>
-        public PassengerModelDto MapToModelDtoPassenger(Passenger passenger)
+        public PassengerModelDto MapToModelDtoPassenger(PassengerModelData passenger)
         {
             PassengerModelDto remappedPassenger = new PassengerModelDto()
             {

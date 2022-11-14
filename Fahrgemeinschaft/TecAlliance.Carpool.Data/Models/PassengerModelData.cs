@@ -6,9 +6,9 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Models
 {
-    public class Passenger : UserBase
+    public class PassengerModelData : UserBaseModelData
     {
-        public Passenger(string iD, string firstName, string lastName, string startCity, string destination)
+        public PassengerModelData(string iD, string firstName, string lastName, string startCity, string destination)
         {
             ID = iD;
             FirstName = firstName;
@@ -16,7 +16,7 @@ namespace TecAlliance.Carpool.Data.Models
             StartingCity = startCity;
             Destination = destination;
         }
-        public Passenger()
+        public PassengerModelData()
         {
         }
         public string ToString()

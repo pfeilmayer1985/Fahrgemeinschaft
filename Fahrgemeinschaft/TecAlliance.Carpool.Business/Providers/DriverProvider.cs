@@ -4,11 +4,11 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Business.Providers
 {
-    public class DriverProvider : IExamplesProvider<Driver>
+    public class DriverProvider : IExamplesProvider<DriverModelData>
     {
-        public Driver GetExamples()
+        public DriverModelData GetExamples()
         {
-            return new Driver()
+            return new DriverModelData()
             {
                 ID = "MAXMUS",
                 FreePlaces = 4,

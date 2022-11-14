@@ -24,13 +24,13 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will return a detailed list with the driver IDs and infos
         /// </summary>
-        public Driver[] ListAllDriverData()
+        public DriverModelData[] ListAllDriverData()
         {
-            Driver[] resultNew = new Driver[driver.Length];
+            DriverModelData[] resultNew = new DriverModelData[driver.Length];
             int i = 0;
             foreach (string element in driver)
             {
-                Driver newDriverModelDto = new Driver();
+                DriverModelData newDriverModelDto = new DriverModelData();
                 var subElement = element.Split(',');
                 newDriverModelDto.ID = subElement[0];
                 newDriverModelDto.FreePlaces = Convert.ToInt32(subElement[1]);
@@ -48,12 +48,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will return one detailed driver info based on a search after his IDs
         /// </summary>
-        public Driver ListDriverById(string id)
+        public DriverModelData ListDriverById(string id)
         {
             var findDriver = driver.FirstOrDefault(e => e.Contains(driverID + id));
             if (findDriver != null)
             {
-                Driver resultNew = new Driver();
+                DriverModelData resultNew = new DriverModelData();
                 var subElement = findDriver.Split(',');
                 resultNew.ID = subElement[0];
                 resultNew.FreePlaces = Convert.ToInt32(subElement[1]);
@@ -74,9 +74,9 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will add a new driver in the file
         /// </summary>
-        public Driver AddDriverBuService(Driver driver)
+        public DriverModelData AddDriverBuService(DriverModelData driver)
         {
-            Driver result = new Driver()
+            DriverModelData result = new DriverModelData()
             {
                 ID = "",
                 FreePlaces = driver.FreePlaces,
@@ -100,7 +100,7 @@ namespace TecAlliance.Carpool.Business
             if (findDriver != null)
             {
                 var subElement = findDriver.Split(',');
-                Driver result = new Driver()
+                DriverModelData result = new DriverModelData()
                 {
                     ID = subElement[0],
                     FreePlaces = Convert.ToInt32(subElement[1]),
@@ -122,12 +122,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will delete a driver based on his ID
         /// </summary>
-        public Driver DeleteDriverBuService(string id)
+        public DriverModelData DeleteDriverBuService(string id)
         {
             var findDriver = driver.FirstOrDefault(e => e.Contains(driverID + id));
             if (findDriver != null)
             {
-                Driver resultNew = new Driver();
+                DriverModelData resultNew = new DriverModelData();
                 var subElement = findDriver.Split(',');
                 resultNew.ID = subElement[0];
                 _driverDataService.DeleteDriverDaService(resultNew);
@@ -142,7 +142,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Remapping a driver obj. to a DTO obj.
         /// </summary>
-        private DriverModelDto MapToModelDtoDriver(Driver driver)
+        private DriverModelDto MapToModelDtoDriver(DriverModelData driver)
         {
             DriverModelDto remappedDriver = new DriverModelDto()
             {

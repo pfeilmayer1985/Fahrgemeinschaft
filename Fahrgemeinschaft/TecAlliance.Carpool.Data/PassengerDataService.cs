@@ -20,7 +20,7 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method appends a new passenger to the passengers file
         /// </summary>
-        public void AddPassengerDaService(Passenger passenger)
+        public void AddPassengerDaService(PassengerModelData passenger)
         {
             File.AppendAllText(path, passenger.ToString());
         }
@@ -28,7 +28,7 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method replaces saved infos with new infos for a defined Passenger ID
         /// </summary>
-        public void EditPassengerDaService(Passenger passenger)
+        public void EditPassengerDaService(PassengerModelData passenger)
         {
             string[] showPassengersList = File.ReadAllLines(path);
 
@@ -42,7 +42,7 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method deletes/removes an existing passenger from the passengers file
         /// </summary>
-        public void DeletePassengerDaService(Passenger passenger)
+        public void DeletePassengerDaService(PassengerModelData passenger)
         {
             string[] showPassengersList = File.ReadAllLines(path);
 

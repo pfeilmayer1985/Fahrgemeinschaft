@@ -8,12 +8,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will add a new driver in the file
         /// </summary>
-        Driver AddDriverBuService(Driver driver);
+        DriverModelData AddDriverBuService(DriverModelData driver);
 
         /// <summary>
         /// This method will delete a driver based on his ID
         /// </summary>
-        Driver DeleteDriverBuService(string id);
+        DriverModelData DeleteDriverBuService(string id);
 
         /// <summary>
         /// This method will "edit" the infos of a driver based on his ID. ID and Free places are not going to be edited
@@ -23,12 +23,12 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// This method will return a detailed list with the driver IDs and infos
         /// </summary>
-        Driver[] ListAllDriverData();
+        DriverModelData[] ListAllDriverData();
 
         /// <summary>
         /// This method will return one detailed driver info based on a search after his IDs
         /// </summary>
-        Driver ListDriverById(string id);
+        DriverModelData ListDriverById(string id);
 
         /// <summary>
         /// This submethod will generate a driver ID based on the first 3 letters in the First Name and first 3 letters in the Last Name

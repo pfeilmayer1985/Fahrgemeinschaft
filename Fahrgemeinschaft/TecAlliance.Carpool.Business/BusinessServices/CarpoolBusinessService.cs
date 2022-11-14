@@ -46,7 +46,7 @@ namespace TecAlliance.Carpool.Business
                 newCarpoolModelDto.Driver = subElement[0];
 
                 var findDriver = driver.First(e => e.Contains(subElement[0]));
-                Driver resultedDriver = new Driver();
+                DriverModelData resultedDriver = new DriverModelData();
                 var subElementofDriver = findDriver.Split(',');
                 resultedDriver.ID = subElementofDriver[0];
                 resultedDriver.FreePlaces = Convert.ToInt32(subElementofDriver[1]);
@@ -56,11 +56,11 @@ namespace TecAlliance.Carpool.Business
                 resultedDriver.StartingCity = subElementofDriver[5];
                 resultedDriver.Destination = subElementofDriver[6];
                 newCarpoolModelDto.DriverDetails = resultedDriver;
-                newCarpoolModelDto.PassengersDetails = new List<Passenger>();
+                newCarpoolModelDto.PassengersDetails = new List<PassengerModelData>();
 
                 for (int j = 1; j < subElement.Length; j++)
                 {
-                    Passenger resultedPassenger = new Passenger();
+                    PassengerModelData resultedPassenger = new PassengerModelData();
                     newCarpoolModelDto.Passengers.Add(subElement[j]);
                     var findPassenger = passenger.First(e => e.Contains(subElement[j]));
                     var subElementofPassenger = findPassenger.Split(',');
@@ -90,7 +90,7 @@ namespace TecAlliance.Carpool.Business
                 var subElement = findCarpool.Split(',');
                 resultNew.Driver = subElement[0];
                 var findDriver = driver.First(e => e.Contains(subElement[0]));
-                Driver resultedDriver = new Driver();
+                DriverModelData resultedDriver = new DriverModelData();
                 var subElementofDriver = findDriver.Split(',');
                 resultedDriver.ID = subElementofDriver[0];
                 resultedDriver.FreePlaces = Convert.ToInt32(subElementofDriver[1]);
@@ -101,11 +101,11 @@ namespace TecAlliance.Carpool.Business
                 resultedDriver.Destination = subElementofDriver[6];
                 resultNew.DriverDetails = resultedDriver;
 
-                resultNew.PassengersDetails = new List<Passenger>();
+                resultNew.PassengersDetails = new List<PassengerModelData>();
                 resultNew.Passengers = new List<string>();
                 for (int j = 1; j < subElement.Length; j++)
                 {
-                    Passenger resultedPassenger = new Passenger();
+                    PassengerModelData resultedPassenger = new PassengerModelData();
                     resultNew.Passengers.Add(subElement[j]);
                     var findPassenger = passenger.First(e => e.Contains(subElement[j]));
                     var subElementofPassenger = findPassenger.Split(',');
@@ -136,7 +136,7 @@ namespace TecAlliance.Carpool.Business
                 var findDriverInCarpool = carpools.FirstOrDefault(e => e.Contains(driverID + inputDriverID));
                 var findExistingCarpool = carpools.FirstOrDefault(e => e.Contains(driverID + inputDriverID) && e.Contains(passengerID + inputPassengerID));
                 //if the driver and passenger is allready in the carpool throw error
-                Driver currentDriver = new Driver();
+                DriverModelData currentDriver = new DriverModelData();
                 CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
                 CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
                 var newListOfRemainingPassengers = new List<string>();
@@ -201,7 +201,7 @@ namespace TecAlliance.Carpool.Business
                 this._carpoolDataService.DeleteCarpoolDaService(MapToCarpoolBu(resultNew));
                 //change free places for the driver erased from the carpool
                 var findDriver = driver.First(e => e.Contains(driverID + id));
-                Driver currentDriver = new Driver();
+                DriverModelData currentDriver = new DriverModelData();
                 SMRecoverAllFreePlacesFromPassengers(numberOfCarpoolPassengers, findDriver, currentDriver);
                 _driverDataService.EditDriverDaService(currentDriver);
                 return resultNew;
@@ -225,7 +225,7 @@ namespace TecAlliance.Carpool.Business
             {
                 var elementsOfCurrentCarpool = bothDriverAndPassengerAreInACarpool.Split(',');
                 var newListOfRemainingPassengers = new List<string>();
-                Driver currentDriver = new Driver();
+                DriverModelData currentDriver = new DriverModelData();
                 CarpoolModelDto toDeleteCarpoolEntry = new CarpoolModelDto();
                 CarpoolModel toAddEditedCarpoolEntry = new CarpoolModel();
                 var subElement = bothDriverAndPassengerAreInACarpool.Split(',');
@@ -272,7 +272,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Submethod that reduces the number of free places of a driver with 1
         /// </summary>
-        private void SMReduceFreePlacesWithOne(string? findDriverInDrivers, Driver currentDriver)
+        private void SMReduceFreePlacesWithOne(string? findDriverInDrivers, DriverModelData currentDriver)
         {
             var subElementDriver = findDriverInDrivers.Split(',');
             currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) - 1;
@@ -280,7 +280,7 @@ namespace TecAlliance.Carpool.Business
             _driverDataService.EditDriverDaService(currentDriver);
         }
 
-        private static void SMCurrentDriver(Driver currentDriver, string[] subElementDriver)
+        private static void SMCurrentDriver(DriverModelData currentDriver, string[] subElementDriver)
         {
             currentDriver.ID = subElementDriver[0];
             currentDriver.FirstName = subElementDriver[2];
@@ -293,7 +293,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Submethod that adds back one free place to the current number of free places of a driver
         /// </summary>
-        private void SMRecoverOneFreePlace(string findDriver, Driver currentDriver)
+        private void SMRecoverOneFreePlace(string findDriver, DriverModelData currentDriver)
         {
             var subElementDriver = findDriver.Split(',');
             currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + 1;
@@ -303,7 +303,7 @@ namespace TecAlliance.Carpool.Business
         /// <summary>
         /// Submethod that adds back all the free places (occupied by passengers) to the driver after removing all passengers
         /// </summary>
-        private void SMRecoverAllFreePlacesFromPassengers(int numberOfCarpoolPassengers, string findDriver, Driver currentDriver)
+        private void SMRecoverAllFreePlacesFromPassengers(int numberOfCarpoolPassengers, string findDriver, DriverModelData currentDriver)
         {
             var subElementDriver = findDriver.Split(',');
             currentDriver.FreePlaces = Convert.ToInt32(subElementDriver[1]) + numberOfCarpoolPassengers;

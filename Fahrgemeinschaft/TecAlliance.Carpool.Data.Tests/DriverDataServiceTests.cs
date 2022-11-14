@@ -31,7 +31,7 @@ namespace TecAlliance.Carpool.Data.Tests
             
             // Arrange
             _driverDataService.Path = "C:\\010 Projects\\006 Fahrgemeinschaft\\Fahrgemeinschaft\\testdrivers.txt";
-            Driver testDriver = new Driver()
+            DriverModelData testDriver = new DriverModelData()
             {
                 ID = "DID#JOHDOE",
                 FreePlaces = 5,

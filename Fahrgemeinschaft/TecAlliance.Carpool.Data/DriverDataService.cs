@@ -21,7 +21,7 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method appends a new driver to the drivers file
         /// </summary>
-        public void AddDriverDaService(Driver driver)
+        public void AddDriverDaService(DriverModelData driver)
         {
             File.AppendAllText(path, driver.ToString());
         }
@@ -29,7 +29,7 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method replaces saved infos with new infos for a defined Driver ID
         /// </summary>
-        public void EditDriverDaService(Driver driver)
+        public void EditDriverDaService(DriverModelData driver)
         {
             string[] showDriversList = File.ReadAllLines(path);
 
@@ -67,7 +67,7 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method deletes/removes an existing driver from the drivers file
         /// </summary>
-        public void DeleteDriverDaService(Driver driver)
+        public void DeleteDriverDaService(DriverModelData driver)
         {
             string[] showDriversList = File.ReadAllLines(path);
 

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TecAlliance.Carpool.Data.Models
+namespace TecAlliance.Carpool.Business.Models
 {
     /// <summary>
     /// Main class for users (drivers and passengers)
     /// </summary>
-    public abstract class UserBase
+    public abstract class UserBaseModel
     {
         /// <summary>
         /// user class properties
@@ -23,16 +23,7 @@ namespace TecAlliance.Carpool.Data.Models
         /// <summary>
         /// user class constructor
         /// </summary>
-        public UserBase(string id, string firstName, string lastName, string start, string dest)
-        {
-            ID = id;
-            FirstName = firstName;
-            LastName = lastName;
-            StartingCity = start;
-            Destination = dest;
-        }
-
-        public UserBase()
+        public UserBaseModel()
         {
         }
     }

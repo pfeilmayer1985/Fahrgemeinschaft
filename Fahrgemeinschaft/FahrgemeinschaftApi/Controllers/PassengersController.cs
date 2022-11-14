@@ -23,9 +23,9 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         [HttpGet]
         //[Route("api/CarPoolApi/GetPassengers")]
-        public async Task<ActionResult<IEnumerable<Passenger>>> GetAllPassengers()
+        public async Task<ActionResult<IEnumerable<PassengerModelData>>> GetAllPassengers()
         {
-            Passenger[] items = _passengerBusinessService.ListAllPassengersData();
+            PassengerModelData[] items = _passengerBusinessService.ListAllPassengersData();
             return items;
         }
         
@@ -33,9 +33,9 @@ namespace TecAlliance.Carpool.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/GetPassenger/{id}")]
-        public async Task<ActionResult<Passenger>> GetPassengerById(string id)
+        public async Task<ActionResult<PassengerModelData>> GetPassengerById(string id)
         {
-            Passenger item = _passengerBusinessService.ListPassengerDataById(id.ToUpper());
+            PassengerModelData item = _passengerBusinessService.ListPassengerDataById(id.ToUpper());
 
             if (item == null)
             {
@@ -49,9 +49,9 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         [HttpPost]
         //[Route("api/CarPoolApi/AddPassenger")]
-        public async Task<ActionResult<Passenger>> AddPassenger(PassengerModelDto passenger)
+        public async Task<ActionResult<PassengerModelData>> AddPassenger(PassengerModelDto passenger)
         {
-            Passenger item = _passengerBusinessService.AddPassengerBuService(passenger);
+            PassengerModelData item = _passengerBusinessService.AddPassengerBuService(passenger);
             return item;
         }
 

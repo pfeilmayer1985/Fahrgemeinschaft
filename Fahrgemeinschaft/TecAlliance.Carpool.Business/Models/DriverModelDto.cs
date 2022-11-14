@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TecAlliance.Carpool.Business.Models
 {
-    public class DriverModelDto : UserBaseDto
+    public class DriverModelDto : UserBaseModelDto
     {
         public string? ID { get; }
         public string? FreePlaces { get; }
