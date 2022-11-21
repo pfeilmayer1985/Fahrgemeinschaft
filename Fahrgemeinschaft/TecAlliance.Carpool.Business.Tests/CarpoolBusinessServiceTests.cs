@@ -35,8 +35,6 @@ namespace TecAlliance.Carpool.Business.Tests
             //Act
             var result = carpoolBusinessService.ListAllCarpoolsDataBu();
 
-
-
             //Assert
             Assert.AreEqual(4, result.Length);
 
