@@ -1,5 +1,4 @@
-﻿using Moq;
-using TecAlliance.Carpool.Business.Models;
+﻿using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data;
 using TecAlliance.Carpool.Data.Models;
 

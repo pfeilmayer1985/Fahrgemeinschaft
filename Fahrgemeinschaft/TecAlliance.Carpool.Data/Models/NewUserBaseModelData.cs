@@ -14,7 +14,7 @@ namespace TecAlliance.Carpool.Data.Models
         /// <summary>
         /// user class properties
         /// </summary>
-        public string? ID { get; }
+        public int? ID { get; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string Password { get; set; }
@@ -25,7 +25,7 @@ namespace TecAlliance.Carpool.Data.Models
         /// <summary>
         /// user class constructor
         /// </summary>
-        public NewUserBaseModelData(string id, string email, string phoneNo, string password, string firstName, string lastName, bool isDriver)
+        public NewUserBaseModelData(int id, string email, string phoneNo, string password, string firstName, string lastName, bool isDriver)
         {
             ID = id;
             Email = email;

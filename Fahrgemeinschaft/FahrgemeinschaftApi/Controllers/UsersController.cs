@@ -33,9 +33,9 @@ namespace TecAlliance.Carpool.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/GetPassenger/{id}")]
-        public async Task<ActionResult<NewUserBaseModelData>> GetUserByEmail(string email)
+        public async Task<ActionResult<NewUserBaseModelDto>> GetUserByEmail(string email)
         {
-            List<NewUserBaseModelData> item = _newUserBusinessService.ListUserDataByEmail(email.ToUpper());
+            NewUserBaseModelDto item = _newUserBusinessService.ListUserDataByEmail(email);
 
             if (item == null)
             {

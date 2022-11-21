@@ -11,10 +11,20 @@ namespace TecAlliance.Carpool.Business.Models
     /// </summary>
     public class NewUserBaseModelDto
     {
+        public NewUserBaseModelDto(int? iD, string email, string phoneNo, string firstName, string lastName, bool isDriver)
+        {
+            ID = iD;
+            Email = email;
+            PhoneNo = phoneNo;
+            FirstName = firstName;
+            LastName = lastName;
+            IsDriver = isDriver;
+        }
+
         /// <summary>
         /// user class properties
         /// </summary>
-        public string? ID { get; }
+        public int? ID { get; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string FirstName { get; set; }

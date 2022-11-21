@@ -28,7 +28,7 @@ namespace TecAlliance.Carpool.Data
                 {
                     while (reader.Read())
                     {
-                        users.Add(new NewUserBaseModelData(reader["UserID"].ToString(), reader["Email"].ToString(), reader["PhoneNo"].ToString(), reader["Password"].ToString(), reader["Name"].ToString(), reader["Vorname"].ToString(), (bool)reader["IsDriver"]));
+                        users.Add(new NewUserBaseModelData((int)reader["UserID"], reader["Email"].ToString(), reader["PhoneNo"].ToString(), reader["Password"].ToString(), reader["Name"].ToString(), reader["Vorname"].ToString(), (bool)reader["IsDriver"]));
                     }
 
                 }
@@ -43,10 +43,10 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method lists one selected user from the Database based on email address
         /// </summary>
-        public List<NewUserBaseModelData> ListUserByEmailDataService(string email)
+        public NewUserBaseModelData ListUserByEmailDataService(string email)
         {
 
-            var users = new List<NewUserBaseModelData>();
+            var users = new NewUserBaseModelData();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string queryString = "SELECT * FROM Users WHERE Email = @Email";
@@ -59,9 +59,16 @@ namespace TecAlliance.Carpool.Data
                 {
                     while (reader.Read())
                     {
-                        var user = new NewUserBaseModelData();
-                        user.Email = email;
-                        users.Add(user);
+                        return new NewUserBaseModelData
+                        (
+                            (int)reader["UserID"],
+                            email,
+                            reader["PhoneNo"].ToString(),
+                            reader["Password"].ToString(),
+                            reader["Vorname"].ToString(),
+                            reader["Name"].ToString(),
+                            (bool)reader["IsDriver"]
+                        );
                     }
 
                 }
@@ -70,7 +77,7 @@ namespace TecAlliance.Carpool.Data
                     reader.Close();
                 }
             }
-            return users;
+            return null;
         }
 
         /// <summary>
@@ -78,7 +85,6 @@ namespace TecAlliance.Carpool.Data
         /// </summary>
         public void AddUserDataService(NewUserBaseModelData user)
         {
-            //var newUser = new List<NewUserBaseModelData>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string queryString = $"INSERT INTO Users(Email,PhoneNo,Password,Name,Vorname,IsDriver) VALUES('{user.Email}','{user.PhoneNo}','{user.Password}','{user.LastName}','{user.FirstName}',{Convert.ToInt32(user.IsDriver)})";
@@ -86,7 +92,6 @@ namespace TecAlliance.Carpool.Data
                 connection.Open();
                 command.ExecuteNonQuery();
             }
-
         }
 
         /// <summary>
@@ -94,7 +99,13 @@ namespace TecAlliance.Carpool.Data
         /// </summary>
         public void EditUserDataService(NewUserBaseModelData user)
         {
-
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"Update Users SET(Email,PhoneNo,Password,Name,Vorname,IsDriver) VALUES('{user.Email}','{user.PhoneNo}','{user.Password}','{user.LastName}','{user.FirstName}',{Convert.ToInt32(user.IsDriver)}) WHERE Email = '{user.Email}'";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
         }
 
 

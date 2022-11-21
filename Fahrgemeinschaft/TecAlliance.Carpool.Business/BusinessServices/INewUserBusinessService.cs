@@ -6,8 +6,8 @@ namespace TecAlliance.Carpool.Business
     public interface INewUserBusinessService
     {
         NewUserBaseModelData AddUserBusineeService(NewUserBaseModelData newUserModel);
+        NewUserBaseModelDto ConvertUserToDto(NewUserBaseModelData user);
         List<NewUserBaseModelData> ListAllUserData();
-        List<NewUserBaseModelData> ListUserDataByEmail(string email);
-        //NewUserBaseModelDto MapToModelDtoUsers(NewUserBaseModelData user);
+        NewUserBaseModelDto ListUserDataByEmail(string email);
     }
 }

@@ -8,6 +8,6 @@ namespace TecAlliance.Carpool.Data
         void DeleteUserDataService(NewUserBaseModelData user);
         void EditUserDataService(NewUserBaseModelData user);
         List<NewUserBaseModelData> ListAllUsersDataService();
-        List<NewUserBaseModelData> ListUserByEmailDataService(string email);
+        NewUserBaseModelData ListUserByEmailDataService(string email);
     }
 }

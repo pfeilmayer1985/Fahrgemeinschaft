@@ -1,8 +1,6 @@
 ﻿using TecAlliance.Carpool.Business.Models;
 using TecAlliance.Carpool.Data.Models;
 using TecAlliance.Carpool.Data;
-using Microsoft.Data.SqlClient;
-using System.Data;
 
 namespace TecAlliance.Carpool.Business
 {
@@ -24,28 +22,26 @@ namespace TecAlliance.Carpool.Business
             return userList;
         }
 
-        /*  public NewUserBaseModelDto MapToModelDtoUsers(NewUserBaseModelData user) 
-          {
-              NewUserBaseModelDto remappedUser = new NewUserBaseModelDto()
-              {
-                  Email = user.Email,
-                  PhoneNo = user.PhoneNo,
-                  FirstName = user.FirstName,
-                  LastName = user.LastName,
-                  IsDriver = user.IsDriver
-              };
-              return remappedUser;
-          }
-
-          */
+        public NewUserBaseModelDto ConvertUserToDto(NewUserBaseModelData user)
+        {
+            return new NewUserBaseModelDto(user.ID, user.Email, user.PhoneNo, user.FirstName, user.LastName, user.IsDriver);
+        }
 
         /// <summary>
         /// This method will return one detailed passenger info based on a search after his IDs
         /// </summary>
-        public List<NewUserBaseModelData> ListUserDataByEmail(string email)
+        public NewUserBaseModelDto ListUserDataByEmail(string email)
         {
-            List<NewUserBaseModelData> specificUser = _newUserDataService.ListUserByEmailDataService(email);
-            return specificUser;
+            var findUser = userList.FirstOrDefault(e => e.Email.Contains(email));
+            if (findUser != null)
+            {
+                return ConvertUserToDto(_newUserDataService.ListUserByEmailDataService(email));
+            }
+
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
