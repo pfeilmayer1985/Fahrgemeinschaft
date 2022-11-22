@@ -11,21 +11,20 @@ namespace TecAlliance.Carpool.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private INewUserBusinessService _newUserBusinessService;
+        private IUserBusinessService _newUserBusinessService;
 
-        public UsersController(ILogger<UsersController> logger, INewUserBusinessService newUserBusinessService)
+        public UsersController(ILogger<UsersController> logger, IUserBusinessService newUserBusinessService)
         {
             StringBuilder test = new StringBuilder();
             _newUserBusinessService = newUserBusinessService;
-
             _logger = logger;
         }
 
         [HttpGet]
         //[Route("api/CarPoolApi/GetSpecificUser")]
-        public async Task<ActionResult<IEnumerable<NewUserBaseModelData>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserBaseModelData>>> GetAllUsers()
         {
-            List<NewUserBaseModelData> items = _newUserBusinessService.ListAllUserData();
+            List<UserBaseModelData> items = _newUserBusinessService.ListAllUserData();
             return items;
         }
         
@@ -33,9 +32,9 @@ namespace TecAlliance.Carpool.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/GetPassenger/{id}")]
-        public async Task<ActionResult<NewUserBaseModelDto>> GetUserByEmail(string email)
+        public async Task<ActionResult<UserBaseModelDto>> GetUserByEmail(string email)
         {
-            NewUserBaseModelDto item = _newUserBusinessService.ListUserDataByEmail(email);
+            UserBaseModelDto item = _newUserBusinessService.ListUserDataByEmail(email);
 
             if (item == null)
             {
@@ -49,49 +48,50 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         [HttpPost]
         //[Route("api/CarPoolApi/AddUser")]
-        public async Task<ActionResult<NewUserBaseModelData>> AddUser(NewUserBaseModelData user)
+        public async Task<ActionResult<UserBaseModelData>> AddUser(UserBaseModelData user)
         {
-            NewUserBaseModelData item = _newUserBusinessService.AddUserBusineeService(user);
+            UserBaseModelData item = _newUserBusinessService.AddUserBusineeService(user);
             return item;
         }
 
-        /*
+        
         [HttpPut("{email}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/EditDriverById")]
-        public async Task<IActionResult> UpdateUser(string email, NewUserBaseModel user)
+        public async Task<IActionResult> UpdateUser(string email, string password, UserBaseModelData user)
         {
-            var item = _newUserBusinessService.EditUserBusinessService(email.ToUpper(), user);
+            var item = _newUserBusinessService.EditUserBusinessService(email.ToLower(), password, user);
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                _newUserBusinessService.EditUserBusinessService(email.ToUpper(), user);
+                _newUserBusinessService.EditUserBusinessService(email.ToLower(), password, user);
                 return NoContent();
             }
         }
-        /*
+
+        
         [HttpDelete("{email}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/DeletePassengerByEmail")]
-        public async Task<IActionResult> DeleteUser(string email)
+        public async Task<IActionResult> DeleteUser(string email, string password)
         {
-            var item = _newUserBusinessService.DeleteUserBusinessService(email.ToUpper());
+            var item = _newUserBusinessService.DeleteUserBusinessService(email.ToLower(), password);
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                _newUserBusinessService.DeleteUserBusinessService(email.ToUpper());
+                _newUserBusinessService.DeleteUserBusinessService(email.ToLower(), password);
                 return NoContent();
             }
-        } */
+        }
     }
 }

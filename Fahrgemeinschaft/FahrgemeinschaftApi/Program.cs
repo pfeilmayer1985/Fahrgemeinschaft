@@ -13,8 +13,8 @@ builder.Services.AddSingleton<ICarpoolBusinessService, CarpoolBusinessService>()
 builder.Services.AddSingleton<IPassengerDataService, PassengerDataService>();
 builder.Services.AddSingleton<IDriverDataService, DriverDataService>();
 builder.Services.AddSingleton<ICarpoolDataService, CarpoolDataService>();
-builder.Services.AddSingleton<INewUsersDataServiceSQL, NewUsersDataServiceSQL>();
-builder.Services.AddSingleton<INewUserBusinessService, NewUserBusinessService>();
+builder.Services.AddSingleton<IUsersDataServiceSQL, UsersDataServiceSQL>();
+builder.Services.AddSingleton<IUserBusinessService, UserBusinessService>();
 
 
 builder.Services.AddControllers();

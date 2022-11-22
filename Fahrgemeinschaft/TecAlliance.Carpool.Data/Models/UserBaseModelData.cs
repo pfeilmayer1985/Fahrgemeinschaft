@@ -9,27 +9,32 @@ namespace TecAlliance.Carpool.Data.Models
     /// <summary>
     /// Main class for users (drivers and passengers)
     /// </summary>
-    public abstract class UserBaseModelData
+    public class UserBaseModelData
     {
         /// <summary>
         /// user class properties
         /// </summary>
-        public string ID { get; set; }
+        public int? ID { get; }
+        public string Email { get; set; }
+        public string PhoneNo { get; set; }
+        public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string StartingCity { get; set; }
-        public string Destination { get; set; }
+        public bool IsDriver { get; set; }
 
         /// <summary>
         /// user class constructor
         /// </summary>
-        public UserBaseModelData(string id, string firstName, string lastName, string start, string dest)
+        public UserBaseModelData(int id, string email, string phoneNo, string password, string firstName, string lastName, bool isDriver)
         {
             ID = id;
+            Email = email;
+            PhoneNo = phoneNo;
+            Password = password;
             FirstName = firstName;
             LastName = lastName;
-            StartingCity = start;
-            Destination = dest;
+            IsDriver = isDriver;
+
         }
 
         public UserBaseModelData()

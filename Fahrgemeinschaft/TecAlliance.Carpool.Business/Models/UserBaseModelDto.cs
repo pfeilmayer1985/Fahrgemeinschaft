@@ -9,21 +9,29 @@ namespace TecAlliance.Carpool.Business.Models
     /// <summary>
     /// Main class for users (drivers and passengers)
     /// </summary>
-    public abstract class UserBaseModelDto
+    public class UserBaseModelDto
     {
+        public UserBaseModelDto(int? iD, string email, string phoneNo, string firstName, string lastName, bool isDriver)
+        {
+            ID = iD;
+            Email = email;
+            PhoneNo = phoneNo;
+            FirstName = firstName;
+            LastName = lastName;
+            IsDriver = isDriver;
+        }
+
         /// <summary>
         /// user class properties
         /// </summary>
+        public int? ID { get; }
+        public string Email { get; set; }
+        public string PhoneNo { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string StartingCity { get; set; }
-        public string Destination { get; set; }
+        public bool IsDriver { get; set; }
 
-        /// <summary>
-        /// user class constructor
-        /// </summary>
-        public UserBaseModelDto()
-        {
-        }
+
+       
     }
 }

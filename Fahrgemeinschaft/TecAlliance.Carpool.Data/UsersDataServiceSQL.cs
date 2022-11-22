@@ -5,19 +5,18 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data
 {
-    public class NewUsersDataServiceSQL : INewUsersDataServiceSQL
+    public class UsersDataServiceSQL : IUsersDataServiceSQL
     {
 
         string connectionString = @"Data Source=localhost;Initial Catalog=CarpoolDB;Integrated Security=True; TrustServerCertificate=True;";
 
-
         /// <summary>
         /// This method lists all the users in the Database
         /// </summary>
-        public List<NewUserBaseModelData> ListAllUsersDataService()
+        public List<UserBaseModelData> ListAllUsersDataService()
         {
 
-            var users = new List<NewUserBaseModelData>();
+            var users = new List<UserBaseModelData>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string queryString = "SELECT * FROM Users";
@@ -28,7 +27,7 @@ namespace TecAlliance.Carpool.Data
                 {
                     while (reader.Read())
                     {
-                        users.Add(new NewUserBaseModelData((int)reader["UserID"], reader["Email"].ToString(), reader["PhoneNo"].ToString(), reader["Password"].ToString(), reader["Name"].ToString(), reader["Vorname"].ToString(), (bool)reader["IsDriver"]));
+                        users.Add(new UserBaseModelData((int)reader["UserID"], reader["Email"].ToString(), reader["PhoneNo"].ToString(), reader["Password"].ToString(), reader["Name"].ToString(), reader["Vorname"].ToString(), (bool)reader["IsDriver"]));
                     }
 
                 }
@@ -43,10 +42,10 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method lists one selected user from the Database based on email address
         /// </summary>
-        public NewUserBaseModelData ListUserByEmailDataService(string email)
+        public UserBaseModelData ListUserByEmailDataService(string email)
         {
 
-            var users = new NewUserBaseModelData();
+            var users = new UserBaseModelData();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string queryString = "SELECT * FROM Users WHERE Email = @Email";
@@ -59,10 +58,10 @@ namespace TecAlliance.Carpool.Data
                 {
                     while (reader.Read())
                     {
-                        return new NewUserBaseModelData
+                        return new UserBaseModelData
                         (
                             (int)reader["UserID"],
-                            email,
+                            email.ToLower(),
                             reader["PhoneNo"].ToString(),
                             reader["Password"].ToString(),
                             reader["Vorname"].ToString(),
@@ -83,11 +82,11 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method adds a new User to the Database
         /// </summary>
-        public void AddUserDataService(NewUserBaseModelData user)
+        public void AddUserDataService(UserBaseModelData user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"INSERT INTO Users(Email,PhoneNo,Password,Name,Vorname,IsDriver) VALUES('{user.Email}','{user.PhoneNo}','{user.Password}','{user.LastName}','{user.FirstName}',{Convert.ToInt32(user.IsDriver)})";
+                string queryString = $"INSERT INTO Users(Email,PhoneNo,Password,Name,Vorname,IsDriver) VALUES('{user.Email.ToLower()}','{user.PhoneNo}','{user.Password}','{user.LastName}','{user.FirstName}',{Convert.ToInt32(user.IsDriver)})";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -97,14 +96,23 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method replaces saved infos with new infos for a defined Driver ID
         /// </summary>
-        public void EditUserDataService(NewUserBaseModelData user)
+        public void EditUserDataService(UserBaseModelData user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (user != null)
             {
-                string queryString = $"Update Users SET(Email,PhoneNo,Password,Name,Vorname,IsDriver) VALUES('{user.Email}','{user.PhoneNo}','{user.Password}','{user.LastName}','{user.FirstName}',{Convert.ToInt32(user.IsDriver)}) WHERE Email = '{user.Email}'";
-                SqlCommand command = new SqlCommand(queryString, connection);
-                connection.Open();
-                command.ExecuteNonQuery();
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string queryString = $"Update Users SET Email ='{user.Email.ToLower()}'," +
+                        $"PhoneNo = '{user.PhoneNo}'," +
+                        $"Password = '{user.Password}'," +
+                        $"Name = '{user.LastName}'," +
+                        $"Vorname = '{user.FirstName}'," +
+                        $"IsDriver = {Convert.ToInt32(user.IsDriver)}" +
+                        $"WHERE Email = '{user.Email}'";
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -112,9 +120,15 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method deletes/removes an existing driver from the drivers file
         /// </summary>
-        public void DeleteUserDataService(NewUserBaseModelData user)
+        public void DeleteUserDataService(string email)
         {
-
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"DELETE FROM Users WHERE Email = '{email.ToLower()}'";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
         }
     }
 }
