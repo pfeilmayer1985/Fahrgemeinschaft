@@ -7,12 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<IPassengerBusinessService, PassengerBusinessService>();
-builder.Services.AddSingleton<IDriverBusinessService, DriverBusinessService>();
-builder.Services.AddSingleton<ICarpoolBusinessService, CarpoolBusinessService>();
-builder.Services.AddSingleton<IPassengerDataService, PassengerDataService>();
-builder.Services.AddSingleton<IDriverDataService, DriverDataService>();
-builder.Services.AddSingleton<ICarpoolDataService, CarpoolDataService>();
+
+builder.Services.AddSingleton<ICarpoolsBusinessService, CarpoolsBusinessService>();
+builder.Services.AddSingleton<ICarpoolsDataServiceSQL, CarpoolsDataServiceSQL>();
 builder.Services.AddSingleton<IUsersDataServiceSQL, UsersDataServiceSQL>();
 builder.Services.AddSingleton<IUserBusinessService, UserBusinessService>();
 
@@ -24,8 +21,8 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.ExampleFilters();
 });
-builder.Services.AddSingleton<DriverDtoProvider>();
-builder.Services.AddSwaggerExamplesFromAssemblyOf<DriverDtoProvider>();
+builder.Services.AddSingleton<CarpoolModelProvider>();
+builder.Services.AddSwaggerExamplesFromAssemblyOf<CarpoolModelProvider>();
 
 var app = builder.Build();
 

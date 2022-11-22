@@ -11,28 +11,28 @@ namespace TecAlliance.Carpool.Api.Controllers
     public class CarpoolsController : ControllerBase
     {
         private readonly ILogger<CarpoolsController> _logger;
-        private ICarpoolBusinessService _carpoolBusinessService;
+        private ICarpoolsBusinessService _carpoolsBusinessService;
 
-        public CarpoolsController(ILogger<CarpoolsController> logger, ICarpoolBusinessService carpoolBusinessService)
+        public CarpoolsController(ILogger<CarpoolsController> logger, ICarpoolsBusinessService carpoolsBusinessService)
         {
-            _carpoolBusinessService = carpoolBusinessService;
+            _carpoolsBusinessService = carpoolsBusinessService;
             _logger = logger;
         }
 
         [HttpGet]
 
         // [Route("api/CarPoolApi/GetCarpools")]
-        public async Task<ActionResult<IEnumerable<CarpoolModelDto>>> GetAllCarpools()
+        public async Task<ActionResult<IEnumerable<CarpooslModelData>>> GetAllCarpools()
         {
-            CarpoolModelDto[] items = _carpoolBusinessService.ListAllCarpoolsDataBu();
+            List<CarpooslModelData> items = _carpoolsBusinessService.ListAllCarpoolsBusinessService();
             return items;
         }
-
+        /*
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         // [Route("api/CarPoolApi/GetCarpoolById/{id}")]
-        public async Task<ActionResult<CarpoolModelDto>> GetCarpoolById(string id)
+        public async Task<ActionResult<CarpoolsModelDto>> GetCarpoolById(string id)
         {
             CarpoolModelDto items = _carpoolBusinessService.ListCarpoolByIdBu(id.ToUpper());
             if (items == null)
@@ -86,10 +86,10 @@ namespace TecAlliance.Carpool.Api.Controllers
 
         [HttpPost]
         //[Route("api/CarPoolApi/AddCarpool")]
-        public async Task<ActionResult<CarpoolModel>> AddCarpool(string idDriver, string idPassenger)
+        public async Task<ActionResult<CarpoolsModelDto>> AddCarpool(string idDriver, string idPassenger)
         {
             CarpoolModel item = _carpoolBusinessService.AddCarpoolByPassengerAndDriverIdBu(idDriver.ToUpper(), idPassenger.ToUpper());
             return item;
-        }
+        }*/
     }
 }

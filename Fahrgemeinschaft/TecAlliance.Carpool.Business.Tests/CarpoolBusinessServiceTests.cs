@@ -10,7 +10,7 @@ namespace TecAlliance.Carpool.Business.Tests
     [TestClass]
     public class CarpoolBusinessServiceTests
     {
-        CarpoolBusinessService _carpoolBusinessService = new CarpoolBusinessService();
+        CarpoolsBusinessService _carpoolBusinessService = new CarpoolsBusinessService();
 
         [TestMethod]
         public void ListAllCarpoolsDataBu_ShouldListAllInFile()
