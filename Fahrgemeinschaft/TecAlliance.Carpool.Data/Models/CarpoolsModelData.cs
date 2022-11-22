@@ -6,17 +6,17 @@ using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Data.Models
 {
-    public class CarpooslModelData
+    public class CarpoolsModelData
     {
-        public int? CarpoolID { get; }
-        public int DriverID { get; set; }
-        public int FreeSeatsRemaining { get; set; }
+        public int? CarpoolID { get; set; }
+        public int? DriverID { get; set; }
+        public int? FreeSeatsRemaining { get; set; }
         public string Origin { get; set; }
         public string Destination { get; set; }
-        public DateOnly DepartureDate { get; set; }
-        public TimeOnly DepartureTime { get; set; }
+        public DateTime DepartureDate { get; set; }
+        
 
-        public CarpooslModelData(int carpoolID, int driverID, int freeSeatsRemaining, string origin, string destination, DateOnly departureDate, TimeOnly departureTime)
+        public CarpoolsModelData(int carpoolID, int driverID, int freeSeatsRemaining, string origin, string destination, DateTime departureDate)
         {
             CarpoolID = carpoolID;
             DriverID = driverID;
@@ -24,10 +24,9 @@ namespace TecAlliance.Carpool.Data.Models
             Origin = origin;
             Destination = destination;
             DepartureDate = departureDate;
-            DepartureTime = departureTime;
         }
 
-        public CarpooslModelData()
+        public CarpoolsModelData()
         {
 
         }

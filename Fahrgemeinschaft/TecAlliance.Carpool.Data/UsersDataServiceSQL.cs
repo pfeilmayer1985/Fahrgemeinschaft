@@ -40,18 +40,18 @@ namespace TecAlliance.Carpool.Data
         }
 
         /// <summary>
-        /// This method lists one selected user from the Database based on email address
+        /// This method lists one selected user from the Database based on UserID
         /// </summary>
-        public UserBaseModelData ListUserByEmailDataService(string email)
+        public UserBaseModelData ListUserByIdDataService(int id)
         {
 
             var users = new UserBaseModelData();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = "SELECT * FROM Users WHERE Email = @Email";
+                string queryString = "SELECT * FROM Users WHERE UserID = @UserID";
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add("@Email", SqlDbType.VarChar);
-                command.Parameters["@Email"].Value = email;
+                command.Parameters.Add("@UserID", SqlDbType.VarChar);
+                command.Parameters["@UserID"].Value = id;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 try
@@ -61,7 +61,7 @@ namespace TecAlliance.Carpool.Data
                         return new UserBaseModelData
                         (
                             (int)reader["UserID"],
-                            email.ToLower(),
+                            reader["Email"].ToString().ToLower(),
                             reader["PhoneNo"].ToString(),
                             reader["Password"].ToString(),
                             reader["Vorname"].ToString(),
@@ -94,7 +94,7 @@ namespace TecAlliance.Carpool.Data
         }
 
         /// <summary>
-        /// This method replaces saved infos with new infos for a defined Driver ID
+        /// This method replaces saved data with new ones for a defined user in the Database
         /// </summary>
         public void EditUserDataService(UserBaseModelData user)
         {
@@ -118,17 +118,77 @@ namespace TecAlliance.Carpool.Data
 
 
         /// <summary>
-        /// This method deletes/removes an existing driver from the drivers file
+        /// This method deletes/removes an existing user from the Users Database
         /// </summary>
-        public void DeleteUserDataService(string email)
+        public void DeleteUserDataService(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM Users WHERE Email = '{email.ToLower()}'";
+                string queryString = $"DELETE FROM Users WHERE UserID = '{id}'";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
+
+
+        /// <summary>
+        /// This method lists all the passengers in the CarpoolPassengers Database
+        /// </summary>
+        public List<CarpoolPassengersModelData> ListAllPassengersDataService()
+        {
+
+            var passengers = new List<CarpoolPassengersModelData>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = "SELECT * FROM CarpoolPassengers";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        passengers.Add(new CarpoolPassengersModelData((int)reader["CarpoolID"], (int)reader["DriverID"]));
+                    }
+
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+            return passengers;
+        }
+
+        /// <summary>
+        /// This method adds a new User to the CarpoolPassengers Database
+        /// </summary>
+        public void AddPassengerDataService(CarpoolPassengersModelData passenger)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"INSERT INTO CarpoolPassengers (CarpoolID,PassengerID) VALUES('{passenger.Carpool_ID}','{passenger.User_ID}')";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// This method deletes/removes an existing passenger from the CarpoolPassengers Database
+        /// </summary>
+        public void DeletePassengerFromCarpoolDataService(CarpoolPassengersModelData passenger)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string queryString = $"DELETE FROM CarpoolPassengers WHERE PassengerID = '{passenger.User_ID}' AND CarpoolID = '{passenger.Carpool_ID}'";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }

@@ -11,12 +11,12 @@ namespace TecAlliance.Carpool.Data
         string connectionString = @"Data Source=localhost;Initial Catalog=CarpoolDB;Integrated Security=True; TrustServerCertificate=True;";
 
         /// <summary>
-        /// This method lists all the users in the Database
+        /// This method lists all the carpools in the Database
         /// </summary>
-        public List<CarpooslModelData> ListAllCarpoolsDataService()
+        public List<CarpoolsModelData> ListAllCarpoolsDataService()
         {
 
-            var carpools = new List<CarpooslModelData>();
+            var carpools = new List<CarpoolsModelData>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string queryString = "SELECT * FROM Carpools";
@@ -27,7 +27,7 @@ namespace TecAlliance.Carpool.Data
                 {
                     while (reader.Read())
                     {
-                        carpools.Add(new CarpooslModelData((int)reader["CarpoolID"], (int)reader["DriverID"], (int)reader["FreeSeatsRemaining"], reader["Origin"].ToString(), reader["Destination"].ToString(), (DateOnly)reader["DepartureDate"], (TimeOnly)reader["DepartureTime"]));
+                        carpools.Add(new CarpoolsModelData((int)reader["CarpoolID"], (int)reader["DriverID"], (int)reader["FreeSeats"], reader["Origin"].ToString(), reader["Destination"].ToString(), (DateTime)reader["DepartureDate"]));
                     }
 
                 }
@@ -40,35 +40,35 @@ namespace TecAlliance.Carpool.Data
         }
 
 
-        /*
+
         /// <summary>
-        /// This method lists one selected user from the Database based on email address
+        /// This method lists one selected carpool from the Database based on CarpoolID
         /// </summary>
-        public CarpooslModelData ListCarpoolByIDDataService(string email)
+        public CarpoolsModelData ListCarpoolByIDDataService(int id)
         {
 
-            var users = new UserBaseModelData();
+            var carpools = new CarpoolsModelData();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = "SELECT * FROM Users WHERE Email = @Email";
+                string queryString = "SELECT * FROM Carpools WHERE CarpoolID = @CarpoolID";
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add("@Email", SqlDbType.VarChar);
-                command.Parameters["@Email"].Value = email;
+                command.Parameters.Add("@CarpoolID", SqlDbType.VarChar);
+                command.Parameters["@CarpoolID"].Value = id;
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 try
                 {
                     while (reader.Read())
                     {
-                        return new UserBaseModelData
+                        return new CarpoolsModelData
                         (
-                            (int)reader["UserID"],
-                            email.ToLower(),
-                            reader["PhoneNo"].ToString(),
-                            reader["Password"].ToString(),
-                            reader["Vorname"].ToString(),
-                            reader["Name"].ToString(),
-                            (bool)reader["IsDriver"]
+                            (int)reader["CarpoolID"],
+                            (int)reader["DriverID"],
+                            (int)reader["FreeSeats"],
+                            reader["Origin"].ToString(),
+                            reader["Destination"].ToString(),
+                            (DateTime)reader["DepartureDate"]
+
                         );
                     }
 
@@ -84,53 +84,27 @@ namespace TecAlliance.Carpool.Data
         /// <summary>
         /// This method adds a new User to the Database
         /// </summary>
-        public void AddUserDataService(UserBaseModelData user)
+        public void AddCarpoolWithDriverDataService(CarpoolsModelData carpool)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"INSERT INTO Users(Email,PhoneNo,Password,Name,Vorname,IsDriver) VALUES('{user.Email.ToLower()}','{user.PhoneNo}','{user.Password}','{user.LastName}','{user.FirstName}',{Convert.ToInt32(user.IsDriver)})";
+                string queryString = $"INSERT INTO Carpools(DriverID,FreeSeats,Origin,Destination,DepartureDate) VALUES('{carpool.DriverID}','{carpool.FreeSeatsRemaining}','{carpool.Origin}','{carpool.Destination}','{carpool.DepartureDate}')";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
 
-        /// <summary>
-        /// This method replaces saved infos with new infos for a defined Driver ID
-        /// </summary>
-        public void EditUserDataService(UserBaseModelData user)
-        {
-            if (user != null)
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    string queryString = $"Update Users SET Email ='{user.Email.ToLower()}'," +
-                        $"PhoneNo = '{user.PhoneNo}'," +
-                        $"Password = '{user.Password}'," +
-                        $"Name = '{user.LastName}'," +
-                        $"Vorname = '{user.FirstName}'," +
-                        $"IsDriver = {Convert.ToInt32(user.IsDriver)}" +
-                        $"WHERE Email = '{user.Email}'";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// This method deletes/removes an existing driver from the drivers file
-        /// </summary>
-        public void DeleteUserDataService(string email)
+        public void AddCarpoolNODriverDataService(CarpoolsModelData carpool)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"DELETE FROM Users WHERE Email = '{email.ToLower()}'";
+                string queryString = $"INSERT INTO Carpools(FreeSeats,Origin,Destination,DepartureDate) VALUES(4,'{carpool.Origin}','{carpool.Destination}','{carpool.DepartureDate}')";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
-        }*/
+        }
+
     }
 }

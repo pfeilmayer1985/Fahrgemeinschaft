@@ -7,19 +7,25 @@ namespace TecAlliance.Carpool.Business
 {
     public class UserBusinessService : IUserBusinessService
     {
-        private IUsersDataServiceSQL _newUserDataService;
+        private IUsersDataServiceSQL _userDataServiceSQL;
+        private ICarpoolsDataServiceSQL _carpoolsDataServiceSQL;
         List<UserBaseModelData> userList;
-        public UserBusinessService(IUsersDataServiceSQL newUserDataService)
+        List<CarpoolsModelData> carpoolsList;
+        List<CarpoolPassengersModelData> passengersList;
+
+        public UserBusinessService(IUsersDataServiceSQL userDataServiceSQL, ICarpoolsDataServiceSQL carpoolDataServiceSQL)
         {
-            _newUserDataService = newUserDataService;
+            _userDataServiceSQL = userDataServiceSQL;
+            _carpoolsDataServiceSQL = carpoolDataServiceSQL;
+
         }
 
         /// <summary>
-        /// This method will return a detailed list with the passenger IDs and infos
+        /// This method will return a detailed list with the Users in the Database
         /// </summary>
         public List<UserBaseModelData> ListAllUserData()
         {
-            userList = _newUserDataService.ListAllUsersDataService();
+            userList = _userDataServiceSQL.ListAllUsersDataService();
             return userList;
         }
 
@@ -29,15 +35,15 @@ namespace TecAlliance.Carpool.Business
         }
 
         /// <summary>
-        /// This method will return one detailed passenger info based on a search after his IDs
+        /// This method will return one detailed user info based on a search after his IDs
         /// </summary>
-        public UserBaseModelDto ListUserDataByEmail(string email)
+        public UserBaseModelDto ListUserDataById(int id)
         {
-            userList = _newUserDataService.ListAllUsersDataService();
-            var findUser = userList.FirstOrDefault(e => e.Email.Equals(email.ToLower()));
+            userList = _userDataServiceSQL.ListAllUsersDataService();
+            var findUser = userList.FirstOrDefault(e => e.ID.Equals(id));
             if (findUser != null)
             {
-                return ConvertUserToDto(_newUserDataService.ListUserByEmailDataService(email));
+                return ConvertUserToDto(_userDataServiceSQL.ListUserByIdDataService(id));
             }
 
             else
@@ -47,13 +53,14 @@ namespace TecAlliance.Carpool.Business
         }
 
         /// <summary>
-        /// This method will add a new passenger in the file
+        /// This method will add a new user in the Database
         /// </summary>
         public UserBaseModelData AddUserBusineeService(UserBaseModelData newUserModel)
         {
 
             UserBaseModelData newUser = new UserBaseModelData()
             {
+                ID = newUserModel.ID,
                 Email = newUserModel.Email.ToLower(),
                 PhoneNo = newUserModel.PhoneNo,
                 Password = newUserModel.Password,
@@ -61,7 +68,7 @@ namespace TecAlliance.Carpool.Business
                 FirstName = newUserModel.FirstName,
                 IsDriver = newUserModel.IsDriver
             };
-            _newUserDataService.AddUserDataService(newUser);
+            _userDataServiceSQL.AddUserDataService(newUser);
 
             return newUser;
 
@@ -70,13 +77,13 @@ namespace TecAlliance.Carpool.Business
 
 
         /// <summary>
-        /// This method will "edit" the infos of a passenger based on his ID
+        /// This method will edit/replace the data of a user based on his ID
         /// </summary>
-        public UserBaseModelData EditUserBusinessService(string email, string password, UserBaseModelData user)
+        public UserBaseModelData EditUserBusinessService(int id, string password, UserBaseModelData user)
         {
-            userList = _newUserDataService.ListAllUsersDataService();
+            userList = _userDataServiceSQL.ListAllUsersDataService();
 
-            var findUser = userList.FirstOrDefault(e => e.Email.Equals(email.ToLower()));
+            var findUser = userList.FirstOrDefault(e => e.ID.Equals(id));
 
             if (findUser != null && findUser.Password == password)
             {
@@ -90,7 +97,7 @@ namespace TecAlliance.Carpool.Business
                     FirstName = user.FirstName,
                     IsDriver = user.IsDriver
                 };
-                _newUserDataService.EditUserDataService(editedUser);
+                _userDataServiceSQL.EditUserDataService(editedUser);
 
                 return editedUser;
             }
@@ -102,26 +109,74 @@ namespace TecAlliance.Carpool.Business
 
 
         /// <summary>
-        /// This method will delete a passenger based on his ID
+        /// This method will delete a user based on his ID
         /// </summary>
-        public string DeleteUserBusinessService(string email, string password)
+        public int DeleteUserBusinessService(int id, string password)
         {
-            userList = _newUserDataService.ListAllUsersDataService();
+            userList = _userDataServiceSQL.ListAllUsersDataService();
 
-            var findUser = userList.FirstOrDefault(e => e.Email.Equals(email.ToLower()));
+            var findUser = userList.FirstOrDefault(e => e.ID.Equals(id));
 
             if (findUser != null && findUser.Password == password)
             {
-                string userToDelete = findUser.Email.ToLower();
-                _newUserDataService.DeleteUserDataService(userToDelete);
+                int userToDelete = (int)findUser.ID;
+                _userDataServiceSQL.DeleteUserDataService(userToDelete);
                 return userToDelete;
             }
             else
             {
-                return null;
+                //return null;
+                return 0;
             }
 
         }
 
+
+        /// <summary>
+        /// This method will add a new user in the Database
+        /// </summary>
+        public CarpoolPassengersModelData AddPassengerBusineeService(int carpoolID, int userID)
+        {
+
+            CarpoolPassengersModelData newPassenger = new CarpoolPassengersModelData()
+            {
+                Carpool_ID = carpoolID,
+                User_ID = userID
+            };
+            _userDataServiceSQL.AddPassengerDataService(newPassenger);
+
+            return newPassenger;
+        }
+
+
+        /// <summary>
+        /// This method will delete a passenger from a Carpool (ID) based on his UserID
+        /// </summary>
+        public CarpoolPassengersModelData DeletePassengerFromCarpoolBusinessService(int carpoolID, int userID)
+        {
+            passengersList = _userDataServiceSQL.ListAllPassengersDataService();
+            carpoolsList = _carpoolsDataServiceSQL.ListAllCarpoolsDataService();
+
+            var identifyPassenger = passengersList.First(p => p.User_ID.Equals(userID));
+            var identifyCarpool = carpoolsList.First(c => c.CarpoolID.Equals(carpoolID));
+
+            if (identifyPassenger != null && identifyCarpool != null)
+            {
+                CarpoolPassengersModelData passengerToDelete = new CarpoolPassengersModelData
+                {
+                    Carpool_ID = carpoolID,
+                    User_ID = userID
+                };
+
+                _userDataServiceSQL.DeletePassengerFromCarpoolDataService(passengerToDelete);
+                return passengerToDelete;
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
     }
 }

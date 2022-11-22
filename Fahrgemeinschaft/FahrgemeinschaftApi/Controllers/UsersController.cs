@@ -21,20 +21,20 @@ namespace TecAlliance.Carpool.Api.Controllers
         }
 
         [HttpGet]
-        //[Route("api/CarPoolApi/GetSpecificUser")]
+        //[Route("api/CarPoolApi/GetUsers")]
         public async Task<ActionResult<IEnumerable<UserBaseModelData>>> GetAllUsers()
         {
             List<UserBaseModelData> items = _newUserBusinessService.ListAllUserData();
             return items;
         }
         
-        [HttpGet("{email}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/GetPassenger/{id}")]
-        public async Task<ActionResult<UserBaseModelDto>> GetUserByEmail(string email)
+        public async Task<ActionResult<UserBaseModelDto>> GetUserById(int id)
         {
-            UserBaseModelDto item = _newUserBusinessService.ListUserDataByEmail(email);
+            UserBaseModelDto item = _newUserBusinessService.ListUserDataById(id);
 
             if (item == null)
             {
@@ -55,41 +55,41 @@ namespace TecAlliance.Carpool.Api.Controllers
         }
 
         
-        [HttpPut("{email}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/EditDriverById")]
-        public async Task<IActionResult> UpdateUser(string email, string password, UserBaseModelData user)
+        public async Task<IActionResult> UpdateUser(int id, string password, UserBaseModelData user)
         {
-            var item = _newUserBusinessService.EditUserBusinessService(email.ToLower(), password, user);
+            var item = _newUserBusinessService.EditUserBusinessService(id, password, user);
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                _newUserBusinessService.EditUserBusinessService(email.ToLower(), password, user);
+                _newUserBusinessService.EditUserBusinessService(id, password, user);
                 return NoContent();
             }
         }
 
         
-        [HttpDelete("{email}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[Route("api/CarPoolApi/DeletePassengerByEmail")]
-        public async Task<IActionResult> DeleteUser(string email, string password)
+        public async Task<IActionResult> DeleteUser(int id, string password)
         {
-            var item = _newUserBusinessService.DeleteUserBusinessService(email.ToLower(), password);
+            var item = _newUserBusinessService.DeleteUserBusinessService(id, password);
             if (item == null)
             {
                 return NotFound();
             }
             else
             {
-                _newUserBusinessService.DeleteUserBusinessService(email.ToLower(), password);
+                _newUserBusinessService.DeleteUserBusinessService(id, password);
                 return NoContent();
             }
         }

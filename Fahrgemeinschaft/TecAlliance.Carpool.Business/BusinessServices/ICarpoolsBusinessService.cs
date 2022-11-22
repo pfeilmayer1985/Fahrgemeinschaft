@@ -1,9 +1,13 @@
-﻿using TecAlliance.Carpool.Data.Models;
+﻿using TecAlliance.Carpool.Business.Models;
+using TecAlliance.Carpool.Data.Models;
 
 namespace TecAlliance.Carpool.Business
 {
     public interface ICarpoolsBusinessService
     {
-        List<CarpooslModelData> ListAllCarpoolsBusinessService();
+        CarpoolsModelData AddCarpoolBusineeService(int userID, bool designatedDriver, CarpoolsModelData carpool);
+        UserBaseModelDto ConvertUserToDto(UserBaseModelData user);
+        List<CarpoolsModelData> ListAllCarpoolsBusinessService();
+        CarpoolsModelDto ListOneCarpoolByIdBusinessService(int id);
     }
 }

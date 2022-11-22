@@ -4,10 +4,13 @@ namespace TecAlliance.Carpool.Data
 {
     public interface IUsersDataServiceSQL
     {
+        void AddPassengerDataService(CarpoolPassengersModelData passenger);
         void AddUserDataService(UserBaseModelData user);
-        void DeleteUserDataService(string email);
+        void DeletePassengerFromCarpoolDataService(CarpoolPassengersModelData passenger);
+        void DeleteUserDataService(int id);
         void EditUserDataService(UserBaseModelData user);
+        List<CarpoolPassengersModelData> ListAllPassengersDataService();
         List<UserBaseModelData> ListAllUsersDataService();
-        UserBaseModelData ListUserByEmailDataService(string email);
+        UserBaseModelData ListUserByIdDataService(int id);
     }
 }

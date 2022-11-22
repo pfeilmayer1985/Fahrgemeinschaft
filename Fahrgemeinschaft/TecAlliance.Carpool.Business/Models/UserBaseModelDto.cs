@@ -24,7 +24,7 @@ namespace TecAlliance.Carpool.Business.Models
         /// <summary>
         /// user class properties
         /// </summary>
-        public int? ID { get; }
+        public int? ID { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string FirstName { get; set; }
