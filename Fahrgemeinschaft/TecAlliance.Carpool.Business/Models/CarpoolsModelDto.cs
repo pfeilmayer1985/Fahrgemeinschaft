@@ -10,16 +10,16 @@ namespace TecAlliance.Carpool.Data.Models
     public class CarpoolsModelDto
     {
         public int? CarpoolID { get; set;  }
-        public UserBaseModelDto? DriverByID { get; set; }
+        public UserBaseModelDto? Driver { get; set; }
         public int? FreeSeatsRemaining { get; set; }
         public string Origin { get; set; }
         public string Destination { get; set; }
         public DateTime DepartureDate { get; set; }
         
-        public CarpoolsModelDto(int carpoolID, UserBaseModelDto driverByID, int freeSeatsRemaining, string origin, string destination, DateTime departureDate)
+        public CarpoolsModelDto(int carpoolID, UserBaseModelDto driver, int freeSeatsRemaining, string origin, string destination, DateTime departureDate)
         {
             CarpoolID = carpoolID;
-            DriverByID = driverByID;
+            Driver = driver;
             FreeSeatsRemaining = freeSeatsRemaining;
             Origin = origin;
             Destination = destination;

@@ -48,7 +48,7 @@ namespace TecAlliance.Carpool.Business
                 CarpoolsModelDto newCarpool = new CarpoolsModelDto
                 {
                     CarpoolID = findCarpool.CarpoolID,
-                    DriverByID = ConvertUserToDto(user),
+                    Driver = ConvertUserToDto(user),
                     FreeSeatsRemaining = findCarpool.FreeSeatsRemaining,
                     Origin = findCarpool.Origin,
                     Destination = findCarpool.Destination,
@@ -120,6 +120,16 @@ namespace TecAlliance.Carpool.Business
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// This method will add a user to an allready existing carpool in the Database
+        /// </summary>
+        public CarpoolsModelData JoinExistingCarpoolBusineeService(int userID, int carpoolID)
+        {
+            user = _usersDataServiceSQL.ListUserByIdDataService(userID);
+//
+            
         }
     }
 }

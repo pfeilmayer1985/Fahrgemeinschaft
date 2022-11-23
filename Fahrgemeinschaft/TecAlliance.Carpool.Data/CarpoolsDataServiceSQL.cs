@@ -99,7 +99,7 @@ namespace TecAlliance.Carpool.Data
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string queryString = $"INSERT INTO Carpools(FreeSeats,Origin,Destination,DepartureDate) VALUES(4,'{carpool.Origin}','{carpool.Destination}','{carpool.DepartureDate}')";
+                string queryString = $"INSERT INTO Carpools(FreeSeats,Origin,Destination,DepartureDate) VALUES(4,'{carpool.Origin}','{carpool.Destination}','{carpool.DepartureDate}') Select Scope_Identity()";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 connection.Open();
                 command.ExecuteNonQuery();

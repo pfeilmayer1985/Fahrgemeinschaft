@@ -10,7 +10,7 @@ namespace TecAlliance.Carpool.Business.Providers
         {
             return new CarpoolsModelDto()
             {
-                DriverByID = { },
+                Driver = { },
                 FreeSeatsRemaining = 1,
                 Origin = "Schrozberg",
                 Destination = "Weikersheim",
